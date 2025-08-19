@@ -1,0 +1,30 @@
+#NavBar {
+  width: 100%;
+  padding: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+  position:absolute;
+  top: 0;
+  background-color: #fff;
+}
+
+#NavBar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 2em;
+}
+
+#NavBar li {
+  color: #243e5a;
+  font-weight: 500;
+  font-size: large;
+}
+
+#NavBar li:hover {
+  color: #88a9c3;
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: color 0.2s, transform 0.2s;
+}

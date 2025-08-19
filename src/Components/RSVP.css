@@ -1,0 +1,81 @@
+#RSVP {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #edeeee;
+}
+
+#RSVP form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+#RSVP input {
+    margin-bottom: 15px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+#RSVP input:focus {
+    border-color: #243e5a;
+    outline: none;
+}
+
+.rsvp-back-button {
+    color: #243e5a !important;
+    border-style: none;
+    align-self: flex-start;
+    border-radius: 0;
+    outline: none !important;
+    &:hover {
+        background-color: #fff !important;
+        color: #243e5a !important;
+        border-color:#243e5a !important;
+    }
+    &:active {
+        background-color: #243e5a !important;
+        color: white !important;
+    }
+}
+
+.rsvp-title {
+    font-family: 'Great Vibes', cursive;
+    text-align: center;
+    font-size: 3rem;
+    color: #243e5a;
+    margin-bottom: 1rem;
+}
+
+.rsvp-header{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.rsvp-divider {
+    border: .5px solid #243e5a;
+    margin: 0 0 1.5rem 0;
+}
+
+.rsvp-button {
+    background-color: #243e5a !important;
+    color: white !important;
+    outline: none !important;
+    &:hover {
+        background-color: #edeeee !important;
+        color: #243e5a !important;
+        border-color:#243e5a !important;
+    }
+    &:active {
+        background-color: #243e5a !important;
+        color: white !important;
+    }
+}
