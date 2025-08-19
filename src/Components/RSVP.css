@@ -27,6 +27,10 @@
     outline: none;
 }
 
+.rsvp-card {
+    text-align: center;
+}
+
 .rsvp-back-button {
     color: #243e5a !important;
     border-style: none;
