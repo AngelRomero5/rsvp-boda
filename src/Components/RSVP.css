@@ -27,10 +27,20 @@
     outline: none;
 }
 
-.rsvp-card {
-    text-align: center;
+.rsvp-section {
+    padding: 1rem 1rem;
 }
 
+.rsvp-card {
+    text-align: center;
+    align-items: center;
+    border-width: 1.5px !important;
+    border-color: #243e5a !important;
+}
+
+.rsvp-photo {
+    margin-bottom: 2rem;
+}
 .rsvp-back-button {
     color: #243e5a !important;
     border-style: none;
@@ -67,6 +77,7 @@
 .rsvp-divider {
     border: .5px solid #243e5a;
     margin: 0 0 1.5rem 0;
+    width: 100%;
 }
 
 .rsvp-button {
@@ -82,4 +93,19 @@
         background-color: #243e5a !important;
         color: white !important;
     }
+}
+
+.my-masonry-grid {
+  display: flex;
+  margin-left: -16px; /* gutter size offset */
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: 16px; /* gutter size */
+  background-clip: padding-box;
+}
+
+.rsvp-gallery-section {
+    padding: 0 1rem;
 }
