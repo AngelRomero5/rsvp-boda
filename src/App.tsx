@@ -1,15 +1,15 @@
 import './App.css'
-import NavBar from './Components/NavBar'
-import RSVP from './Components/RSVP'
 import '@mantine/core/styles.css';
+
 import { MantineProvider } from '@mantine/core';
+
+import RSVP from './Components/RSVP'
 
 function App() {
 
   return (
     <>
     <MantineProvider>
-        <NavBar />
         <RSVP />
     </MantineProvider>
     </>

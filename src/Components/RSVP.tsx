@@ -1,15 +1,17 @@
-import './RSVP.css'
-import { Card, Text, Button, Group, SimpleGrid } from '@mantine/core';
+import { Card, Text, Button, Group, SimpleGrid, Image } from '@mantine/core';
 import { useState } from "react";
-import Countdown from './Countdown';
-import { Image } from '@mantine/core';
-import Masonry from "react-masonry-css";
 import { motion } from "framer-motion";
+import Masonry from "react-masonry-css";
 
+import './RSVP.css'
+import NavBar from "./NavBar";
+import Countdown from './Countdown';
 
 
 function RSVP() {
-    const [section, setSection] = useState<"1" | "2" | "3" | "4">("2");
+
+    // State to manage the current section
+    const [section, setSection] = useState<"rsvp" | "historia" | "galeria" | "ayudanos" | "2">("rsvp");
     const breakpointColumnsObj = {
         default: 4,
         1100: 4,
@@ -17,6 +19,7 @@ function RSVP() {
         500: 2
     };
 
+    // Import all the images from the assets folder for the gallery
     const imageModules = import.meta.glob('../assets/images/*.{jpg,jpeg,png}', { eager: true });
     const ourPictures = Object.values(imageModules).map((img: any) => ({
         src: img.default
@@ -24,42 +27,52 @@ function RSVP() {
 
 
     return (
+        
         <SimpleGrid cols={1} id="RSVP">
+            <NavBar section={section} setSection={setSection} />
+
             {/* --- SECCIÓN 1 --- */}
-            {section === "1" && (
-                <section className="rsvp-section">
+            {section === "rsvp" && (
+                <motion.section initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.7 }} className="rsvp-section">
                     <Card shadow='sm' radius='md' withBorder>
                         <Card padding="sm" radius="md" withBorder className="rsvp-card">
                             <h2 className='rsvp-title'>Ángel & Mariana</h2>
                             <Image radius="md" w="auto" h={400} src='/images/us1.jpeg' alt='Ángel & Mariana' className='rsvp-photo'/>
                             <hr className="rsvp-divider" />
-                            <Text className='text'>¡Confirma tu asistencia!</Text>
                             <Countdown
                                 timeTillDate="2026-07-11 14:00"
                                 timeFormat="YYYY-MM-DD HH:mm"
                                 />
-                            <Text>Fecha: Sábado, 11 de Julio de 2026, 2:00 PM</Text>
-                            <Text>Dirección: 120 Calle Blvd de la Fuente, San Juan, 00926</Text>
-                            <Text component="a" href="https://maps.app.goo.gl/iqj1iCJ3BLC2dbQo9">Pin del lugar</Text>
+                            <h3 className='rsvp-subtitle'>¡Confirma tu asistencia!</h3>
+
+                            <Text size='md'>Fecha: Sábado, 11 de Julio de 2026, 2:00 PM</Text>
+                            <Text size='md'>Dirección: 120 Calle Blvd de la Fuente, San Juan, 00926</Text>
+                            <Text size='md' component="a" href="https://maps.app.goo.gl/iqj1iCJ3BLC2dbQo9">Pin del lugar</Text>
                             <Button
                                 className="rsvp-button"
                                 onClick={() => setSection("2")}>RSVP
                             </Button>
                         </Card>
                     </Card>
-                </section>
+                </motion.section>
             )}
 
             {/* --- SECCIÓN 2 (RSVP) --- */}
             {section === "2" && (
-                <section className="rsvp-section">
+                <motion.section initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.7 }} className="rsvp-section">
                     <Card shadow='sm' radius='md' withBorder >                    
                         <Card padding="lg" radius="md" withBorder className='rsvp-card'>
                             <Button
                                 variant="subtle"
                                 size="xs"
                                 className="rsvp-back-button"
-                                onClick={() => setSection("1")}
+                                onClick={() => setSection("rsvp")}
                             >
                                 Regresar
                             </Button>
@@ -100,14 +113,15 @@ function RSVP() {
                             </form>
                         </Card>
                     </Card>
-                </section>
+                </motion.section>
             )}
             {/* Seccion galeria: fotos de nosotros */}
-            {section === "3" && (
-                <section className='rsvp-gallery-section'>
+            {section === "galeria" && (
+                <motion.section className='rsvp-gallery-section'>
                     <h2 className='rsvp-title'>Galería de fotos</h2>
+                    <Text size='md' c='dimmed'>Una selección de nuestros momentos favoritos ❤️</Text>
                     <Masonry
-                        breakpointCols={breakpointColumnsObj} // number of columns on desktop
+                        breakpointCols={breakpointColumnsObj}
                         className="my-masonry-grid"
                         columnClassName="my-masonry-grid_column"
                     >
@@ -124,26 +138,26 @@ function RSVP() {
                             />
                         ))}
                     </Masonry>     
-                </section>
+                </motion.section>
             )}
                  
             {/* --- SECCIÓN 3 (FORMAS DE AYUDA) --- */}
             {/* TODO aqui faltan los iconos de cada metodo de ayuda y estilos */}
-            {section === "4" && (
-                <section className="rsvp-section">
+            {section === "ayudanos" && (
+                <motion.section className="rsvp-section">
                     <Card shadow='sm' radius='md' withBorder>
                         <Card padding="lg" radius="md" withBorder className='rsvp-card'>
-                                <h2>Formas de ayudarnos</h2>
-                                <Text size="sm" c="dimmed">Si deseas ayudarnos y formar parte de esta nueva aventura que comienza,</Text>
-                                <Text size="sm" c="dimmed">puedes hacerlo a través de las siguientes opciones:</Text>
-                                <Text fw={500}>Ath Móvil:</Text>
-                                <Text>Ángel : (787) 710-1934</Text>
-                                <Text>Mariana : (787) 690-2236</Text>
-                                <Text>PayPal: @agabrielrr0 </Text>
-                                <Text component="a" href="https://www.amazon.com/hz/wishlist/ls/3BTN6FLFZUUN1?ref_=wl_share">Amazon Wishlist</Text>
+                            <h2 className='rsvp-title'>Formas de ayudarnos</h2>
+                            <Text size="sm" c="dimmed">Si deseas ayudarnos y formar parte de esta nueva aventura que comienza,</Text>
+                            <Text size="sm" c="dimmed">puedes hacerlo a través de las siguientes opciones:</Text>
+                            <Text fw={500}>Ath Móvil:</Text>
+                            <Text>Ángel : (787) 710-1934</Text>
+                            <Text>Mariana : (787) 690-2236</Text>
+                            <Text>PayPal: @agabrielrr0 </Text>
+                            <Text component="a" href="https://www.amazon.com/hz/wishlist/ls/3BTN6FLFZUUN1?ref_=wl_share">Amazon Wishlist</Text>
                         </Card>
                     </Card>
-                </section>
+                </motion.section>
             )}
         </SimpleGrid>
     );

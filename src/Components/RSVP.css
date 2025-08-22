@@ -61,8 +61,18 @@
 .rsvp-title {
     font-family: 'Great Vibes', cursive;
     text-align: center;
-    font-size: 3rem;
+    font-size: 4rem;
     color: #243e5a;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.rsvp-subtitle {
+    font-family: 'Great Vibes', cursive;
+    text-align: center;
+    font-size: 2rem;
+    color: #243e5a;
+    margin-top: 1rem;
     margin-bottom: 1rem;
 }
 
@@ -76,7 +86,7 @@
 
 .rsvp-divider {
     border: .5px solid #243e5a;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 2rem 0;
     width: 100%;
 }
 
@@ -108,4 +118,5 @@
 
 .rsvp-gallery-section {
     padding: 0 1rem;
+    text-align: center;
 }
