@@ -3,12 +3,12 @@
   padding: 1.5rem 0;
   display: flex;
   justify-content: center;
-  align-items: center;
-  position: sticky; /* stays visible while scrolling */
+  position: fixed; 
   top: 0;
+  left: 0;
   background-color: #fff;
-  z-index: 1000; /* stays above other elements */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* subtle shadow */
+  z-index: 1000;    
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* optional: subtle shadow */
 }
 
 #NavBar ul {

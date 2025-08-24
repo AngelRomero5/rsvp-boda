@@ -120,3 +120,35 @@
     padding: 0 1rem;
     text-align: center;
 }
+
+.donate-options{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    
+}
+
+.donate-ath {
+    width: 2rem;
+    height: 2rem;
+    vertical-align: middle;
+}
+
+.donate-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    vertical-align: middle;
+}
+
+.donate-paypal {
+    width: 3rem;
+    height: 3rem;
+    vertical-align: middle;
+}
+
+
+.rsvp-thank-you {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: #243e5a;
+    margin-top: 2rem;
+}

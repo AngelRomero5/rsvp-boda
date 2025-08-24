@@ -1,7 +1,8 @@
-import { Card, Text, Button, Group, SimpleGrid, Image } from '@mantine/core';
+import { Card, Text, Button, Group, SimpleGrid, Image, Stack } from '@mantine/core';
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Masonry from "react-masonry-css";
+
 
 import './RSVP.css'
 import NavBar from "./NavBar";
@@ -142,21 +143,45 @@ function RSVP() {
             )}
                  
             {/* --- SECCIÓN 3 (FORMAS DE AYUDA) --- */}
-            {/* TODO aqui faltan los iconos de cada metodo de ayuda y estilos */}
             {section === "ayudanos" && (
                 <motion.section className="rsvp-section">
-                    <Card shadow='sm' radius='md' withBorder>
-                        <Card padding="lg" radius="md" withBorder className='rsvp-card'>
-                            <h2 className='rsvp-title'>Formas de ayudarnos</h2>
-                            <Text size="sm" c="dimmed">Si deseas ayudarnos y formar parte de esta nueva aventura que comienza,</Text>
-                            <Text size="sm" c="dimmed">puedes hacerlo a través de las siguientes opciones:</Text>
-                            <Text fw={500}>Ath Móvil:</Text>
-                            <Text>Ángel : (787) 710-1934</Text>
-                            <Text>Mariana : (787) 690-2236</Text>
-                            <Text>PayPal: @agabrielrr0 </Text>
-                            <Text component="a" href="https://www.amazon.com/hz/wishlist/ls/3BTN6FLFZUUN1?ref_=wl_share">Amazon Wishlist</Text>
-                        </Card>
-                    </Card>
+                    <SimpleGrid cols={2} spacing="md">
+                        <Image src="/images/_MG_4681.jpeg" alt="us" w={600} radius={"md"} />
+                        <Stack>
+                            <Card shadow='sm' radius='md' withBorder>
+                                <Card padding="lg" radius="md" withBorder className='rsvp-card'>
+                                    <h2 className='rsvp-title'>¿Cómo nos puedes apoyar?</h2>
+                                    <Stack gap={2} mb={"md"} align="center">
+                                        <Text size="sm" c="dimmed">Si deseas dejar tu huella y formar parte de esta nueva aventura</Text>
+                                        <Text size="sm" c="dimmed">puedes hacerlo a través de las siguientes opciones:</Text>
+                                    </Stack>
+                                    <Stack gap="lg" className="donate-options">
+                                        {/* Ath Móvil */}
+                                        <Group align="flex-start" gap="md">
+                                            <Image src="/images/athmovil.png" alt="Ath Móvil" className="donate-icon" />
+                                            <Stack gap={2}>
+                                                <Text c="blue">(787) 710-1934</Text>
+                                                <Text c="grape">(787) 690-2236</Text>
+                                            </Stack>
+                                        </Group>
+
+                                        {/* PayPal */}
+                                        <Group align="center" gap="md">
+                                            <Image src="/images/paypal.png" alt="PayPal" className="donate-icon"  />
+                                            <Text component="a" href="https://www.paypal.com/paypalme/agabrielrr0">@agabrielrr0</Text>
+                                        </Group>
+
+                                        {/* Amazon */}
+                                        <Group align="center" gap="md">
+                                            <Image src="/images/amazon.png" alt="Amazon Wishlist" className="donate-icon" />
+                                            <Text component="a" href="https://www.amazon.com/hz/wishlist/ls/3BTN6FLFZUUN1?ref_=wl_share">Amazon Wishlist</Text>
+                                        </Group>
+                                    </Stack>
+                                </Card>
+                            </Card>
+                            <Text ta="center" className='rsvp-thank-you'>¡Gracias por tu apoyo!</Text>
+                        </Stack>
+                    </SimpleGrid>
                 </motion.section>
             )}
         </SimpleGrid>
