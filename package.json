@@ -14,6 +14,7 @@
     "@mantine/form": "^8.2.5",
     "@mantine/hooks": "^8.2.5",
     "@mantine/modals": "^8.2.5",
+    "@tabler/icons-react": "^3.35.0",
     "framer-motion": "^12.23.12",
     "moment": "^2.30.1",
     "react": "^19.1.1",

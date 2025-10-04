@@ -1,10 +1,17 @@
 #RSVP {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #edeeee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: calc(100vh - 80px); /* account for navbar */
+  /* background-image: url('/images/background-floral.jpg'); */
+  background-color: rgb(141, 174, 198);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;  /* 🔥 keep image static */
+  width: 100%;
 }
 
 #RSVP form {
@@ -34,9 +41,9 @@
 .rsvp-card {
     text-align: center;
     align-items: center;
-    border-width: 1.5px !important;
-    border-color: #243e5a !important;
+    padding:3rem;
 }
+
 
 .rsvp-photo {
     margin-bottom: 2rem;
@@ -66,6 +73,15 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
+.rsvp-title-h {
+    font-family: 'Great Vibes', cursive;
+    text-align: center;
+    font-size: 4rem;
+    color: #243e5a;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
 
 .rsvp-subtitle {
     font-family: 'Great Vibes', cursive;
@@ -85,8 +101,8 @@
 }
 
 .rsvp-divider {
-    border: .5px solid #243e5a;
-    margin: 0 0 2rem 0;
+    border: .5px solid #88a9c3;
+    margin: 1rem 0;
     width: 100%;
 }
 
@@ -95,12 +111,12 @@
     color: white !important;
     outline: none !important;
     &:hover {
-        background-color: #edeeee !important;
-        color: #243e5a !important;
+        background-color: #88a9c3 !important;
+        color: white !important;
         border-color:#243e5a !important;
     }
     &:active {
-        background-color: #243e5a !important;
+        background-color: #1a2f42 !important;
         color: white !important;
     }
 }
@@ -109,11 +125,34 @@
   display: flex;
   margin-left: -16px; /* gutter size offset */
   width: auto;
+  will-change: auto;
 }
 
 .my-masonry-grid_column {
   padding-left: 16px; /* gutter size */
   background-clip: padding-box;
+  contain: layout style paint;
+}
+
+.gallery-item {
+  will-change: auto;
+  contain: layout style paint;
+}
+
+.gallery-item img {
+  /* Optimize image rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: auto;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 25px rgba(36, 62, 90, 0.25);
 }
 
 .rsvp-gallery-section {
@@ -122,9 +161,9 @@
 }
 
 .donate-options{
-    margin-top: 2rem;
+    margin-top: 1.5rem;
     margin-bottom: 2rem;
-    
+
 }
 
 .donate-ath {
@@ -150,5 +189,495 @@
     font-family: 'Great Vibes', cursive;
     font-size: 2rem;
     color: #243e5a;
+}
+
+/* Hero Section Styles */
+.hero-section {
+    margin-bottom: 2rem;
+}
+
+.hero-card {
+    text-align: center;
+    align-items: center;
+    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%);
+    border: none;
+    box-shadow: 0 10px 40px rgba(36, 62, 90, 0.12);
+    overflow: visible;
+}
+
+.hero-text-section {
+    margin-bottom: 1rem;
+}
+
+.hero-title {
+    font-family: 'Great Vibes', cursive;
+    text-align: center;
+    font-size: 3.5rem;
+    color: #243e5a;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+    letter-spacing: 1px;
+}
+
+.hero-subtitle {
+    color: #88a9c3;
+    margin: 0;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.hero-photo {
+    margin: 0;
+    border: none;
+    box-shadow: 0 15px 50px rgba(36, 62, 90, 0.25);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.hero-photo:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 60px rgba(36, 62, 90, 0.35);
+}
+
+/* Countdown inside card styles */
+.countdown-inside-card {
+    margin-top: 0;
+    padding-top: 1.5rem;
+    text-align: center;
+}
+
+
+/* Historia Section Styles */
+.historia-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.historia-text {
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.historia-timeline {
+    margin: 2rem 0;
+}
+
+.timeline-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #88a9c3;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.timeline-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(36, 62, 90, 0.15);
+    border-color: #243e5a;
+}
+
+.historia-conclusion {
+    font-style: italic;
     margin-top: 2rem;
+}
+
+/* Wedding Details Styles */
+.wedding-details {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.detail-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #88a9c3;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.detail-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(36, 62, 90, 0.15);
+    border-color: #243e5a;
+}
+
+/* Enhanced Form Styles */
+.rsvp-form-container {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .rsvp-card {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .hero-card {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .countdown-card {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .rsvp-title {
+        font-size: 3rem;
+    }
+    
+    .rsvp-title-h {
+        font-size: 3rem;
+    }
+    
+    .hero-title {
+        font-size: 4rem;
+    }
+    
+    .rsvp-subtitle {
+        font-size: 1.5rem;
+    }
+    
+    .wedding-details {
+        max-width: 100%;
+    }
+    
+    .detail-card {
+        margin: 0.5rem 0;
+    }
+    
+    .historia-timeline {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline-card {
+        margin: 0.5rem 0;
+    }
+    
+    .hero-photo {
+        height: 300px !important;
+    }
+    
+    .countdown-inside-card {
+        margin-top: 0 !important;
+        padding-top: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .rsvp-card {
+        padding: 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    .hero-card {
+        padding: 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    .countdown-card {
+        padding: 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    .rsvp-title {
+        font-size: 2.5rem;
+    }
+    
+    .rsvp-title-h {
+        font-size: 2.5rem;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .countdown-item {
+        width: 80px;
+        height: 80px;
+        font-size: 30px;
+    }
+    
+    .countdown-svg {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .hero-photo {
+        height: 250px !important;
+    }
+    
+    .countdown-inside-card {
+        margin-top: 0 !important;
+        padding-top: 0.75rem;
+    }
+}
+
+/* Loading and Animation Enhancements */
+.rsvp-button {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.rsvp-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(36, 62, 90, 0.3);
+}
+
+.rsvp-button:active {
+    transform: translateY(0);
+}
+
+/* Enhanced Gallery Styles */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+}
+
+.my-masonry-grid img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.my-masonry-grid img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(36, 62, 90, 0.1), rgba(211, 175, 55, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.gallery-item:hover::before {
+    opacity: 1;
+}
+
+/* Support Section Styles */
+.support-hero {
+    margin-bottom: 2rem;
+}
+
+.support-hero-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.support-hero-image-wrapper {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(36, 62, 90, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid #88a9c3;
+}
+
+.support-hero-image-wrapper:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(36, 62, 90, 0.3);
+}
+
+.support-hero-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.support-hero-image-wrapper:hover .support-hero-image {
+    transform: scale(1.05);
+}
+
+.support-hero-text-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 2px solid #88a9c3;
+    box-shadow: 0 8px 25px rgba(36, 62, 90, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.support-hero-text-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(36, 62, 90, 0.15);
+}
+
+.support-hero-text {
+    font-size: 1.5rem;
+    line-height: 1.4;
+}
+
+.support-card {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.support-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.support-description {
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+.support-options {
+    width: 100%;
+    max-width: 600px;
+}
+
+.support-option-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #88a9c3;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.support-option-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(36, 62, 90, 0.15);
+    border-color: #243e5a;
+}
+
+.support-option-icon {
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+}
+
+.additional-support {
+    background: linear-gradient(135deg, #e8f0f7 0%, #d6e4f0 100%);
+    border: 2px solid #243e5a;
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .hero-photo {
+        height: 380px !important;
+    }
+    
+    .hero-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .support-hero-container {
+        gap: 1rem;
+        margin: 0 1rem;
+    }
+    
+    .support-hero-image {
+        height: 280px;
+    }
+    
+    .support-hero-text {
+        font-size: 1.3rem;
+    }
+    
+    .support-card {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .support-option-card {
+        padding: 1rem;
+    }
+    
+    .support-option-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    .support-options {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.3rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .hero-photo {
+        height: 300px !important;
+    }
+    
+    .hero-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .support-hero-container {
+        gap: 0.75rem;
+        margin: 0 0.5rem;
+    }
+    
+    .support-hero-image {
+        height: 220px;
+    }
+    
+    .support-hero-text {
+        font-size: 1.1rem;
+    }
+    
+    .support-card {
+        padding: 1rem;
+        margin: 0 0.5rem;
+    }
+    
+    .support-option-card {
+        padding: 0.75rem;
+    }
+    
+    .support-option-icon {
+        width: 2rem;
+        height: 2rem;
+    }
+    
+    .rsvp-title {
+        font-size: 2.5rem;
+    }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+    .timeline-card,
+    .detail-card,
+    .rsvp-button,
+    .my-masonry-grid img,
+    .support-option-card,
+    .support-hero-image,
+    .support-hero-image-wrapper,
+    .support-hero-text-card {
+        transition: none;
+    }
+    
+    .timeline-card:hover,
+    .detail-card:hover,
+    .my-masonry-grid img:hover,
+    .support-option-card:hover,
+    .support-hero-image-wrapper:hover,
+    .support-hero-text-card:hover {
+        transform: none;
+    }
 }

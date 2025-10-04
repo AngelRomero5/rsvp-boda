@@ -42,7 +42,7 @@ const Countdown: React.FC<CountdownProps> = ({ timeTillDate, timeFormat }) => {
   const { days, hours, minutes, seconds } = timeLeft;
 
   // Calculate the arc radius for each part
-  const daysRadius = mapNumber(days, 30, 0, 0, 360);    
+  const daysRadius = mapNumber(days % 365, 365, 0, 0, 360);    
   const hoursRadius = mapNumber(hours, 24, 0, 0, 360);
   const minutesRadius = mapNumber(minutes, 60, 0, 0, 360);
   const secondsRadius = mapNumber(seconds, 60, 0, 0, 360);
@@ -82,7 +82,7 @@ const SVGCircle: React.FC<SVGCircleProps> = ({ radius }) => (
   <svg className="countdown-svg" width="100" height="100">
     <path
       fill="none"
-      stroke="#243e5a"
+      stroke="#88a9c3"
       strokeWidth={4}
       d={describeArc(50, 50, 48, 0, radius)}
     />
