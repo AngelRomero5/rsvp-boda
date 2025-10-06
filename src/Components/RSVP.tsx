@@ -2,7 +2,8 @@ import { Card, Text, Button, Group, SimpleGrid, Image, Stack, TextInput, Textare
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Masonry from "react-masonry-css";
-import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconUpload, IconEye, IconX } from '@tabler/icons-react';
+import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconUpload, IconX } from '@tabler/icons-react';
+import moment from 'moment';
 
 import './RSVP.css'
 import NavBar from "./NavBar";
@@ -90,7 +91,6 @@ function RSVP() {
         name: '',
         guests: 0,
         email: '',
-        phone: '',
         dietaryRestrictions: '',
         message: ''
     });
@@ -117,10 +117,7 @@ function RSVP() {
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
             errors.email = 'Por favor ingresa un correo electrónico válido';
         }
-        
-        if (!formData.phone.trim()) {
-            errors.phone = 'El teléfono es requerido';
-        }
+    
         
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
@@ -148,7 +145,6 @@ function RSVP() {
                     name: formData.name,
                     guests: formData.guests,
                     email: formData.email,
-                    phone: formData.phone,
                     dietaryRestrictions: formData.dietaryRestrictions,
                     message: formData.message,
                     _subject: `RSVP de ${formData.name} - Boda Ángel & Mariana`,
@@ -169,7 +165,6 @@ function RSVP() {
                                 dietaryRestrictions: formData.dietaryRestrictions,
                                 message: formData.message,
                                 email: formData.email,
-                                phone: formData.phone
                             };
                         }
                         return guest;
@@ -183,7 +178,6 @@ function RSVP() {
                         name: '',
                         guests: 0,
                         email: '',
-                        phone: '',
                         dietaryRestrictions: '',
                         message: ''
                     });
@@ -248,7 +242,6 @@ function RSVP() {
                 name: guest.name,
                 guests: guest.family.length,
                 email: guest.email || '',
-                phone: guest.phone || '',
                 dietaryRestrictions: guest.dietaryRestrictions || '',
                 message: guest.message || ''
             });
@@ -276,22 +269,6 @@ function RSVP() {
         URL.revokeObjectURL(url);
     };
 
-    const importGuestData = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const importedGuests = JSON.parse(e.target?.result as string);
-                    saveGuestList(importedGuests);
-                    alert('Lista de invitados importada exitosamente');
-                } catch (error) {
-                    alert('Error al importar el archivo. Verifica que sea un archivo JSON válido.');
-                }
-            };
-            reader.readAsText(file);
-        }
-    };
 
     // Load guest list on component mount
     useEffect(() => {
@@ -346,22 +323,9 @@ function RSVP() {
 
 
     return (
-        
+        <>
         <SimpleGrid cols={1} id="RSVP">
-            <NavBar section={section} setSection={setSection} />
-            
-            {/* Admin Panel Button */}
-            <div style={{ position: 'fixed', top: '120px', right: '20px', zIndex: 1000 }}>
-                <ActionIcon
-                    variant="filled"
-                    color="blue"
-                    size="lg"
-                    onClick={() => setAdminModalOpen(true)}
-                    title="Panel de Administración"
-                >
-                    <IconEye size="1.2rem" />
-                </ActionIcon>
-            </div>
+            <NavBar section={section} setSection={setSection} onAdminClick={() => setAdminModalOpen(true)} />
 
             {/* --- SECCIÓN 1 --- */}
             {section === "rsvp" && (
@@ -379,8 +343,8 @@ function RSVP() {
                             <Stack gap="xl" align="center">
                                 <div className="hero-text-section">
                                     <h1 className='hero-title'>Ángel & Mariana</h1>
-                                    <Text size="xl" c="#243e5a" fw={500} ta="center" className="hero-subtitle">
-                                        11 de Julio de 2026
+                                    <Text size="lg" c="#243e5a" fw={400} ta="center" className="hero-subtitle">
+                                        11 de Julio de 2026  💍  San Juan, PR
                                     </Text>
                                 </div>
                                 <Image radius="lg" w="auto" h={500} src='/images/us1.jpeg' alt='Ángel & Mariana' className='hero-photo'/>
@@ -391,9 +355,9 @@ function RSVP() {
                                 viewport={{ once: true, amount: 0.3 }}
                                 transition={{ duration: 0.6, delay: 0.4 }} className="countdown-inside-card">
                                 <hr className="rsvp-divider" />
-                                <Text size="lg" fw={500} ta="center" c="#243e5a" mb="md">
-                                    Faltan solo...
-                                </Text>
+                                <h2 className="save-the-date-title">
+                                    Save The Date
+                                </h2>
                                 <Countdown
                                     timeTillDate="2026-07-11 13:30"
                                     timeFormat="YYYY-MM-DD HH:mm"
@@ -447,7 +411,7 @@ function RSVP() {
                                     <Text fw={600} size="lg" c="#243e5a" mb="sm">🚗 Estacionamiento</Text>
                                     <Text size="md">Disponible en ambos lugares</Text>
                                     <Text size="sm" c="dimmed">Debajo de la parroquia y frente al centro comercial. 
-                                        En la recepción habra estacionamiento</Text>
+                                        En la recepción también habrá estacionamiento</Text>
                                 </Card>
 
                                 <Card withBorder radius="md" p="md" className="detail-card">
@@ -559,16 +523,6 @@ function RSVP() {
                                             value={formData.email}
                                             onChange={(e) => setFormData({...formData, email: e.target.value})}
                                             error={formErrors.email}
-                                            required
-                                            size="md"
-                                        />
-
-                                        <TextInput
-                                            label="Teléfono"
-                                            placeholder="(787) 123-4567"
-                                            value={formData.phone}
-                                            onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                                            error={formErrors.phone}
                                             required
                                             size="md"
                                         />
@@ -707,7 +661,7 @@ function RSVP() {
                         viewport={{ once: true, amount: 0.3 }}
                         transition={{ duration: 0.6 }}>
                         <h2 className='rsvp-title'>Galería de fotos</h2>
-                        <Text size='md' c='dimmed' ta="center" mb="lg">
+                        <Text size='md' c="white" ta="center" mb="lg">
                             Una selección de nuestros momentos favoritos ❤️
                         </Text>
                         {loadingImages && loadedImages.length === 0 && (
@@ -928,7 +882,7 @@ function RSVP() {
                                                     Tu presencia en nuestra boda es el mejor regalo. Si deseas contribuir de otra manera, 
                                                     contáctanos directamente.
                                                 </Text>
-                                                <Group gap="md">
+                                                <Group gap="sm" wrap="nowrap">
                                                     <Button
                                                         variant="outline"
                                                         leftSection={<IconPhone size="1rem" />}
@@ -994,21 +948,6 @@ function RSVP() {
                             >
                                 Exportar
                             </Button>
-                            <label>
-                                <Button
-                                    leftSection={<IconUpload size="1rem" />}
-                                    size="sm"
-                                    component="span"
-                                >
-                                    Importar
-                                </Button>
-                                <input
-                                    type="file"
-                                    accept=".json"
-                                    onChange={importGuestData}
-                                    style={{ display: 'none' }}
-                                />
-                            </label>
                         </Group>
                     </Group>
 
@@ -1145,6 +1084,110 @@ function RSVP() {
                 </div>
             </Modal>
         </SimpleGrid>
+
+        {/* Admin Modal */}
+        <Modal
+            opened={adminModalOpen}
+            onClose={() => setAdminModalOpen(false)}
+            size="xl"
+            title="Panel de Administración"
+            centered
+        >
+            <Stack gap="md">
+                <Text size="lg" fw={600} c="#243e5a">Lista de Invitados</Text>
+                
+                <Group>
+                    <Button
+                        leftSection={<IconDownload size="1rem" />}
+                        onClick={exportGuestData}
+                        variant="light"
+                    >
+                        Exportar Lista
+                    </Button>
+                    
+            
+                </Group>
+
+                <Divider />
+
+                <Card withBorder p="md">
+                    <Text fw={600} mb="sm">Resumen:</Text>
+                    <Text size="sm">Total de invitados: {guestList.length}</Text>
+                    <Text size="sm">Confirmados: {guestList.filter(g => g.isConfirmed).length}</Text>
+                    <Text size="sm">Pendientes: {guestList.filter(g => !g.isConfirmed).length}</Text>
+                </Card>
+
+                <Table striped highlightOnHover withTableBorder>
+                    <Table.Thead>
+                        <Table.Tr>
+                            <Table.Th>Nombre</Table.Th>
+                            <Table.Th>Estado</Table.Th>
+                            <Table.Th>Familia</Table.Th>
+                            <Table.Th>Contacto</Table.Th>
+                            <Table.Th>Fecha</Table.Th>
+                        </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                        {guestList.map((guest) => (
+                            <Table.Tr key={guest.id}>
+                                <Table.Td>{guest.name}</Table.Td>
+                                <Table.Td>
+                                    {guest.isConfirmed ? (
+                                        <Badge color="green" variant="light">Confirmado</Badge>
+                                    ) : (
+                                        <Badge color="gray" variant="light">Pendiente</Badge>
+                                    )}
+                                </Table.Td>
+                                <Table.Td>
+                                    {guest.family.length > 0 ? (
+                                        <Text size="sm">{guest.family.length} miembro(s)</Text>
+                                    ) : (
+                                        <Text size="sm" c="dimmed">Sin familia</Text>
+                                    )}
+                                </Table.Td>
+                                <Table.Td>
+                                    {guest.email && <Text size="xs">{guest.email}</Text>}
+                                    {guest.phone && <Text size="xs">{guest.phone}</Text>}
+                                </Table.Td>
+                                <Table.Td>
+                                    {guest.confirmationDate ? (
+                                        <Text size="xs">
+                                            {moment(guest.confirmationDate).format('DD/MM/YYYY HH:mm')}
+                                        </Text>
+                                    ) : (
+                                        <Text size="xs" c="dimmed">-</Text>
+                                    )}
+                                </Table.Td>
+                            </Table.Tr>
+                        ))}
+                    </Table.Tbody>
+                </Table>
+
+                {guestList.filter(g => g.isConfirmed).length > 0 && (
+                    <Card withBorder p="md">
+                        <Text fw={600} mb="sm">Detalles de Confirmaciones:</Text>
+                        <Stack gap="xs">
+                            {guestList.filter(g => g.isConfirmed).map((guest) => (
+                                <div key={guest.id}>
+                                    <Text size="sm" fw={500}>{guest.name}</Text>
+                                    {guest.dietaryRestrictions && (
+                                        <Text size="xs" c="dimmed">
+                                            Restricciones: {guest.dietaryRestrictions}
+                                        </Text>
+                                    )}
+                                    {guest.message && (
+                                        <Text size="xs" c="dimmed">
+                                            Mensaje: {guest.message}
+                                        </Text>
+                                    )}
+                                </div>
+                            ))}
+                        </Stack>
+                    </Card>
+                )}
+            </Stack>
+        </Modal>
+        </>
     );
 }
 

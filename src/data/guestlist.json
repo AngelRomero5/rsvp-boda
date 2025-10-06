@@ -1,0 +1,111 @@
+[
+  {
+    "id": "1",
+    "name": "María González",
+    "email": "maria@email.com",
+    "isConfirmed": false,
+    "food": "none",
+    "optionalMessage": "",
+    "family": [
+      {
+        "id": "1-1",
+        "name": "Carlos González",
+        "relationship": "Esposo",
+        "isConfirmed": false,
+        "food": "none"
+      },
+      {
+        "id": "1-2",
+        "name": "Ana González",
+        "relationship": "Hija",
+        "age": 8,
+        "isConfirmed": false,
+        "food": "none"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Juan Pérez",
+    "email": "juan@email.com",
+    "isConfirmed": false,
+    "food": "none",
+    "optionalMessage": "",
+    "family": [
+      {
+        "id": "2-1",
+        "name": "Laura Pérez",
+        "relationship": "Esposa",
+        "isConfirmed": false,
+        "food": "none"
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "name": "Carmen Rodríguez",
+    "email": "carmen@email.com",
+    "isConfirmed": false,
+    "food": "none",
+    "optionalMessage": "",
+    "family": [
+      {
+        "id": "3-1",
+        "name": "Miguel Rodríguez",
+        "relationship": "Esposo",
+        "isConfirmed": false,
+        "food": "none"
+      },
+      {
+        "id": "3-2",
+        "name": "Sofia Rodríguez",
+        "relationship": "Hija",
+        "age": 12,
+        "isConfirmed": false,
+        "food": "none"
+      },
+      {
+        "id": "3-3",
+        "name": "Diego Rodríguez",
+        "relationship": "Hijo",
+        "age": 9,
+        "isConfirmed": false,
+        "food": "none"
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "name": "Roberto Sánchez",
+    "email": "roberto@email.com",
+    "isConfirmed": false,
+    "food": "none",
+    "optionalMessage": "",
+    "family": []
+  },
+  {
+    "id": "5",
+    "name": "Isabel Torres",
+    "email": "isabel@email.com",
+    "isConfirmed": false,
+    "food": "none",
+    "optionalMessage": "",
+    "family": [
+      {
+        "id": "5-1",
+        "name": "Fernando Torres",
+        "relationship": "Esposo",
+        "isConfirmed": false,
+        "food": "none"
+      },
+      {
+        "id": "5-2",
+        "name": "Valentina Torres",
+        "relationship": "Hija",
+        "age": 5,
+        "isConfirmed": false,
+        "food": "none"
+      }
+    ]
+  }
+]

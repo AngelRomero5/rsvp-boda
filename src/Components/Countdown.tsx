@@ -79,7 +79,7 @@ type SVGCircleProps = {
 };
 
 const SVGCircle: React.FC<SVGCircleProps> = ({ radius }) => (
-  <svg className="countdown-svg" width="100" height="100">
+  <svg className="countdown-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
     <path
       fill="none"
       stroke="#88a9c3"

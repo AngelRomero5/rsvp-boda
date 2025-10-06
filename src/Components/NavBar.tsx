@@ -3,9 +3,10 @@ import './NavBar.css'
 interface NavBarProps {
     section: "rsvp" | "historia" | "galeria" | "ayudanos" | "2";
     setSection: (section: "rsvp" | "historia" | "galeria" | "ayudanos" | "2") => void;
+    onAdminClick?: () => void;
 }
 
-function NavBar({ section, setSection }: NavBarProps) {
+function NavBar({ section, setSection, onAdminClick }: NavBarProps) {
     return (
         <section id="NavBar">
             <ul>
@@ -33,6 +34,15 @@ function NavBar({ section, setSection }: NavBarProps) {
                 >
                     Sé parte
                 </li>
+                {onAdminClick && (
+                    <li
+                        style={{ marginLeft: 'auto', fontSize: '1.2rem', cursor: 'pointer' }}
+                        onClick={onAdminClick}
+                        title="Panel de Administración"
+                    >
+                        👤
+                    </li>
+                )}
             </ul>
         </section>
     )

@@ -3,7 +3,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
+	gap: 0.5rem;
 }
 
 .countdown-item {
@@ -19,6 +20,7 @@
 	position: relative;
 	width: 100px;
 	height: 100px;
+	flex-shrink: 0;
 }
 
 .countdown-item span {
@@ -34,4 +36,53 @@
 	left: 0;
 	width: 100px;
 	height: 100px;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+	.countdown-wrapper {
+		gap: 0.3rem;
+	}
+
+	.countdown-item {
+		width: 70px;
+		height: 70px;
+		font-size: 28px;
+		margin: 5px;
+		line-height: 20px;
+		padding-top: 8px;
+	}
+
+	.countdown-svg {
+		width: 70px;
+		height: 70px;
+	}
+
+	.countdown-item span {
+		font-size: 9px;
+	}
+}
+
+@media (max-width: 480px) {
+	.countdown-wrapper {
+		gap: 0.2rem;
+	}
+
+	.countdown-item {
+		width: 60px;
+		height: 60px;
+		font-size: 22px;
+		margin: 2px;
+		line-height: 18px;
+		padding-top: 6px;
+	}
+
+	.countdown-svg {
+		width: 60px;
+		height: 60px;
+	}
+
+	.countdown-item span {
+		font-size: 8px;
+	}
 }
