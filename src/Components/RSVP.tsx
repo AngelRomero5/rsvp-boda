@@ -1,4 +1,4 @@
-import { Card, Text, Button, Group, SimpleGrid, Image, Stack, TextInput, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge } from '@mantine/core';
+import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge } from '@mantine/core';
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Masonry from "react-masonry-css";
@@ -9,70 +9,26 @@ import './RSVP.css'
 import NavBar from "./NavBar";
 import Countdown from './Countdown';
 
+import guestListJSON from '../../src/data/guestlist.json';
+
 // Guest data types
 interface FamilyMember {
     id: string;
     name: string;
-    relationship: string;
-    age?: number;
+    isConfirmed: boolean;
+    food: string;
 }
 
 interface Guest {
     id: string;
     name: string;
-    email?: string;
-    phone?: string;
-    family: FamilyMember[];
     isConfirmed: boolean;
-    confirmationDate?: string;
-    dietaryRestrictions?: string;
-    message?: string;
+    food: string;
+    optionalMessage: string;
+    family: FamilyMember[];
 }
 
-// Initial guest list - you can modify this with your actual guest list
-const initialGuestList: Guest[] = [
-    {
-        id: '1',
-        name: 'María González',
-        email: 'maria@email.com',
-        phone: '(787) 123-4567',
-        family: [
-            { id: '1-1', name: 'Carlos González', relationship: 'Esposo' },
-            { id: '1-2', name: 'Ana González', relationship: 'Hija', age: 8 }
-        ],
-        isConfirmed: false
-    },
-    {
-        id: '2',
-        name: 'José Rodríguez',
-        email: 'jose@email.com',
-        phone: '(787) 234-5678',
-        family: [
-            { id: '2-1', name: 'Carmen Rodríguez', relationship: 'Esposa' }
-        ],
-        isConfirmed: false
-    },
-    {
-        id: '3',
-        name: 'Laura Martínez',
-        email: 'laura@email.com',
-        phone: '(787) 345-6789',
-        family: [],
-        isConfirmed: false
-    },
-    {
-        id: '4',
-        name: 'Roberto Silva',
-        email: 'roberto@email.com',
-        phone: '(787) 456-7890',
-        family: [
-            { id: '4-1', name: 'Elena Silva', relationship: 'Esposa' },
-            { id: '4-2', name: 'Diego Silva', relationship: 'Hijo', age: 12 },
-            { id: '4-3', name: 'Sofia Silva', relationship: 'Hija', age: 10 }
-        ],
-        isConfirmed: false
-    }
-];
+const initialGuestList: Guest[] = guestListJSON as Guest[];
 
 
 function RSVP() {
@@ -81,7 +37,7 @@ function RSVP() {
     const [section, setSection] = useState<"rsvp" | "historia" | "galeria" | "ayudanos" | "2">("rsvp");
     
     // Guest management state
-    const [guestList, setGuestList] = useState<Guest[]>([]);
+    const [guestList, setGuestList] = useState<Guest[]>(initialGuestList);
     const [selectedGuest, setSelectedGuest] = useState<Guest | null>(null);
     const [selectedFamilyMembers, setSelectedFamilyMembers] = useState<string[]>([]);
     const [adminModalOpen, setAdminModalOpen] = useState(false);
@@ -89,10 +45,9 @@ function RSVP() {
     // Form state
     const [formData, setFormData] = useState({
         name: '',
-        guests: 0,
-        email: '',
-        dietaryRestrictions: '',
-        message: ''
+        family: 0,
+        food: '',
+        optionalMessage: ''
     });
     
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -108,17 +63,9 @@ function RSVP() {
             errors.name = 'El nombre es requerido';
         }
         
-        if (formData.guests < 0) {
+        if (formData.family < 0) {
             errors.guests = 'El número de acompañantes no puede ser negativo';
-        }
-        
-        if (!formData.email.trim()) {
-            errors.email = 'El correo electrónico es requerido';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            errors.email = 'Por favor ingresa un correo electrónico válido';
-        }
-    
-        
+        }        
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -126,76 +73,60 @@ function RSVP() {
     // Form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
-        if (!validateForm()) {
-            return;
-        }
-        
+
+        if (!validateForm()) return;
         setIsSubmitting(true);
-        setSubmitStatus('idle');
-        
-        try {
-            // Formspree integration - replace 'YOUR_FORM_ID' with your actual Formspree form ID
-            const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: formData.name,
-                    guests: formData.guests,
-                    email: formData.email,
-                    dietaryRestrictions: formData.dietaryRestrictions,
-                    message: formData.message,
-                    _subject: `RSVP de ${formData.name} - Boda Ángel & Mariana`,
-                }),
-            });
-            
-            if (response.ok) {
+
+        if (selectedGuest) {
+            const updatedGuest = {
+                ...selectedGuest,
+                isConfirmed: true,
+                confirmationDate: new Date().toISOString(),
+                dietaryRestrictions: formData.food,
+                message: formData.optionalMessage,
+            };
+
+            try {
+
+                const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:3001';
+                
+                const res = await fetch(`${API_BASE}/api/guests/${selectedGuest.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedGuest),
+                });
+
+                if (!res.ok) throw new Error('Failed to save guest');
+
+                const savedGuest = await res.json();
+
+                // Update local state
+                const updatedGuests = guestList.map(g =>
+                    g.id === savedGuest.id ? savedGuest : g
+                );
+                setGuestList(updatedGuests);
                 setSubmitStatus('success');
-                
-                // Mark guest as confirmed
-                if (selectedGuest) {
-                    const updatedGuests = guestList.map(guest => {
-                        if (guest.id === selectedGuest.id) {
-                            return {
-                                ...guest,
-                                isConfirmed: true,
-                                confirmationDate: new Date().toISOString(),
-                                dietaryRestrictions: formData.dietaryRestrictions,
-                                message: formData.message,
-                                email: formData.email,
-                            };
-                        }
-                        return guest;
-                    });
-                    saveGuestList(updatedGuests);
-                }
-                
-                // Reset form after successful submission
-                setTimeout(() => {
-                    setFormData({
-                        name: '',
-                        guests: 0,
-                        email: '',
-                        dietaryRestrictions: '',
-                        message: ''
-                    });
-                    setSelectedGuest(null);
-                    setSelectedFamilyMembers([]);
-                    setSubmitStatus('idle');
-                }, 3000);
-            } else {
-                throw new Error('Form submission failed');
+            } catch (err) {
+                console.error(err);
+                setSubmitStatus('error');
             }
-            
-        } catch (error) {
-            console.error('Form submission error:', error);
-            setSubmitStatus('error');
-        } finally {
-            setIsSubmitting(false);
         }
+
+        setIsSubmitting(false);
+
+        setTimeout(() => {
+            setFormData({
+                name: '',
+                family: 0,
+                food: '',
+                optionalMessage: '',
+            });
+            setSelectedGuest(null);
+            setSelectedFamilyMembers([]);
+            setSubmitStatus('idle');
+        }, 3000);
     };
+
 
     // Copy to clipboard functionality
     const copyToClipboard = async (text: string, itemId: string) => {
@@ -218,32 +149,15 @@ function RSVP() {
         });
     };
 
-    // Guest management functions
-    const loadGuestList = () => {
-        const savedGuests = localStorage.getItem('weddingGuestList');
-        if (savedGuests) {
-            setGuestList(JSON.parse(savedGuests));
-        } else {
-            setGuestList(initialGuestList);
-            localStorage.setItem('weddingGuestList', JSON.stringify(initialGuestList));
-        }
-    };
-
-    const saveGuestList = (guests: Guest[]) => {
-        setGuestList(guests);
-        localStorage.setItem('weddingGuestList', JSON.stringify(guests));
-    };
-
     const handleGuestSelection = (guestId: string) => {
         const guest = guestList.find(g => g.id === guestId);
         if (guest) {
             setSelectedGuest(guest);
             setFormData({
                 name: guest.name,
-                guests: guest.family.length,
-                email: guest.email || '',
-                dietaryRestrictions: guest.dietaryRestrictions || '',
-                message: guest.message || ''
+                family: guest.family.length,
+                food: guest.food || '',
+                optionalMessage: guest.optionalMessage || ''
             });
             // Pre-select all family members
             setSelectedFamilyMembers(guest.family.map(f => f.id));
@@ -257,23 +171,6 @@ function RSVP() {
                 : [...prev, memberId]
         );
     };
-
-    const exportGuestData = () => {
-        const dataStr = JSON.stringify(guestList, null, 2);
-        const dataBlob = new Blob([dataStr], { type: 'application/json' });
-        const url = URL.createObjectURL(dataBlob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'wedding-guest-list.json';
-        link.click();
-        URL.revokeObjectURL(url);
-    };
-
-
-    // Load guest list on component mount
-    useEffect(() => {
-        loadGuestList();
-    }, []);
 
     const breakpointColumnsObj = {
         default: 4,
@@ -465,10 +362,10 @@ function RSVP() {
                             {submitStatus === 'success' ? (
                                 <motion.div initial={{ opacity: 0, scale: 0.8 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 0.5 }}>
+                                    transition={{ duration: 2 }}>
                                     <Alert icon={<IconCheck size="1rem" />} title="¡Confirmación Exitosa!" color="green" variant="light">
                                         <Text size="sm">
-                                            ¡Gracias por confirmar tu asistencia! Te hemos enviado un correo de confirmación.
+                                            ¡Gracias por confirmar tu asistencia!
                                             ¡Nos vemos el 11 de julio!
                                         </Text>
                                     </Alert>
@@ -491,24 +388,22 @@ function RSVP() {
                                             size="md"
                                         />
 
-                                        {selectedGuest && (
-                                            <Alert color="blue" variant="light">
-                                                <Text size="sm">
-                                                    {selectedGuest.isConfirmed 
-                                                        ? "✅ Ya has confirmado tu asistencia" 
-                                                        : "Selecciona los miembros de tu familia que asistirán:"
-                                                    }
-                                                </Text>
-                                            </Alert>
+                                        {selectedGuest && selectedGuest.isConfirmed && (
+                                        <Alert color="blue" variant="light">
+                                            <Text size="sm">✅ Ya has confirmado tu asistencia</Text>
+                                        </Alert>
                                         )}
 
                                         {selectedGuest && !selectedGuest.isConfirmed && selectedGuest.family.length > 0 && (
                                             <div>
+                                                <Alert color="blue" variant="light" className='form-alert'>
+                                                    <Text size="sm"> Selecciona los miembros de tu familia que asistirán:</Text>
+                                                </Alert>
                                                 <Stack gap="xs">
                                                     {selectedGuest.family.map((member) => (
                                                         <Checkbox
                                                             key={member.id}
-                                                            label={`${member.name} (${member.relationship}${member.age ? `, ${member.age} años` : ''})`}
+                                                            label={`${member.name}`}
                                                             checked={selectedFamilyMembers.includes(member.id)}
                                                             onChange={() => handleFamilyMemberToggle(member.id)}
                                                         />
@@ -517,21 +412,11 @@ function RSVP() {
                                             </div>
                                         )}
 
-                                        <TextInput
-                                            label="Correo Electrónico"
-                                            placeholder="mirailabestia@correo.com"
-                                            value={formData.email}
-                                            onChange={(e) => setFormData({...formData, email: e.target.value})}
-                                            error={formErrors.email}
-                                            required
-                                            size="md"
-                                        />
-
                                         <Textarea
                                             label="Restricciones Alimentarias (Opcional)"
                                             placeholder="Alergias, vegetarianismo, etc."
-                                            value={formData.dietaryRestrictions}
-                                            onChange={(e) => setFormData({...formData, dietaryRestrictions: e.target.value})}
+                                            value={formData.food}
+                                            onChange={(e) => setFormData({...formData, food: e.target.value})}
                                             size="md"
                                             minRows={2}
                                         />
@@ -539,10 +424,10 @@ function RSVP() {
                                         <Textarea
                                             label="Mensaje para los Novios (Opcional)"
                                             placeholder="¡Déjanos un mensaje especial!"
-                                            value={formData.message}
-                                            onChange={(e) => setFormData({...formData, message: e.target.value})}
+                                            value={formData.optionalMessage}
+                                            onChange={(e) => setFormData({...formData, optionalMessage: e.target.value})}
                                             size="md"
-                                            minRows={3}
+                                            minRows={4}
                                         />
 
                                         {submitStatus === 'error' && (
@@ -842,7 +727,7 @@ function RSVP() {
                                     </motion.div>
 
                                     {/* Amazon Wishlist Section */}
-                                    <motion.div initial={{ opacity: 0, x: -20 }}
+                                    {/* <motion.div initial={{ opacity: 0, x: -20 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true, amount: 0.3 }}
                                         transition={{ duration: 0.5, delay: 0.5 }}>
@@ -867,7 +752,7 @@ function RSVP() {
                                                 </Stack>
                                             </Group>
                                         </Card>
-                                    </motion.div>
+                                    </motion.div> */}
 
                                     {/* Additional Support Options */}
                                     <motion.div initial={{ opacity: 0, y: 20 }}
@@ -927,107 +812,6 @@ function RSVP() {
                     </motion.div>
                 </motion.section>
             )}
-
-            {/* Admin Panel Modal */}
-            <Modal
-                opened={adminModalOpen}
-                onClose={() => setAdminModalOpen(false)}
-                title="Panel de Administración - Lista de Invitados"
-                size="xl"
-            >
-                <Stack gap="md">
-                    <Group justify="space-between">
-                        <Text size="lg" fw={600}>
-                            Confirmaciones: {guestList.filter(g => g.isConfirmed).length} / {guestList.length}
-                        </Text>
-                        <Group gap="sm">
-                            <Button
-                                leftSection={<IconDownload size="1rem" />}
-                                onClick={exportGuestData}
-                                size="sm"
-                            >
-                                Exportar
-                            </Button>
-                        </Group>
-                    </Group>
-
-                    <Table striped highlightOnHover>
-                        <Table.Thead>
-                            <Table.Tr>
-                                <Table.Th>Nombre</Table.Th>
-                                <Table.Th>Familia</Table.Th>
-                                <Table.Th>Estado</Table.Th>
-                                <Table.Th>Fecha</Table.Th>
-                            </Table.Tr>
-                        </Table.Thead>
-                        <Table.Tbody>
-                            {guestList.map((guest) => (
-                                <Table.Tr key={guest.id}>
-                                    <Table.Td>
-                                        <Text fw={500}>{guest.name}</Text>
-                                        {guest.email && (
-                                            <Text size="xs" c="dimmed">{guest.email}</Text>
-                                        )}
-                                    </Table.Td>
-                                    <Table.Td>
-                                        <Text size="sm">
-                                            {guest.family.length > 0 
-                                                ? `${guest.family.length} miembro(s)`
-                                                : `Solo`
-                                            }
-                                        </Text>
-                                        {guest.family.length > 0 && (
-                                            <Text size="xs" c="dimmed">
-                                                {guest.family.map(f => f.name).join(', ')}
-                                            </Text>
-                                        )}
-                                    </Table.Td>
-                                    <Table.Td>
-                                        <Badge 
-                                            color={guest.isConfirmed ? 'green' : 'gray'}
-                                            variant="light"
-                                        >
-                                            {guest.isConfirmed ? 'Confirmado' : 'Pendiente'}
-                                        </Badge>
-                                    </Table.Td>
-                                    <Table.Td>
-                                        {guest.confirmationDate ? (
-                                            <Text size="sm">
-                                                {new Date(guest.confirmationDate).toLocaleDateString('es-ES')}
-                                            </Text>
-                                        ) : (
-                                            <Text size="sm" c="dimmed">-</Text>
-                                        )}
-                                    </Table.Td>
-                                </Table.Tr>
-                            ))}
-                        </Table.Tbody>
-                    </Table>
-
-                    {guestList.filter(g => g.isConfirmed).length > 0 && (
-                        <Card withBorder p="md">
-                            <Text fw={600} mb="sm">Detalles de Confirmaciones:</Text>
-                            <Stack gap="xs">
-                                {guestList.filter(g => g.isConfirmed).map((guest) => (
-                                    <div key={guest.id}>
-                                        <Text size="sm" fw={500}>{guest.name}</Text>
-                                        {guest.dietaryRestrictions && (
-                                            <Text size="xs" c="dimmed">
-                                                Restricciones: {guest.dietaryRestrictions}
-                                            </Text>
-                                        )}
-                                        {guest.message && (
-                                            <Text size="xs" c="dimmed">
-                                                Mensaje: {guest.message}
-                                            </Text>
-                                        )}
-                                    </div>
-                                ))}
-                            </Stack>
-                        </Card>
-                    )}
-                </Stack>
-            </Modal>
 
             {/* Image Viewer Modal */}
             <Modal
@@ -1094,27 +878,15 @@ function RSVP() {
             centered
         >
             <Stack gap="md">
-                <Text size="lg" fw={600} c="#243e5a">Lista de Invitados</Text>
-                
-                <Group>
-                    <Button
-                        leftSection={<IconDownload size="1rem" />}
-                        onClick={exportGuestData}
-                        variant="light"
-                    >
-                        Exportar Lista
-                    </Button>
-                    
-            
-                </Group>
+                <Text size="1.4rem" fw={600} c="#243e5a">Lista de Invitados</Text>
 
                 <Divider />
 
                 <Card withBorder p="md">
                     <Text fw={600} mb="sm">Resumen:</Text>
                     <Text size="sm">Total de invitados: {guestList.length}</Text>
-                    <Text size="sm">Confirmados: {guestList.filter(g => g.isConfirmed).length}</Text>
-                    <Text size="sm">Pendientes: {guestList.filter(g => !g.isConfirmed).length}</Text>
+                    <Text size="sm" color="green">Confirmados: {guestList.filter(g => g.isConfirmed).length}</Text>
+                    <Text size="sm" color="orange">Pendientes: {guestList.filter(g => !g.isConfirmed).length}</Text>
                 </Card>
 
                 <Table striped highlightOnHover withTableBorder>
@@ -1123,8 +895,8 @@ function RSVP() {
                             <Table.Th>Nombre</Table.Th>
                             <Table.Th>Estado</Table.Th>
                             <Table.Th>Familia</Table.Th>
-                            <Table.Th>Contacto</Table.Th>
-                            <Table.Th>Fecha</Table.Th>
+                            <Table.Th>Restricciones Alimenticias</Table.Th>
+                            <Table.Th>Mensaje</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -1142,49 +914,23 @@ function RSVP() {
                                     {guest.family.length > 0 ? (
                                         <Text size="sm">{guest.family.length} miembro(s)</Text>
                                     ) : (
-                                        <Text size="sm" c="dimmed">Sin familia</Text>
+                                        <Text size="sm" c="dimmed">Solo</Text>
                                     )}
                                 </Table.Td>
                                 <Table.Td>
-                                    {guest.email && <Text size="xs">{guest.email}</Text>}
-                                    {guest.phone && <Text size="xs">{guest.phone}</Text>}
+                                    {guest.food ? 
+                                     (<Text size="sm" variant="danger">{guest.food}</Text>) 
+                                    :( <Text size="sm" c="dimmed">Ninguna</Text>)}
                                 </Table.Td>
                                 <Table.Td>
-                                    {guest.confirmationDate ? (
-                                        <Text size="xs">
-                                            {moment(guest.confirmationDate).format('DD/MM/YYYY HH:mm')}
-                                        </Text>
-                                    ) : (
-                                        <Text size="xs" c="dimmed">-</Text>
+                                    {guest.optionalMessage.length > 0 && (
+                                        <Text color="blue" >{guest.optionalMessage}</Text>
                                     )}
                                 </Table.Td>
                             </Table.Tr>
                         ))}
                     </Table.Tbody>
                 </Table>
-
-                {guestList.filter(g => g.isConfirmed).length > 0 && (
-                    <Card withBorder p="md">
-                        <Text fw={600} mb="sm">Detalles de Confirmaciones:</Text>
-                        <Stack gap="xs">
-                            {guestList.filter(g => g.isConfirmed).map((guest) => (
-                                <div key={guest.id}>
-                                    <Text size="sm" fw={500}>{guest.name}</Text>
-                                    {guest.dietaryRestrictions && (
-                                        <Text size="xs" c="dimmed">
-                                            Restricciones: {guest.dietaryRestrictions}
-                                        </Text>
-                                    )}
-                                    {guest.message && (
-                                        <Text size="xs" c="dimmed">
-                                            Mensaje: {guest.message}
-                                        </Text>
-                                    )}
-                                </div>
-                            ))}
-                        </Stack>
-                    </Card>
-                )}
             </Stack>
         </Modal>
         </>

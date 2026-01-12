@@ -308,6 +308,10 @@
     margin: 0 auto;
 }
 
+.form-alert {
+    margin-bottom: 1rem;
+}
+
 /* Mobile Optimizations */
 @media (max-width: 768px) {
     .rsvp-card {
