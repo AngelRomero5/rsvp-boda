@@ -1,12 +1,16 @@
-import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge } from '@mantine/core';
+import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, FileInput, Flex } from '@mantine/core';
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Masonry from "react-masonry-css";
-import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconUpload, IconX } from '@tabler/icons-react';
-import moment from 'moment';
+import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight} from '@tabler/icons-react';
+import { createEvents } from 'ics';
+import type { DateArray } from 'ics';
 
+
+import Masonry from "react-masonry-css";
 import './RSVP.css'
+
 import NavBar from "./NavBar";
+import Footer from './Footer';
 import Countdown from './Countdown';
 
 import guestListJSON from '../../src/data/guestlist.json';
@@ -34,7 +38,7 @@ const initialGuestList: Guest[] = guestListJSON as Guest[];
 function RSVP() {
 
     // State to manage the current section
-    const [section, setSection] = useState<"rsvp" | "historia" | "galeria" | "ayudanos" | "2">("rsvp");
+    const [section, setSection] = useState<"rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "2">("rsvp");
     
     // Guest management state
     const [guestList, setGuestList] = useState<Guest[]>(initialGuestList);
@@ -52,6 +56,7 @@ function RSVP() {
     
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [confirmed, setConfirmed] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [copiedItems, setCopiedItems] = useState<Record<string, boolean>>({});
 
@@ -62,10 +67,7 @@ function RSVP() {
         if (!formData.name.trim()) {
             errors.name = 'El nombre es requerido';
         }
-        
-        if (formData.family < 0) {
-            errors.guests = 'El número de acompañantes no puede ser negativo';
-        }        
+             
         setFormErrors(errors);
         return Object.keys(errors).length === 0;
     };
@@ -77,13 +79,14 @@ function RSVP() {
         if (!validateForm()) return;
         setIsSubmitting(true);
 
+        // check the declined variable, if true, confirmed, if declined then not confirmed
         if (selectedGuest) {
             const updatedGuest = {
                 ...selectedGuest,
-                isConfirmed: true,
+                isConfirmed: confirmed,
                 confirmationDate: new Date().toISOString(),
-                dietaryRestrictions: formData.food,
-                message: formData.optionalMessage,
+                food: formData.food,
+                optionalMessage: formData.optionalMessage,
             };
 
             try {
@@ -111,22 +114,31 @@ function RSVP() {
                 setSubmitStatus('error');
             }
         }
-
         setIsSubmitting(false);
-
-        setTimeout(() => {
-            setFormData({
-                name: '',
-                family: 0,
-                food: '',
-                optionalMessage: '',
-            });
-            setSelectedGuest(null);
-            setSelectedFamilyMembers([]);
-            setSubmitStatus('idle');
-        }, 3000);
     };
 
+    // Clear the form and return to rsvp page
+    const handleCloseSuccess = () => {
+        setFormData({
+            name: '',
+            family: 0,
+            food: '',
+            optionalMessage: '',
+        });
+        setSelectedGuest(null);
+        setSelectedFamilyMembers([]);
+        setSubmitStatus('idle');
+    };
+
+    // Regex to allow search for accents
+    const filterGuests: OptionsFilter = ({ options, search }) => {
+        const normalize = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+        const searchNorm = normalize(search);
+
+        return (options as ComboboxItem[]).filter(option =>
+            normalize(option.label).includes(searchNorm)
+        );
+    };
 
     // Copy to clipboard functionality
     const copyToClipboard = async (text: string, itemId: string) => {
@@ -140,6 +152,84 @@ function RSVP() {
             console.error('Failed to copy text: ', err);
         }
     };
+    
+    const openDetails = () => {
+
+    }
+
+    // Function to add wedding event to the calendar
+    const saveCalendar = () => {
+        const ceremonyDate = new Date('2026-07-11T13:30:00');  // 1:30 PM local
+        const receptionDate = new Date('2026-07-11T18:00:00');  // 6:00 PM local
+
+        createEvents([
+            {
+                title: 'Boda Ángel & Mariana',
+                start: [ceremonyDate.getFullYear(), ceremonyDate.getMonth() + 1, ceremonyDate.getDate(), ceremonyDate.getHours(), ceremonyDate.getMinutes()] as DateArray,
+                end: [receptionDate.getFullYear(), receptionDate.getMonth() + 1, receptionDate.getDate(), receptionDate.getHours(), receptionDate.getMinutes()] as DateArray,
+                description: 'Este evento fue creado para la ceremonia a las 1:30 PM, Recepción a las 6:00 PM en Zafra del Caribe en Gurabo. Vestimenta formal. Estacionamiento debajo de la parroquia y en el centro comercial.',
+                location: 'https://maps.app.goo.gl/iqj1iCJ3BLC2dbQo9',
+                alarms: [
+                    {
+                        trigger: '-P1W',
+                        action: 'display',
+                        description: 'Boda Ángel & Mariana'
+                    }
+                ]
+            }
+        ], (error, value) => {
+            if (error) {
+                console.error(error);
+                return;
+            }
+            const blob = new Blob([value], { type: 'text/calendar;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'Angel&Mariana-11-julio-2026.ics';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        });
+    };
+
+    // Upload photos to mega.nz folder (send them to api)
+    const [files, setFiles] = useState<File[] | null>(null);
+    const [uploading, setUploading] = useState(false);
+
+    const uploadPhotos = async () => {
+        if (!files || files.length === 0) return;
+
+        const formData = new FormData();
+        files.forEach((file => {
+            formData.append('photos', file);
+        }))
+
+        try {
+            setUploading(true);
+            const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:3001';
+            const res = await fetch(`${API_BASE}/api/upload-photos`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if(!res.ok){
+                console.log(res.status, res.statusText);
+                throw new Error('Upload failed');
+            }
+
+            const data = await res.json();
+            console.log("Uploaded to mega succesfully", data)
+            setFiles(null);
+
+        } catch(e) {
+            console.log(e);
+        } finally {
+            setUploading(false);
+        }
+    }
+
 
     // Scroll to top functionality
     const scrollToTop = () => {
@@ -180,7 +270,7 @@ function RSVP() {
     };
 
     // Import all the images from the assets folder for the gallery (lazy loaded)
-    const imageModules = import.meta.glob('../assets/images/*.{jpg,jpeg,png}', { eager: false });
+    const imageModules = import.meta.glob('../assets/images/*.{jpg,jpeg,png,webp}', { eager: false });
     const [loadedImages, setLoadedImages] = useState<string[]>([]);
     const [loadingImages, setLoadingImages] = useState(false);
     
@@ -193,18 +283,16 @@ function RSVP() {
         if (section === 'galeria' && !loadingImages && loadedImages.length === 0) {
             setLoadingImages(true);
             const loadImages = async () => {
-                const imagePromises = Object.values(imageModules).map(async (importFn: any) => {
-                    const module = await importFn();
-                    return module.default;
-                });
-                
-                // Load images in batches to prevent overwhelming the browser
-                const batchSize = 10;
+                const importFns = Object.values(imageModules) as (() => Promise<{ default: string }>)[];
+                const imagePromises = importFns.map(fn => fn());
+
+                const batchSize = 8;
                 const results: string[] = [];
-                
+
                 for (let i = 0; i < imagePromises.length; i += batchSize) {
-                    const batch = await Promise.all(imagePromises.slice(i, i + batchSize));
-                    results.push(...batch);
+                    const batchModules = await Promise.all(imagePromises.slice(i, i + batchSize));
+                    const batchSrcs = batchModules.map(m => m.default);
+                    results.push(...batchSrcs);
                     setLoadedImages([...results]);
                     // Small delay between batches to prevent stuttering
                     if (i + batchSize < imagePromises.length) {
@@ -224,7 +312,7 @@ function RSVP() {
         <SimpleGrid cols={1} id="RSVP">
             <NavBar section={section} setSection={setSection} onAdminClick={() => setAdminModalOpen(true)} />
 
-            {/* --- SECCIÓN 1 --- */}
+            {/* --- SECCIÓN 1 (Home) --- */}
             {section === "rsvp" && (
                 <motion.section initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -270,22 +358,33 @@ function RSVP() {
                         viewport={{ once: true, amount: 0.3 }}
                         transition={{ duration: 0.6, delay: 0.4 }}>
                         <Card radius="md" withBorder className="rsvp-card">
-                            <hr className="rsvp-divider" />
 
                             <h3 className='rsvp-subtitle'>¡Confirma tu asistencia!</h3>
 
-                            <Stack gap="md" className="wedding-details">
+                            <Stack gap="sm" className="wedding-details">
                                 <Card withBorder radius="md" p="md" className="detail-card">
-                                    <Text fw={600} size="lg" c="#243e5a" mb="sm">📅 Fecha y Hora</Text>
-                                    <Text size="md">Sábado, 11 de Julio de 2026</Text>
-                                    <Text size="md" c="#243e5a" fw={500}>1:30 PM - Ceremonia</Text>
-                                    <Text size="sm" c="dimmed">6:00 PM - Recepción</Text>
+                                    <Stack gap='sm'>
+                                        <Text fw={600} size="lg" c="#243e5a">📅 Fecha y Hora</Text>
+                                        <Text size="md">Sábado, 11 de Julio de 2026 - 1:30 PM</Text>
+                                            <Button 
+                                                size="sm" 
+                                                className='rsvp-button' 
+                                                onClick={() => {
+                                                    saveCalendar()
+                                                }}>
+                                                <Text size="sm"> 
+                                                    Añadir a calendario 
+                                                    <IconDownload size="1rem" style={{ marginLeft: 6 }} />
+                                                </Text>
+                                            </Button>
+                                    </Stack>
                                 </Card>
 
                                 <Card withBorder radius="md" p="md" className="detail-card">
                                     <Text fw={600} size="lg" c="#243e5a" mb="sm">💒 Ceremonia</Text>
                                     <Text size="md" component="a" href="https://maps.app.goo.gl/iqj1iCJ3BLC2dbQo9" c='#88a9c3'>
-                                        120 Calle Blvd de la Fuente, San Juan, 00926
+                                        120 Calle Blvd de la Fuente, San Juan, 00926 
+                                            <IconExternalLink size="1rem" style={{ marginLeft: 4 }} />
                                     </Text>
                                     <Text size="sm" c="dimmed" mt="xs">Iglesia San José</Text>
                                 </Card>
@@ -293,29 +392,24 @@ function RSVP() {
                                 <Card withBorder radius="md" p="md" className="detail-card">
                                     <Text fw={600} size="lg" c="#243e5a" mb="sm">🎉 Recepción</Text>
                                     <Text size="md" component="a" href="https://maps.app.goo.gl/6CXjuRubJbq98fji6" c='#88a9c3'>
-                                        Carretera PR 189, Km. 5.3, Gurabo, 00778
+                                            Carretera PR 189, Km. 5.3, Gurabo, 00778 
+                                            <IconExternalLink size="1rem" style={{ marginLeft: 4 }} />
                                     </Text>
                                     <Text size="sm" c="dimmed" mt="xs">Zafra del Caribe</Text>
-                                </Card>
-
-                                <Card withBorder radius="md" p="md" className="detail-card">
-                                    <Text fw={600} size="lg" c="#243e5a" mb="sm">👗 Código de Vestimenta</Text>
-                                    <Text size="md">Formal Elegante</Text>
-                                    <Text size="sm" c="dimmed">Todos los colores menos BLANCO</Text>
                                 </Card>
 
                                 <Card withBorder radius="md" p="md" className="detail-card">
                                     <Text fw={600} size="lg" c="#243e5a" mb="sm">🚗 Estacionamiento</Text>
                                     <Text size="md">Disponible en ambos lugares</Text>
                                     <Text size="sm" c="dimmed">Debajo de la parroquia y frente al centro comercial. 
-                                        En la recepción también habrá estacionamiento</Text>
+                                        En la recepción también habrá estacionamiento.</Text>
                                 </Card>
 
                                 <Card withBorder radius="md" p="md" className="detail-card">
                                     <Text fw={600} size="lg" c="#243e5a" mb="sm">📞 Contacto</Text>
                                     <Text size="md">¿Preguntas? Contáctanos:</Text>
-                                    <Text size="sm" c="#243e5a" fw={500}>Ángel: (787) 710-1934</Text>
-                                    <Text size="sm" c="#243e5a" fw={500}>Mariana: (787) 690-2236</Text>
+                                        <Text size="sm" c="#243e5a" fw={500}>Ángel: <a href="tel:7877101934">(787) 710-1934</a></Text>
+                                        <Text size="sm" c="#243e5a" fw={500}>Mariana: <a href="tel:7876902236">(787) 690-2236</a></Text>
                                 </Card>
                             </Stack>
 
@@ -327,7 +421,7 @@ function RSVP() {
                                     setSection("2");
                                     scrollToTop();
                                 }}>
-                                Confirmar Asistencia
+                                    Confirmar Asistencia <IconArrowRight size={20} style={{ marginLeft: 4 }} />
                             </Button>
                         </Card>
                     </motion.div>
@@ -345,7 +439,10 @@ function RSVP() {
                                 variant="subtle"
                                 size="xs"
                                 className="rsvp-back-button"
-                                onClick={() => setSection("rsvp")}
+                                onClick={() => {
+                                    setSection("rsvp");
+                                    handleCloseSuccess();
+                                }}
                             >
                                 Regresar
                             </Button>
@@ -361,14 +458,27 @@ function RSVP() {
 
                             {submitStatus === 'success' ? (
                                 <motion.div initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ duration: 2 }}>
-                                    <Alert icon={<IconCheck size="1rem" />} title="¡Confirmación Exitosa!" color="green" variant="light">
-                                        <Text size="sm">
-                                            ¡Gracias por confirmar tu asistencia!
-                                            ¡Nos vemos el 11 de julio!
-                                        </Text>
-                                    </Alert>
+                                    animate={{ opacity: 1, scale: 1 }}>
+                                    <Alert icon={<IconCheck size="1rem" />} title="Se ha registrado su respuesta." color="green" variant="light"></Alert>
+                                    <br/>
+                                    <Group align="center" gap="md" wrap="wrap" className='alert-group'>
+                                        <Button
+                                            size="sm"
+                                            onClick={handleCloseSuccess}>
+                                            Volver
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            className='rsvp-button'
+                                            onClick={() => {
+                                                saveCalendar()
+                                            }}>
+                                            <Text size="sm">
+                                                Añadir al calendario
+                                                <IconDownload size="1rem" style={{ marginLeft: 4 }} />
+                                            </Text>
+                                        </Button>
+                                    </Group>
                                 </motion.div>
                             ) : (
                                 <form onSubmit={handleSubmit} autoComplete="off">
@@ -384,15 +494,10 @@ function RSVP() {
                                             value={selectedGuest?.id || ''}
                                             onChange={(value) => value && handleGuestSelection(value)}
                                             searchable
+                                            filter={filterGuests}
                                             required
                                             size="md"
                                         />
-
-                                        {selectedGuest && selectedGuest.isConfirmed && (
-                                        <Alert color="blue" variant="light">
-                                            <Text size="sm">✅ Ya has confirmado tu asistencia</Text>
-                                        </Alert>
-                                        )}
 
                                         {selectedGuest && !selectedGuest.isConfirmed && selectedGuest.family.length > 0 && (
                                             <div>
@@ -401,12 +506,23 @@ function RSVP() {
                                                 </Alert>
                                                 <Stack gap="xs">
                                                     {selectedGuest.family.map((member) => (
-                                                        <Checkbox
-                                                            key={member.id}
-                                                            label={`${member.name}`}
-                                                            checked={selectedFamilyMembers.includes(member.id)}
-                                                            onChange={() => handleFamilyMemberToggle(member.id)}
-                                                        />
+                                                        <div>
+                                                            <Checkbox
+                                                                key={member.id}
+                                                                label={`${member.name}`}
+                                                                checked={selectedFamilyMembers.includes(member.id)}
+                                                                onChange={() => handleFamilyMemberToggle(member.id)}
+                                                            />
+                                                            {/* TODO: añadir la opcion de que cada miembro pueda añadir restriccion alimenticia (no todos tienen que tener) */}
+                                                            {/* <Textarea
+                                                                label="Restricciones Alimentarias (Optional)"
+                                                                placeholder="Alergias, vegetarianismo, etc."
+                                                                value={formData.food}
+                                                                onChange={(e) => setFormData({ ...formData, food: e.target.value })}
+                                                                size="md"
+                                                                minRows={2}
+                                                            /> */}
+                                                        </div>
                                                     ))}
                                                 </Stack>
                                             </div>
@@ -431,30 +547,72 @@ function RSVP() {
                                         />
 
                                         {submitStatus === 'error' && (
-                                            <Alert icon={<IconAlertCircle size="1rem" />} title="Error" color="red" variant="light">
+                                                <Alert icon={<IconAlertCircle size="1rem" />} title="Error" color="rgb(237, 51, 51)" variant="light">
                                                 <Text size="sm">
                                                     Hubo un error al enviar tu confirmación. Por favor intenta de nuevo.
                                                 </Text>
                                             </Alert>
                                         )}
-
-                                        <Button 
-                                            fullWidth 
-                                            mt="md" 
-                                            radius="sm" 
-                                            type="submit" 
-                                            className="rsvp-button"
-                                            loading={isSubmitting}
-                                            disabled={isSubmitting}
-                                        >
-                                            {isSubmitting ? 'Enviando...' : 'Confirmar Asistencia'}
-                                        </Button>
+                                        <Group align="center" gap="md" mt="5" wrap="nowrap">
+                                            <Button  
+                                                radius="sm" 
+                                                type="submit" 
+                                                color='red'
+                                                loading={isSubmitting}
+                                                disabled={isSubmitting}
+                                                onSubmit={() => {
+                                                    setConfirmed(false);
+                                                }}>
+                                                    Declinar asistencia <IconX size="20" style={{marginLeft: 4}}/> 
+                                            </Button>
+                                            <Button   
+                                                radius="sm" 
+                                                type="submit" 
+                                                color="green"
+                                                loading={isSubmitting}
+                                                disabled={isSubmitting}
+                                                onSubmit={() => setConfirmed(true)}
+                                            >
+                                                    Confirmar Asistencia <IconCheck size="20" style={{ marginLeft: 4 }} />
+                                            </Button>
+                                        </Group>
                                     </Stack>
                                 </form>
                             )}
                         </Card>
                 </motion.section>
             )}
+
+            {/* SECCION UPLOAD PHOTOS */}
+            {section === "upload" && (
+                    <Card withBorder radius="md" className='upload-card'>
+                        <Flex gap="lg" justify="center" align="center" direction='column'>
+                            <Text className='hero-title'>Dale Upload A Tus Fotos</Text>
+                            <Text className='hero-subtitle'>Comparte tus fotos tiradas del dia de la boda</Text>
+                            <FileInput
+                                placeholder="Dale click y selecciona las fotos"
+                                multiple
+                                accept="image/png,image/jpeg,image/heic,images/webp"
+                                clearable
+                                className='input-upload-images'
+                                onChange={(value) => setFiles(value as File[] | null)}
+                            />
+                            <Group>
+                                <Button className='album-btn' onClick={() => window.open("https://mega.nz/folder/m9QhFKhA#h37UmnjnRLJSAZjH199YWg")}>Ver álbum <IconExternalLink size="16" style= {{marginLeft: 4}}/></Button>
+                                <Button className='upload-btn' type='submit' onClick={uploadPhotos} loading={uploading} disabled={!files || files.length === 0}> Subir <IconUpload size="13" style={{ marginLeft: 4 }} /></Button>
+                            </Group>
+                        </Flex>
+                    </Card>
+            )}
+
+
+            {/* --- SECCIÓN CÓDIGO DE VESTIMENTA --- */}
+            {section === "vestimenta" && (
+                    <Card withBorder radius="md" p="md" className="vestimenta-card">
+                        <img src="/images/vestimenta-inspo.png" className='card-img'></img>
+                    </Card>
+            )}
+
             {/* --- SECCIÓN HISTORIA --- */}
             {section === "historia" && (
                 <motion.section initial={{ opacity: 0, y: 40 }}
@@ -471,7 +629,7 @@ function RSVP() {
                                 viewport={{ once: true, amount: 0.3 }}
                                 transition={{ duration: 0.6, delay: 0.2 }}>
                                 <Text size="lg" ta="center" c="dimmed" className="historia-text">
-                                    Todo comenzó en una tarde soleada de primavera, cuando nuestros caminos se cruzaron de la manera más inesperada...
+                                    Ella me miro y yo la mire
                                 </Text>
                             </motion.div>
 
@@ -483,7 +641,7 @@ function RSVP() {
                                     <Card withBorder radius="md" p="md" className="timeline-card">
                                         <Text fw={600} size="lg" c="#243e5a" mb="sm">Primer Encuentro</Text>
                                         <Text size="sm" c="dimmed">
-                                            Nos conocimos en una cafetería del Viejo San Juan. Una sonrisa, una mirada, y supe que algo especial había comenzado.
+                                            Le di un besito y la enamoré.
                                         </Text>
                                     </Card>
                                 </motion.div>
@@ -495,7 +653,7 @@ function RSVP() {
                                     <Card withBorder radius="md" p="md" className="timeline-card">
                                         <Text fw={600} size="lg" c="#243e5a" mb="sm">Primera Cita</Text>
                                         <Text size="sm" c="dimmed">
-                                            Una caminata por el Malecón de San Juan al atardecer. El océano como testigo de nuestras primeras risas compartidas.
+                                            7 años luego aquí me quedé
                                         </Text>
                                     </Card>
                                 </motion.div>
@@ -507,7 +665,7 @@ function RSVP() {
                                     <Card withBorder radius="md" p="md" className="timeline-card">
                                         <Text fw={600} size="lg" c="#243e5a" mb="sm">El Amor Creció</Text>
                                         <Text size="sm" c="dimmed">
-                                            Aventuras por toda la isla, cenas románticas, y miles de momentos que construyeron nuestro amor día a día.
+                                            Y con ella me casé.
                                         </Text>
                                     </Card>
                                 </motion.div>
@@ -519,12 +677,22 @@ function RSVP() {
                                     <Card withBorder radius="md" p="md" className="timeline-card">
                                         <Text fw={600} size="lg" c="#243e5a" mb="sm">La Propuesta</Text>
                                         <Text size="sm" c="dimmed">
-                                            En la playa de Flamenco, Culebra, con el atardecer más hermoso como telón de fondo, me arrodillé y le pedí que fuera mi esposa.
+                                            Un 18 de febrero a ella le pedí que se quedara y formara una familia
                                         </Text>
                                     </Card>
                                 </motion.div>
                             </SimpleGrid>
-
+                            <h2>Save the date A&M</h2>
+                                <div className="video-container">
+                                    <iframe
+                                        className="responsive-iframe"
+                                        src="https://www.youtube.com/embed/52bimU_hj9s"
+                                        title="Save the Date"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowFullScreen
+                                    ></iframe>
+                                </div>
                             <motion.div initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, amount: 0.3 }}
@@ -549,11 +717,6 @@ function RSVP() {
                         <Text size='md' c="white" ta="center" mb="lg">
                             Una selección de nuestros momentos favoritos ❤️
                         </Text>
-                        {loadingImages && loadedImages.length === 0 && (
-                            <Text size="sm" c="dimmed" ta="center" mb="md">
-                                Cargando fotos...
-                            </Text>
-                        )}
                     </motion.div>
                     
                     {loadedImages.length > 0 && (
@@ -606,9 +769,6 @@ function RSVP() {
                                 Cargando {loadedImages.length} de {Object.keys(imageModules).length} fotos...
                             </Text>
                         )}
-                        <Text size="sm" c="dimmed" style={{ fontStyle: 'italic' }}>
-                            Haz clic en cualquier foto para ampliarla
-                        </Text>
                     </motion.div>
                 </motion.section>
             )}
@@ -639,7 +799,7 @@ function RSVP() {
                                     <IconHeart size={40} color="#88a9c3" />
                                     <h2 className='rsvp-title'>¿Cómo nos puedes apoyar?</h2>
                                     <Text size="lg" c="dimmed" ta="center" className="support-description">
-                                        Si deseas dejar tu huella y formar parte de esta nueva aventura, 
+                                        Si deseas dejar tu huella y formar parte de esta nueva etapa de nuestra vida, 
                                         puedes hacerlo a través de las siguientes opciones:
                                     </Text>
                                 </div>
@@ -873,20 +1033,33 @@ function RSVP() {
         <Modal
             opened={adminModalOpen}
             onClose={() => setAdminModalOpen(false)}
-            size="xl"
-            title="Panel de Administración"
+            title={<Text
+                    size="lg"
+                    fw={600}
+                    c="#243e5a"
+                    style={{ letterSpacing: 0.5 }}
+                    >
+                        Panel de administración
+                    </Text>}
+            size="auto"
             centered
+            withinPortal={true}
+            zIndex={2000}
+            className='modal-text'
+
         >
             <Stack gap="md">
-                <Text size="1.4rem" fw={600} c="#243e5a">Lista de Invitados</Text>
-
-                <Divider />
-
                 <Card withBorder p="md">
-                    <Text fw={600} mb="sm">Resumen:</Text>
-                    <Text size="sm">Total de invitados: {guestList.length}</Text>
-                    <Text size="sm" color="green">Confirmados: {guestList.filter(g => g.isConfirmed).length}</Text>
-                    <Text size="sm" color="orange">Pendientes: {guestList.filter(g => !g.isConfirmed).length}</Text>
+                    <Text fw={600} mb="sm">Total de invitados: {guestList.length}</Text>
+                        <Group gap="md" wrap="wrap">
+                            <Badge size="sm" color="green" variant="light">Confirmados: {guestList.filter(g => g.isConfirmed).length}</Badge>
+                            <Badge size="sm" color="orange" variant="light">Pendientes: {guestList.filter(g => !g.isConfirmed).length}</Badge>
+                            <Badge size="sm" color="rgb(237, 51, 51)" variant="light">Declinados: {guestList.filter(g => !g.isConfirmed).length}</Badge>
+                        </Group>
+                        <Group wrap="nowrap" className='admin-buttons'>
+                            <Button className='excel-button' size="compact-sm" >Exportar excel <IconDownload size={12} /></Button>
+                            <Button className='rsvp-button' size="compact-sm" >Añadir invitado +</Button>
+                        </Group>
                 </Card>
 
                 <Table striped highlightOnHover withTableBorder>
@@ -895,8 +1068,7 @@ function RSVP() {
                             <Table.Th>Nombre</Table.Th>
                             <Table.Th>Estado</Table.Th>
                             <Table.Th>Familia</Table.Th>
-                            <Table.Th>Restricciones Alimenticias</Table.Th>
-                            <Table.Th>Mensaje</Table.Th>
+                            <Table.Th>Detalles</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -905,27 +1077,20 @@ function RSVP() {
                                 <Table.Td>{guest.name}</Table.Td>
                                 <Table.Td>
                                     {guest.isConfirmed ? (
-                                        <Badge color="green" variant="light">Confirmado</Badge>
+                                        <Badge color="green" variant="light"><IconCheck size={10} /></Badge>
                                     ) : (
-                                        <Badge color="gray" variant="light">Pendiente</Badge>
+                                            <Badge color="orange" variant="light"><IconClockHour4 size={10} /></Badge>
                                     )}
                                 </Table.Td>
                                 <Table.Td>
                                     {guest.family.length > 0 ? (
-                                        <Text size="sm">{guest.family.length} miembro(s)</Text>
+                                        <Text size="sm">{guest.family.length}</Text>
                                     ) : (
-                                        <Text size="sm" c="dimmed">Solo</Text>
+                                        <Text size="sm" c="dimmed">-</Text>
                                     )}
                                 </Table.Td>
-                                <Table.Td>
-                                    {guest.food ? 
-                                     (<Text size="sm" variant="danger">{guest.food}</Text>) 
-                                    :( <Text size="sm" c="dimmed">Ninguna</Text>)}
-                                </Table.Td>
-                                <Table.Td>
-                                    {guest.optionalMessage.length > 0 && (
-                                        <Text color="blue" >{guest.optionalMessage}</Text>
-                                    )}
+                                <Table.Td className='admin-table-col'>
+                                    <IconEye onClick={openDetails} className='admin-table-icon'/>
                                 </Table.Td>
                             </Table.Tr>
                         ))}
@@ -933,6 +1098,8 @@ function RSVP() {
                 </Table>
             </Stack>
         </Modal>
+            <Footer />
+
         </>
     );
 }

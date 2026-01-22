@@ -1,17 +1,43 @@
+/* Top bar container (keep your fixed, shadow, etc.) */
 #NavBar {
   width: 100%;
-  padding: 1.5rem 1rem;
-  display: flex;
-  justify-content: center;
-  position: fixed; 
+  padding: 0.75rem 1rem;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: #fff;
-  z-index: 1000;    
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#NavBar ul {
+/* Inner: title + burger + desktop menu */
+.navbar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Wedding title in header */
+.navbar-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.8rem;
+  color: #243e5a;
+}
+
+/* Burger button, hidden on desktop */
+.navbar-burger {
+  display: none;
+  border: none;
+  background: transparent;
+  padding: 0.25rem;
+  cursor: pointer;
+  color: #243e5a;
+}
+
+/* Reuse your list styles but scope to .navbar-menu */
+.navbar-menu ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -19,15 +45,15 @@
   gap: 2rem;
   max-width: 100%;
   overflow-x: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-#NavBar ul::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+.navbar-menu ul::-webkit-scrollbar {
+  display: none;
 }
 
-#NavBar li {
+.navbar-menu li {
   color: #243e5a;
   font-weight: 500;
   font-size: 1.1rem;
@@ -35,7 +61,7 @@
   white-space: nowrap;
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
-  min-height: 44px; /* Touch target size */
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,104 +69,70 @@
   position: relative;
 }
 
-#NavBar li:hover {
-  color: #88a9c3;
-  transform: scale(1.05);
-  background-color: rgba(36, 62, 90, 0.05);
-}
-
-#NavBar li.active {
+.navbar-menu li.active {
   color: #243e5a;
   font-weight: 600;
   background-color: rgba(136, 169, 195, 0.15);
 }
 
-#NavBar li.active::after {
-  content: '';
-  position: absolute;
-  bottom: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 20px;
-  height: 2px;
-  background-color: #243e5a;
-  border-radius: 1px;
+/* admin icon inline */
+.navbar-admin {
+  margin-left: auto;
+  font-size: 1.2rem;
 }
 
-/* Mobile Optimizations */
+/* separate desktop vs mobile menu */
+.navbar-menu-mobile {
+  display: none;
+}
+
+/* Mobile behavior */
 @media (max-width: 768px) {
   #NavBar {
-    padding: 1rem 0.5rem;
+    padding: 0.5rem 0.75rem;
   }
-  
-  #NavBar ul {
-    gap: 1rem;
-    padding: 0 0.5rem;
+
+  .navbar-burger {
+    display: inline-flex;
   }
-  
-  #NavBar li {
+
+  .navbar-menu-desktop {
+    display: none;
+  }
+
+  .navbar-menu-mobile {
+    display: none;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  }
+
+  .navbar-menu-mobile.open {
+    display: block;
+  }
+
+  .navbar-menu-mobile ul {
+    flex-direction: column;
+    gap: 0;
+    padding: 0.5rem 0.75rem 0.75rem;
+  }
+
+  .navbar-menu-mobile li {
+    justify-content: flex-start;
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem 0.75rem;
     font-size: 1rem;
-    padding: 0.75rem 0.5rem;
-    min-height: 48px; /* Larger touch targets on mobile */
+  }
+
+  .navbar-admin {
+    margin-left: 0;
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 480px) {
-  #NavBar {
-    padding: 0.75rem 0.25rem;
-  }
-  
-  #NavBar ul {
-    gap: 0.5rem;
-    padding: 0 0.25rem;
-  }
-  
-  #NavBar li {
-    font-size: 0.9rem;
-    padding: 0.75rem 0.4rem;
-    min-height: 48px;
-  }
-  
-  /* Make text shorter on very small screens */
-  #NavBar li:nth-child(2) {
-    font-size: 0.85rem;
-  }
-}
-
-@media (max-width: 360px) {
-  #NavBar li {
-    font-size: 0.8rem;
-    padding: 0.75rem 0.3rem;
-  }
-  
-  #NavBar li:nth-child(2) {
-    font-size: 0.75rem;
-  }
-}
-
-/* Accessibility Improvements */
-@media (prefers-reduced-motion: reduce) {
-  #NavBar li {
-    transition: none;
-  }
-  
-  #NavBar li:hover {
-    transform: none;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  #NavBar {
-    border-bottom: 2px solid #243e5a;
-  }
-  
-  #NavBar li {
-    border: 1px solid transparent;
-  }
-  
-  #NavBar li:hover,
-  #NavBar li.active {
-    border-color: #243e5a;
+  .navbar-title {
+    font-size: 1.5rem;
   }
 }

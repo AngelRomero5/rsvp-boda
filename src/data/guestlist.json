@@ -1,65 +1,63 @@
 [
   {
     "id": "1",
-    "name": "Norma León Torres",
-    "isConfirmed": false,
+    "name": "Norma León",
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [],
-    "confirmationDate": "2026-01-12T21:10:04.128Z",
-    "dietaryRestrictions": "",
-    "message": ""
+    "confirmationDate": "2026-01-16T22:13:54.046Z"
   },
   {
     "id": "2",
-    "name": "María (Maru) Rodríguez León",
-    "isConfirmed": false,
-    "food": "",
-    "optionalMessage": "",
+    "name": "María (Maru) Rodríguez",
+    "isConfirmed": true,
+    "food": "Leche, avena, pollo",
+    "optionalMessage": "Oh yeah",
     "family": [
       {
         "id": "2-1",
-        "name": "Mariano McConnie Fingerhut",
+        "name": "Mariano McConnie",
         "isConfirmed": false,
         "food": ""
       },
       {
         "id": "2-2",
-        "name": "Paula I. Madera Rodríguez",
+        "name": "Paula I. Madera",
         "isConfirmed": false,
         "food": ""
       },
       {
         "id": "2-3",
-        "name": "María E. McConnie Rodríguez",
+        "name": "María E. McConnie",
         "isConfirmed": false,
         "food": ""
       }
     ],
-    "confirmationDate": "2026-01-12T21:10:59.555Z",
-    "dietaryRestrictions": "",
-    "message": ""
+    "confirmationDate": "2026-01-14T21:54:36.752Z"
   },
   {
     "id": "3",
-    "name": "Francisco (Paco) Rodríguez León",
-    "isConfirmed": false,
+    "name": "Francisco (Paco) Rodríguez ",
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
-    "family": []
+    "family": [],
+    "confirmationDate": "2026-01-16T22:14:03.971Z"
   },
   {
     "id": "4",
-    "name": "Juan J. Rodríguez León",
-    "isConfirmed": false,
+    "name": "Juan J. Rodríguez",
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
-    "family": []
+    "family": [],
+    "confirmationDate": "2026-01-16T22:16:09.321Z"
   },
   {
     "id": "5",
-    "name": "Tití Meche De León",
-    "isConfirmed": false,
+    "name": "Tití Meche León",
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
@@ -69,7 +67,8 @@
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-16T22:29:42.380Z"
   },
   {
     "id": "6",
@@ -120,77 +119,80 @@
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-22T15:33:11.864Z"
   },
   {
     "id": "9",
-    "name": "Félix G. Romero Martínez",
-    "isConfirmed": false,
+    "name": "Félix G. Romero",
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
       {
         "id": "9-1",
-        "name": "Griselle Rosario Pacheco",
+        "name": "Griselle Rosario",
         "isConfirmed": false,
         "food": ""
       },
       {
         "id": "9-2",
-        "name": "Marcos D. Romero Rosario",
+        "name": "Marcos D. Romero",
         "isConfirmed": false,
         "food": ""
       },
       {
         "id": "9-3",
-        "name": "Juan P. Romero Rosario",
+        "name": "Juan P. Romero",
         "isConfirmed": false,
         "food": ""
       },
       {
         "id": "9-4",
-        "name": "Gabriela I. Romero Rosario",
+        "name": "Gabriela I. Romero",
         "isConfirmed": false,
         "food": ""
       },
       {
         "id": "9-5",
-        "name": "Rebecca Romero Rosario",
+        "name": "Rebecca Romero",
         "isConfirmed": false,
         "food": ""
       },
       {
         "id": "9-6",
-        "name": "Francisco J. Romero Rosario",
+        "name": "Francisco J. Romero",
         "isConfirmed": false,
         "food": ""
       },
       {
         "id": "9-7",
-        "name": "Miguel Á. Romero Rosario",
+        "name": "Miguel Á. Romero",
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-19T18:16:00.714Z"
   },
   {
     "id": "10",
-    "name": "Félix A. Romero Centeno",
-    "isConfirmed": false,
+    "name": "Félix A. Romero",
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
       {
         "id": "10-1",
-        "name": "Migdalia Colón González",
+        "name": "Migdalia Colón",
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-22T14:55:34.842Z"
   },
   {
     "id": "11",
-    "name": "Diego Romero Martínez",
+    "name": "Diego Romero",
     "isConfirmed": false,
     "food": "",
     "optionalMessage": "",
@@ -214,7 +216,7 @@
   {
     "id": "13",
     "name": "Horacio (Tato) Martínez",
-    "isConfirmed": false,
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
@@ -224,12 +226,13 @@
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-16T22:47:23.503Z"
   },
   {
     "id": "14",
     "name": "Ivis Romero",
-    "isConfirmed": false,
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
@@ -239,7 +242,8 @@
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-16T22:43:20.451Z"
   },
   {
     "id": "15",
@@ -271,15 +275,16 @@
   {
     "id": "16",
     "name": "María Calero",
-    "isConfirmed": false,
-    "food": "",
+    "isConfirmed": true,
+    "food": "npi",
     "optionalMessage": "",
-    "family": []
+    "family": [],
+    "confirmationDate": "2026-01-19T18:12:28.050Z"
   },
   {
     "id": "17",
     "name": "Diana ",
-    "isConfirmed": false,
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
@@ -289,12 +294,13 @@
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-16T22:16:45.009Z"
   },
   {
     "id": "18",
     "name": "Carmen de León",
-    "isConfirmed": false,
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
@@ -304,12 +310,13 @@
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-16T22:30:13.801Z"
   },
   {
     "id": "19",
     "name": "Ángel Morales",
-    "isConfirmed": false,
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
@@ -319,12 +326,13 @@
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-16T22:32:47.148Z"
   },
   {
     "id": "20",
     "name": "Ismael Betancourt Rios",
-    "isConfirmed": false,
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
@@ -334,7 +342,8 @@
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-16T22:33:12.268Z"
   },
   {
     "id": "21",
@@ -342,7 +351,8 @@
     "isConfirmed": false,
     "food": "",
     "optionalMessage": "",
-    "family": []
+    "family": [],
+    "confirmationDate": "2026-01-22T15:19:46.044Z"
   },
   {
     "id": "22",
@@ -350,15 +360,17 @@
     "isConfirmed": false,
     "food": "",
     "optionalMessage": "",
-    "family": []
+    "family": [],
+    "confirmationDate": "2026-01-22T15:19:16.627Z"
   },
   {
     "id": "23",
     "name": "Pamela K. Montalvo Díaz",
-    "isConfirmed": false,
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
-    "family": []
+    "family": [],
+    "confirmationDate": "2026-01-19T18:17:25.416Z"
   },
   {
     "id": "24",
@@ -413,7 +425,8 @@
     "isConfirmed": false,
     "food": "",
     "optionalMessage": "",
-    "family": []
+    "family": [],
+    "confirmationDate": "2026-01-22T15:16:43.885Z"
   },
   {
     "id": "30",
@@ -426,7 +439,7 @@
   {
     "id": "31",
     "name": "Billy Joe",
-    "isConfirmed": false,
+    "isConfirmed": true,
     "food": "",
     "optionalMessage": "",
     "family": [
@@ -436,7 +449,8 @@
         "isConfirmed": false,
         "food": ""
       }
-    ]
+    ],
+    "confirmationDate": "2026-01-16T22:32:54.131Z"
   },
   {
     "id": "32",
@@ -741,10 +755,11 @@
   {
     "id": "59",
     "name": "Victor Ortíz",
-    "isConfirmed": false,
-    "food": "",
+    "isConfirmed": true,
+    "food": "Chocolate",
     "optionalMessage": "",
-    "family": []
+    "family": [],
+    "confirmationDate": "2026-01-16T22:59:22.798Z"
   },
   {
     "id": "60",

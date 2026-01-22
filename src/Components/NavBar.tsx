@@ -1,51 +1,104 @@
-import './NavBar.css'
+import { useState } from 'react';
+import { IconMenu2, IconX } from '@tabler/icons-react';
+import './NavBar.css';
 
 interface NavBarProps {
-    section: "rsvp" | "historia" | "galeria" | "ayudanos" | "2";
-    setSection: (section: "rsvp" | "historia" | "galeria" | "ayudanos" | "2") => void;
+    section: "rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "2";
+    setSection: (section: "rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "2") => void;
     onAdminClick?: () => void;
 }
 
 function NavBar({ section, setSection, onAdminClick }: NavBarProps) {
+    const [mobileOpen, setMobileOpen] = useState(false);
+
+    const handleNavClick = (value: NavBarProps['section']) => {
+        setSection(value);
+        setMobileOpen(false);
+    };
+
+    const NavItems = () => (
+        <>
+            <li
+                className={section === "rsvp" ? "active" : ""}
+                onClick={() => handleNavClick("rsvp")}
+            >
+                RSVP
+            </li>
+            <li
+                className={section === "upload" ? "active" : ""}
+                onClick={() => handleNavClick("upload")}
+            >
+                Upload
+            </li>
+            <li
+                className={section === "vestimenta" ? "active" : ""}
+                onClick={() => handleNavClick("vestimenta")}
+            >
+                Vestimenta
+            </li>
+            <li
+                className={section === "historia" ? "active" : ""}
+                onClick={() => handleNavClick("historia")}
+            >
+                ¿Cómo comenzó?
+            </li>
+            <li
+                className={section === "galeria" ? "active" : ""}
+                onClick={() => handleNavClick("galeria")}
+            >
+                Galería
+            </li>
+            <li
+                className={section === "ayudanos" ? "active" : ""}
+                onClick={() => handleNavClick("ayudanos")}
+            >
+                Ayúdanos
+            </li>
+
+            {onAdminClick && (
+                <li
+                    className="navbar-admin"
+                    onClick={onAdminClick}
+                    title="Panel de Administración"
+                >
+                    👤
+                </li>
+            )}
+        </>
+    );
+
     return (
-        <section id="NavBar">
-            <ul>
-                <li
-                    className={section === "rsvp" ? "active" : ""}
-                    onClick={() => setSection("rsvp")}
+        <header id="NavBar">
+            <div className="navbar-inner">
+                <div className="navbar-title">Ángel &amp; Mariana</div>
+
+                <button
+                    className="navbar-burger"
+                    type="button"
+                    onClick={() => setMobileOpen((o) => !o)}
                 >
-                    RSVP
-                </li>
-                <li
-                    className={section === "historia" ? "active" : ""}
-                    onClick={() => setSection("historia")}
-                >
-                    ¿Cómo comenzó?
-                </li>
-                <li
-                    className={section === "galeria" ? "active" : ""}
-                    onClick={() => setSection("galeria")}
-                >
-                    Nosotros
-                </li>
-                <li
-                    className={section === "ayudanos" ? "active" : ""}
-                    onClick={() => setSection("ayudanos")}
-                >
-                    Sé parte
-                </li>
-                {onAdminClick && (
-                    <li
-                        style={{ marginLeft: 'auto', fontSize: '1.2rem', cursor: 'pointer' }}
-                        onClick={onAdminClick}
-                        title="Panel de Administración"
-                    >
-                        👤
-                    </li>
-                )}
-            </ul>
-        </section>
-    )
+                    {mobileOpen ? <IconX size={22} /> : <IconMenu2 size={22} />}
+                </button>
+
+                {/* Desktop menu */}
+                <nav className="navbar-menu navbar-menu-desktop">
+                    <ul>
+                        <NavItems />
+                    </ul>
+                </nav>
+            </div>
+
+            {/* Mobile dropdown */}
+            <nav
+                className={`navbar-menu navbar-menu-mobile ${mobileOpen ? 'open' : ''
+                    }`}
+            >
+                <ul>
+                    <NavItems />
+                </ul>
+            </nav>
+        </header>
+    );
 }
 
-export default NavBar
+export default NavBar;

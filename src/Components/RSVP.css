@@ -1,17 +1,11 @@
 #RSVP {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  min-height: calc(100vh - 80px); /* account for navbar */
-  /* background-image: url('/images/background-floral.jpg'); */
-  background-color: rgb(141, 174, 198);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;  /* 🔥 keep image static */
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 60px;
+    background-color: rgb(141, 174, 198);
+    width: 100%;
 }
 
 #RSVP form {
@@ -19,7 +13,6 @@
     flex-direction: column;
     width: 100%;
 }
-
 
 #RSVP input {
     margin-bottom: 15px;
@@ -130,6 +123,29 @@
         background-color: #1a2f42 !important;
         color: white !important;
     }
+}
+
+.upload-card {
+    margin-top: 20px;
+    width: 50%;
+    height: auto;
+    padding: 4rem 0;
+}
+
+.upload-btn {
+    background-color: #243e5a;
+    color: white;
+}
+
+.album-btn {
+    background-color: rgb(237, 51, 51);
+    color: white;
+}
+
+.album-btn:hover {
+    background-color: white;
+    color: red;
+    border-color: red;
 }
 
 .my-masonry-grid {
@@ -279,6 +295,40 @@
     border-color: #243e5a;
 }
 
+.video-section {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+    text-align: center;
+}
+
+.video-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #243e5a;
+}
+
+/* Responsive 16:9 container */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    /* 9 / 16 * 100 */
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background-color: #000;
+}
+
+.video-container .responsive-iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
 .historia-conclusion {
     font-style: italic;
     margin-top: 2rem;
@@ -294,10 +344,26 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid #88a9c3;
     background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    max-width: 100%;
+}
+
+.vestimenta-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #88a9c3;
+    background: white;
+    max-width: 50%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.card-img {
+    width:100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
 }
 
 .detail-card:hover {
-    transform: translateY(-3px);
     box-shadow: 0 6px 20px rgba(36, 62, 90, 0.15);
     border-color: #243e5a;
 }
@@ -312,11 +378,56 @@
     margin-bottom: 1rem;
 }
 
+.alert-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-table-col {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-table-icon {
+    color:#243e5a;
+}
+
+.admin-table-icon:hover {
+    color:green;
+    transform: scale(1.2);
+}
+
+.admin-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    padding-top: 1rem;
+}
+
+.excel-button {
+    display: flex;
+    justify-content: space-between;
+    gap: 2;
+    background-color: green;
+}
+
 /* Mobile Optimizations */
 @media (max-width: 768px) {
+
+    #RSVP {
+            padding-top: 60px;
+        }
     .rsvp-card {
         padding: 1.5rem;
         margin: 0 1rem;
+    }
+
+    .upload-card {
+        margin-top: 20px;
+        width: 90%;
+        height: auto;
     }
     
     .hero-card {
@@ -368,6 +479,10 @@
     .countdown-inside-card {
         margin-top: 0 !important;
         padding-top: 1rem;
+    }
+
+    .vestimenta-card {
+        max-width: 95%;
     }
 }
 
@@ -428,12 +543,7 @@
 }
 
 .rsvp-button:hover {
-    transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(36, 62, 90, 0.3);
-}
-
-.rsvp-button:active {
-    transform: translateY(0);
 }
 
 /* Enhanced Gallery Styles */
@@ -490,20 +600,12 @@
     border-top: 2px solid #88a9c3;
 }
 
-.support-hero-image-wrapper:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(36, 62, 90, 0.3);
-}
 
 .support-hero-image {
     width: 100%;
     height: 350px;
     object-fit: cover;
     transition: transform 0.3s ease;
-}
-
-.support-hero-image-wrapper:hover .support-hero-image {
-    transform: scale(1.05);
 }
 
 .support-hero-text-card {
