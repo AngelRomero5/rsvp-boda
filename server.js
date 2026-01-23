@@ -61,7 +61,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 const MEGA_EMAIL = process.env.MEGA_EMAIL;
 const MEGA_PASSWORD = process.env.MEGA_PASSWORD;
 // Name of the folder in your MEGA drive
-const MEGA_FOLDER_NAME = 'BodaA&M';
+const MEGA_FOLDER_NAME = process.env.MEGA_FOLDER_NAME;
 
 let megaStorage;
 
