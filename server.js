@@ -12,6 +12,9 @@ const PORT = process.env.PORT || 3001;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// FIX 1: Serve React build FIRST (dist folder—run 'npm run build')
+app.use(express.static(path.join(__dirname, 'dist')));
+
 app.use(cors());
 app.use(express.json());
 
@@ -139,7 +142,12 @@ app.post('/api/upload-photos', upload.array('photos'), async (req, res) => {
     }
 });
 
+// FIX 2: Catch-all for React SPA routing (AFTER all API routes!)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 // ========= START SERVER =========
-app.listen(PORT, () => {
-    console.log(`Backend running at http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Backend running at http://0.0.0.0:${PORT}`);
 });
