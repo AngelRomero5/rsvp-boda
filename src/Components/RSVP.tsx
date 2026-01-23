@@ -69,6 +69,7 @@ function RSVP() {
         }
              
         setFormErrors(errors);
+        console.log(formErrors);
         return Object.keys(errors).length === 0;
     };
 
