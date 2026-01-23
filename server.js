@@ -143,7 +143,7 @@ app.post('/api/upload-photos', upload.array('photos'), async (req, res) => {
 });
 
 // FIX 2: Catch-all for React SPA routing (AFTER all API routes!)
-app.get('*', (req, res) => {
+app.get(/.*/, (req, res) => {  // Matches everything
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
