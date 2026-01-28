@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { IconMenu2, IconX } from '@tabler/icons-react';
+import { IconMenu2, IconUser, IconX } from '@tabler/icons-react';
 import './NavBar.css';
 
 interface NavBarProps {
@@ -61,7 +61,7 @@ function NavBar({ section, setSection, onAdminClick }: NavBarProps) {
                     onClick={onAdminClick}
                     title="Panel de Administración"
                 >
-                    👤
+                    <IconUser />
                 </li>
             )}
         </>

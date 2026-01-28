@@ -1,9 +1,10 @@
-import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, FileInput, Flex } from '@mantine/core';
+import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex } from '@mantine/core';
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight} from '@tabler/icons-react';
-import { createEvents } from 'ics';
-import type { DateArray } from 'ics';
+import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti} from '@tabler/icons-react';
+import { createEvents, type DateArray } from 'ics';
+import { Dropzone } from '@mantine/dropzone';
+import type {DropzoneProps} from '@mantine/dropzone';
 
 
 import Masonry from "react-masonry-css";
@@ -35,7 +36,7 @@ interface Guest {
 const initialGuestList: Guest[] = guestListJSON as Guest[];
 
 
-function RSVP() {
+function RSVP(props: Partial<DropzoneProps>) {
 
     // State to manage the current section
     const [section, setSection] = useState<"rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "2">("rsvp");
@@ -365,7 +366,12 @@ function RSVP() {
                             <Stack gap="sm" className="wedding-details">
                                 <Card withBorder radius="md" p="md" className="detail-card">
                                     <Stack gap='sm'>
-                                        <Text fw={600} size="lg" c="#243e5a">📅 Fecha y Hora</Text>
+                                            <Text fw={600} size="lg" c="#243e5a">
+                                                <Group gap={6} wrap="nowrap" align="center" justify='center'>
+                                                    <IconCalendar size='1.2rem' style={{ marginLeft: 6, verticalAlign: 'middle'}}/> 
+                                                    <span>Fecha y Hora</span>
+                                                </Group>
+                                                </Text>
                                         <Text size="md">Sábado, 11 de Julio de 2026 - 1:30 PM</Text>
                                             <Button 
                                                 size="sm" 
@@ -374,40 +380,66 @@ function RSVP() {
                                                     saveCalendar()
                                                 }}>
                                                 <Text size="sm"> 
-                                                    Añadir a calendario 
-                                                    <IconDownload size="1rem" style={{ marginLeft: 6 }} />
+                                                    <Group gap={6} wrap="nowrap" align="center" justify='center'>
+                                                        <span>Añadir a calendario</span>
+                                                        <IconDownload size="1rem" style={{ marginLeft: 4, verticalAlign: 'middle' }} />
+                                                    </Group>
                                                 </Text>
                                             </Button>
                                     </Stack>
                                 </Card>
 
                                 <Card withBorder radius="md" p="md" className="detail-card">
-                                    <Text fw={600} size="lg" c="#243e5a" mb="sm">💒 Ceremonia</Text>
+                                        <Text fw={600} size="lg" c="#243e5a" mb="sm">
+                                            <Group gap={6} wrap="nowrap" align="center" justify='center'>
+                                                <IconBuildingChurch size='1.2rem' style={{ marginLeft: 6, verticalAlign: 'middle'}}/>
+                                                <span>Ceremonia</span>
+                                            </Group>
+                                            </Text>
                                     <Text size="md" component="a" href="https://maps.app.goo.gl/iqj1iCJ3BLC2dbQo9" c='#88a9c3'>
-                                        120 Calle Blvd de la Fuente, San Juan, 00926 
-                                            <IconExternalLink size="1rem" style={{ marginLeft: 4 }} />
+                                        <Group gap={6} wrap="nowrap" align="center" justify='center'>
+                                            <span>120 Calle Blvd de la Fuente, San Juan, 00926 </span>
+                                            <IconExternalLink size="1rem" style={{ marginLeft: 4, verticalAlign: 'middle' }} />
+                                        </Group>
                                     </Text>
-                                    <Text size="sm" c="dimmed" mt="xs">Iglesia San José</Text>
+                                    <Text size="sm" c="dimmed" mt="xs">Iglesia San Juan de la Cruz</Text>
                                 </Card>
 
                                 <Card withBorder radius="md" p="md" className="detail-card">
-                                    <Text fw={600} size="lg" c="#243e5a" mb="sm">🎉 Recepción</Text>
+                                        <Text fw={600} size="lg" c="#243e5a" mb="sm">
+                                            <Group gap={6} wrap="nowrap" align="center" justify='center'>
+                                                <IconConfetti size='1.2rem' style={{ marginLeft: 6, verticalAlign: 'middle' }} /> 
+                                                <span>Recepción</span>
+                                            </Group>
+                                            </Text>
                                     <Text size="md" component="a" href="https://maps.app.goo.gl/6CXjuRubJbq98fji6" c='#88a9c3'>
-                                            Carretera PR 189, Km. 5.3, Gurabo, 00778 
-                                            <IconExternalLink size="1rem" style={{ marginLeft: 4 }} />
+                                        <Group gap={6} wrap="nowrap" align="center" justify='center' >
+                                            <span>Carretera PR 189, Km. 5.3, Gurabo, 00778</span>
+                                            <IconExternalLink size="1rem" style={{ marginLeft: 4, verticalAlign: 'middle' }} />
+                                    </Group>
                                     </Text>
                                     <Text size="sm" c="dimmed" mt="xs">Zafra del Caribe</Text>
                                 </Card>
 
                                 <Card withBorder radius="md" p="md" className="detail-card">
-                                    <Text fw={600} size="lg" c="#243e5a" mb="sm">🚗 Estacionamiento</Text>
+                                        <Text fw={600} size="lg" c="#243e5a" mb="sm">
+                                            <Group gap={6} wrap="nowrap" align="center" justify='center'>
+                                                <IconParking size='1.2rem' style={{ marginLeft: 6, verticalAlign: 'middle' }} /> 
+                                                <span> Estacionamiento</span>
+                                            </Group>
+                                        </Text>
                                     <Text size="md">Disponible en ambos lugares</Text>
                                     <Text size="sm" c="dimmed">Debajo de la parroquia y frente al centro comercial. 
                                         En la recepción también habrá estacionamiento.</Text>
                                 </Card>
 
                                 <Card withBorder radius="md" p="md" className="detail-card">
-                                    <Text fw={600} size="lg" c="#243e5a" mb="sm">📞 Contacto</Text>
+                                        <Text fw={600} size="lg" c="#243e5a" mb="sm">
+                                            <Group gap={6} wrap="nowrap" align="center" justify='center'>
+                                                <IconPhone size="1.2rem" style={{ marginLeft: 6, verticalAlign: 'middle' }}/>
+                                                <span>Contacto</span>
+                                            </Group>
+                                        </Text>
                                     <Text size="md">¿Preguntas? Contáctanos:</Text>
                                         <Text size="sm" c="#243e5a" fw={500}>Ángel: <a href="tel:7877101934">(787) 710-1934</a></Text>
                                         <Text size="sm" c="#243e5a" fw={500}>Mariana: <a href="tel:7876902236">(787) 690-2236</a></Text>
@@ -589,15 +621,36 @@ function RSVP() {
                     <Card withBorder radius="md" className='upload-card'>
                         <Flex gap="lg" justify="center" align="center" direction='column'>
                             <Text className='hero-title'>Dale Upload A Tus Fotos</Text>
-                            <Text className='hero-subtitle'>Comparte tus fotos tiradas del dia de la boda</Text>
-                            <FileInput
-                                placeholder="Dale click y selecciona las fotos"
+                            <Text className='hero-subtitle'>Comparte tus fotos tomadas el día de la boda</Text>
+                            <Dropzone
+                                onDrop={(value) => setFiles(value as File[] | null)}
+                                accept={{'image/*': [],
+                                         'video/*': [],
+                                }}
                                 multiple
-                                accept="image/png,image/jpeg,image/heic,images/webp"
-                                clearable
-                                className='input-upload-images'
-                                onChange={(value) => setFiles(value as File[] | null)}
-                            />
+                                {...props}
+                            > 
+                                <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
+                                   
+                                    <Dropzone.Accept>
+                                        <IconUpload size={52} color="var(--mantine-color-blue-6)" stroke={1.5} />
+                                    </Dropzone.Accept>
+                                    <Dropzone.Reject>
+                                        <IconX size={52} color="var(--mantine-color-red-6)" stroke={1.5} />
+                                    </Dropzone.Reject>
+                                    <Dropzone.Idle>
+                                        <IconPhoto size={52} color="var(--mantine-color-dimmed)" stroke={1.5} />
+                                    </Dropzone.Idle>
+                                    <div>
+                                        <Text size="l" inline>
+                                            Arrastra las fotos o haz click para escogerlas
+                                        </Text>
+                                        <Text size="sm" c="dimmed" inline mt={7}>
+                                            Comparte todas las fotos que quieras
+                                        </Text>
+                                    </div>
+                                </Group>
+                            </Dropzone>
                             <Group>
                                 <Button className='album-btn' onClick={() => window.open("https://mega.nz/folder/m9QhFKhA#h37UmnjnRLJSAZjH199YWg")}>Ver álbum <IconExternalLink size="16" style= {{marginLeft: 4}}/></Button>
                                 <Button className='upload-btn' type='submit' onClick={uploadPhotos} loading={uploading} disabled={!files || files.length === 0}> Subir <IconUpload size="13" style={{ marginLeft: 4 }} /></Button>
