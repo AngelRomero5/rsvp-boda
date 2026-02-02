@@ -79,7 +79,7 @@
 .rsvp-subtitle {
     font-family: 'Great Vibes', cursive;
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.8rem;
     color: #243e5a;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -88,7 +88,7 @@
 .save-the-date-title {
     font-family: 'Great Vibes', cursive;
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 3rem;
     color: #243e5a;
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
@@ -115,8 +115,8 @@
     color: white !important;
     outline: none !important;
     &:hover {
-        background-color: #88a9c3 !important;
-        color: white !important;
+        background-color: white !important;
+        color: #243e5a !important;
         border-color:#243e5a !important;
     }
     &:active {
@@ -135,6 +135,11 @@
 .upload-btn {
     background-color: #243e5a;
     color: white;
+}
+
+.dropzone-group {
+    min-height: 220px;
+    border-radius: 10px;
 }
 
 .album-btn {
@@ -240,7 +245,7 @@
 .hero-title {
     font-family: 'Great Vibes', cursive;
     text-align: center;
-    font-size: 3.5rem;
+    font-size: 4rem;
     color: #243e5a;
     margin: 0 0 0.5rem 0;
     line-height: 1.2;
@@ -354,6 +359,24 @@
     max-width: 50%;
     margin-top: 20px;
     margin-bottom: 20px;
+    padding: 0;
+}
+
+.colores-card {
+    min-width: 50%;
+    max-width: 50%;
+    gap: 10px;
+}
+
+.colores {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.colores-nota {
+    max-width: 75%;
 }
 
 .card-img {
@@ -395,7 +418,9 @@
 
 .admin-table-icon:hover {
     color:green;
-    transform: scale(1.2);
+    transform: scale(1.1);
+    transition: 0.3s;
+    cursor: pointer;
 }
 
 .admin-buttons {
@@ -429,6 +454,13 @@
         width: 90%;
         height: auto;
     }
+
+    .dropzone-group {
+        max-width: 95%;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+    }
     
     .hero-card {
         padding: 1.5rem;
@@ -453,7 +485,7 @@
     }
     
     .rsvp-subtitle {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
     }
     
     .wedding-details {
@@ -482,6 +514,23 @@
     }
 
     .vestimenta-card {
+        max-width: 95%;
+    }
+
+    .colores-card {
+        min-width: 95%;
+        max-width: 95%;
+        gap: 10px;
+    }
+    
+    .colores {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .colores-nota {
         max-width: 95%;
     }
 }
@@ -722,11 +771,11 @@
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 2.3rem;
+        font-size: 3rem;
     }
     
     .hero-subtitle {
-        font-size: 12px;
+        font-size: 13px;
     }
     
     .hero-photo {
@@ -769,7 +818,7 @@
     }
     
     .save-the-date-title {
-        font-size: 1.8rem;
+        font-size: 2.3rem;
         margin-bottom: 1rem;
     }
 }

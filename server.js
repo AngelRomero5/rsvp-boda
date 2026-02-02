@@ -6,6 +6,9 @@ import { fileURLToPath } from 'url';
 import multer from 'multer';
 import { Storage } from 'megajs';
 
+import dotenv from 'dotenv';
+dotenv.config({ path: './server-config.env' }); // MEGA Configuration
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -63,7 +66,6 @@ const upload = multer({ storage: multer.memoryStorage() });
 // Env vars for MEGA credentials
 const MEGA_EMAIL = process.env.MEGA_EMAIL;
 const MEGA_PASSWORD = process.env.MEGA_PASSWORD;
-// Name of the folder in your MEGA drive
 const MEGA_FOLDER_NAME = process.env.MEGA_FOLDER_NAME;
 
 let megaStorage;
@@ -86,19 +88,29 @@ async function initMega() {
 }
 
 // Get or create the target folder in MEGA
-async function getMegaFolder() {
-    const storage = await initMega();
+async function getMegaFolder(storage) {
 
-    // Look for folder in root
-    let target = Object.values(storage.root.children).find(
+    await storage.reload();
+    console.log('Storage fully loaded. Root children:', storage.root.children?.length || 0);
+
+    if (!storage.root) {
+        throw new Error('MEGA storage.root unavailable');
+    }
+
+    // Find existing folder in root
+    const target = storage.root.children?.find(
         (child) => child.name === MEGA_FOLDER_NAME && child.directory === true
     );
 
-    if (!target) {
-        target = await storage.mkdir(MEGA_FOLDER_NAME);
+    if (target) {
+        console.log(`Found existing folder: ${target.name}`);
+        return target;
     }
 
-    return target;
+    // Create new folder directly on root (safe)
+    console.log(`Creating folder: ${MEGA_FOLDER_NAME}`);
+    const newFolder = await storage.root.mkdir(MEGA_FOLDER_NAME);
+    return newFolder;
 }
 
 // Endpoint: upload photos to MEGA
@@ -112,7 +124,7 @@ app.post('/api/upload-photos', upload.array('photos'), async (req, res) => {
         }
 
         const storage = await initMega();
-        const folder = await getMegaFolder();
+        const folder = await getMegaFolder(storage);
 
         const uploaded = [];
 

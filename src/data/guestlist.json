@@ -24,7 +24,7 @@
       {
         "id": "2-2",
         "name": "Paula I. Madera",
-        "isConfirmed": false,
+        "isConfirmed": null,
         "food": ""
       },
       {
@@ -39,7 +39,7 @@
   {
     "id": "3",
     "name": "Francisco (Paco) Rodríguez ",
-    "isConfirmed": true,
+    "isConfirmed": null,
     "food": "",
     "optionalMessage": "",
     "family": [],

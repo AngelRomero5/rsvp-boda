@@ -1,10 +1,10 @@
-import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex } from '@mantine/core';
-import { useState, useEffect } from "react";
+import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex, Box } from '@mantine/core';
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti} from '@tabler/icons-react';
+import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconPencilPlus, IconCancel} from '@tabler/icons-react';
 import { createEvents, type DateArray } from 'ics';
 import { Dropzone } from '@mantine/dropzone';
-import type {DropzoneProps} from '@mantine/dropzone';
+import type {DropzoneProps, FileWithPath} from '@mantine/dropzone';
 
 
 import Masonry from "react-masonry-css";
@@ -21,6 +21,7 @@ interface FamilyMember {
     id: string;
     name: string;
     isConfirmed: boolean;
+    isDeclined: boolean;
     food: string;
 }
 
@@ -28,6 +29,7 @@ interface Guest {
     id: string;
     name: string;
     isConfirmed: boolean;
+    isDeclined: boolean;
     food: string;
     optionalMessage: string;
     family: FamilyMember[];
@@ -58,6 +60,7 @@ function RSVP(props: Partial<DropzoneProps>) {
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [confirmed, setConfirmed] = useState(false);
+    const [declined, setDeclined] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [copiedItems, setCopiedItems] = useState<Record<string, boolean>>({});
 
@@ -86,6 +89,7 @@ function RSVP(props: Partial<DropzoneProps>) {
             const updatedGuest = {
                 ...selectedGuest,
                 isConfirmed: confirmed,
+                isDeclined: declined,
                 confirmationDate: new Date().toISOString(),
                 food: formData.food,
                 optionalMessage: formData.optionalMessage,
@@ -197,8 +201,66 @@ function RSVP(props: Partial<DropzoneProps>) {
     };
 
     // Upload photos to mega.nz folder (send them to api)
-    const [files, setFiles] = useState<File[] | null>(null);
+    const [files, setFiles] = useState<FileWithPath[] | null>(null);
     const [uploading, setUploading] = useState(false);
+
+    const handleClear = () => setFiles(null);
+
+    const previews = useMemo(() => {
+        if (!files) return null;
+
+        const toShow = files.slice(0, 3); // max 4 in stack
+
+        return (
+            <Box
+                w={220}
+                h={220}
+                style={{
+                    position: 'relative',
+                    marginInline: 'auto',
+                    margin: '3rem'
+                }}
+            >
+                {toShow.map((file, index) => {
+                    const imageUrl = URL.createObjectURL(file);
+
+                    // tweak these values to taste
+                    const offsets = [
+                        { top: 4, left: 0, rotate: -8 },
+                        { top: 8, left: 5, rotate: -3 },
+                        { top: 16, left: 10, rotate: 4 },
+                    ];
+                    const { top, left, rotate } = offsets[index] ?? offsets[offsets.length - 1];
+
+                    return (
+                        <Box
+                            key={index}
+                            style={{
+                                position: 'absolute',
+                                top,
+                                left,
+                                width: '100%',
+                                height: '100%',
+                                transform: `rotate(${rotate}deg)`,
+                                boxShadow: '0 8px 20px rgba(0,0,0,0.35)',
+                                overflow: 'hidden',
+                                backgroundColor: 'black',
+                            }}
+                        >
+                            <Image
+                                src={imageUrl}
+                                alt={`preview-${index}`}
+                                width="100%"
+                                height="100%"
+                                fit="cover"
+                                onLoad={() => URL.revokeObjectURL(imageUrl)}
+                            />
+                        </Box>
+                    );
+                })}
+            </Box>
+        );
+    }, [files]);
 
     const uploadPhotos = async () => {
         if (!files || files.length === 0) return;
@@ -207,6 +269,8 @@ function RSVP(props: Partial<DropzoneProps>) {
         files.forEach((file => {
             formData.append('photos', file);
         }))
+
+        console.log(formData);
 
         try {
             setUploading(true);
@@ -217,13 +281,17 @@ function RSVP(props: Partial<DropzoneProps>) {
             });
 
             if(!res.ok){
-                console.log(res.status, res.statusText);
+                console.log(res);
                 throw new Error('Upload failed');
+            }else {
+                const data = await res.json();
+                console.log("Uploaded to mega succesfully", data)
+                setFiles(null);
+                // TODO: Fix this alert message here not showing up
+                return(
+                    <Alert color="green" title="Uploaded to mega succesfully">Uploaded {data.files.length} photos to mega succesfully</Alert>
+                );
             }
-
-            const data = await res.json();
-            console.log("Uploaded to mega succesfully", data)
-            setFiles(null);
 
         } catch(e) {
             console.log(e);
@@ -240,6 +308,10 @@ function RSVP(props: Partial<DropzoneProps>) {
             behavior: 'smooth'
         });
     };
+
+    useEffect(() => {
+        scrollToTop();
+    }, [section]);
 
     const handleGuestSelection = (guestId: string) => {
         const guest = guestList.find(g => g.id === guestId);
@@ -308,11 +380,16 @@ function RSVP(props: Partial<DropzoneProps>) {
         }
     }, [section, loadedImages.length, loadingImages]);
 
-
     return (
         <>
         <SimpleGrid cols={1} id="RSVP">
-            <NavBar section={section} setSection={setSection} onAdminClick={() => setAdminModalOpen(true)} />
+            <NavBar 
+                section={section} 
+                setSection={setSection} 
+                onAdminClick={() => {
+                    setAdminModalOpen(true); 
+                }} 
+            />
 
             {/* --- SECCIÓN 1 (Home) --- */}
             {section === "rsvp" && (
@@ -448,8 +525,9 @@ function RSVP(props: Partial<DropzoneProps>) {
 
                             <Button
                                 className="rsvp-button"
-                                mt={"lg"}
+                                mt="lg"
                                 size="lg"
+                                radius='sm'
                                 onClick={() => {
                                     setSection("2");
                                     scrollToTop();
@@ -561,14 +639,14 @@ function RSVP(props: Partial<DropzoneProps>) {
                                             </div>
                                         )}
 
-                                        <Textarea
+                                        {/* <Textarea
                                             label="Restricciones Alimentarias (Opcional)"
                                             placeholder="Alergias, vegetarianismo, etc."
                                             value={formData.food}
                                             onChange={(e) => setFormData({...formData, food: e.target.value})}
                                             size="md"
                                             minRows={2}
-                                        />
+                                        /> */}
 
                                         <Textarea
                                             label="Mensaje para los Novios (Opcional)"
@@ -586,27 +664,29 @@ function RSVP(props: Partial<DropzoneProps>) {
                                                 </Text>
                                             </Alert>
                                         )}
-                                        <Group align="center" gap="md" mt="5" wrap="nowrap">
+                                        <Group align="center" justify="center" gap="md" mt="5" wrap="nowrap">
                                             <Button  
                                                 radius="sm" 
                                                 type="submit" 
                                                 color='red'
+                                                variant='light'
                                                 loading={isSubmitting}
                                                 disabled={isSubmitting}
                                                 onSubmit={() => {
-                                                    setConfirmed(false);
+                                                    setDeclined(true);
                                                 }}>
-                                                    Declinar asistencia <IconX size="20" style={{marginLeft: 4}}/> 
+                                                    Declinar <IconX size="20" style={{marginLeft: 4}}/> 
                                             </Button>
                                             <Button   
                                                 radius="sm" 
                                                 type="submit" 
                                                 color="green"
+                                                variant='light'
                                                 loading={isSubmitting}
                                                 disabled={isSubmitting}
                                                 onSubmit={() => setConfirmed(true)}
                                             >
-                                                    Confirmar Asistencia <IconCheck size="20" style={{ marginLeft: 4 }} />
+                                                    Confirmar <IconCheck size="20" style={{ marginLeft: 4 }} />
                                             </Button>
                                         </Group>
                                     </Stack>
@@ -621,17 +701,29 @@ function RSVP(props: Partial<DropzoneProps>) {
                     <Card withBorder radius="md" className='upload-card'>
                         <Flex gap="lg" justify="center" align="center" direction='column'>
                             <Text className='hero-title'>Dale Upload A Tus Fotos</Text>
-                            <Text className='hero-subtitle'>Comparte tus fotos tomadas el día de la boda</Text>
+                            {files && (<ActionIcon
+                                variant="light"
+                                color="red"
+                                size="lg"
+                                radius="xl"
+                                style={{ alignSelf: 'center' }}
+                                onClick={handleClear}
+                            >
+                                <IconX size="1.2rem" />
+                            </ActionIcon>)}
                             <Dropzone
-                                onDrop={(value) => setFiles(value as File[] | null)}
+                                onDrop={(value) => {
+                                    setFiles(value as File[] | null);
+                                }}
                                 accept={{'image/*': [],
                                          'video/*': [],
                                 }}
                                 multiple
+                                style={{ border: '1px dashed #243e5a' }}
+                                className='dropzone-group'
                                 {...props}
-                            > 
-                                <Group justify="center" gap="xl" mih={220} style={{ pointerEvents: 'none' }}>
-                                   
+                            > {!files ? 
+                                <Group justify="center" gap="1" mih={220} style={{ pointerEvents: 'none' }}>
                                     <Dropzone.Accept>
                                         <IconUpload size={52} color="var(--mantine-color-blue-6)" stroke={1.5} />
                                     </Dropzone.Accept>
@@ -646,10 +738,19 @@ function RSVP(props: Partial<DropzoneProps>) {
                                             Arrastra las fotos o haz click para escogerlas
                                         </Text>
                                         <Text size="sm" c="dimmed" inline mt={7}>
-                                            Comparte todas las fotos que quieras
+                                            Comparte tus fotos tomadas el día de la boda
                                         </Text>
                                     </div>
-                                </Group>
+                                </Group> 
+                                    : <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        {previews}
+                                        {files.length > 3 && (
+                                            <Text size="sm" c="dimmed" style={{textAlign: 'center'}}>
+                                                +{files.length - 3} fotos adicionales
+                                            </Text>
+                                        )}
+                                    </div>
+                                }
                             </Dropzone>
                             <Group>
                                 <Button className='album-btn' onClick={() => window.open("https://mega.nz/folder/m9QhFKhA#h37UmnjnRLJSAZjH199YWg")}>Ver álbum <IconExternalLink size="16" style= {{marginLeft: 4}}/></Button>
@@ -662,9 +763,30 @@ function RSVP(props: Partial<DropzoneProps>) {
 
             {/* --- SECCIÓN CÓDIGO DE VESTIMENTA --- */}
             {section === "vestimenta" && (
-                    <Card withBorder radius="md" p="md" className="vestimenta-card">
-                        <img src="/images/vestimenta-inspo.png" className='card-img'></img>
-                    </Card>
+                    <Flex align='center' justify='center' direction='column'>
+                        <Card withBorder radius="md" className="vestimenta-card">
+                            <img src="/images/vestimenta-inspo.png" className='card-img'></img>
+                        </Card>
+                        <Card withBorder radius="md" p="md" mb='md' className='colores-card'>
+                            <Text className='rsvp-subtitle' ta='center'>
+                                Colores del séquito:
+                            </Text>
+                            <Group align='center' justify='center' ta='center'>
+
+                                <Flex gap='sm' className='colores'>
+                                    <span style={{ height: '65px', width: '65px', background: '#343853', color: '#fff', borderRadius: '50%', textAlign: 'center', alignContent: 'center' }}>Slate</span>
+                                    <span style={{ height: '65px', width: '65px', background: '#466d92', color: '#fff', borderRadius: '50%', textAlign: 'center', alignContent: 'center' }}>Twilight</span>
+                                    <span style={{ height: '65px', width: '65px', background: '#bdc6d9', color: '#fff', borderRadius: '50%', textAlign: 'center', alignContent: 'center' }}>Dusty</span>
+                                </Flex>
+                                <Group justify='center' ta='center'>
+
+                                <Text size='md' c='#88a9c3' ta='center'>Código de vestimenta: Formal</Text>
+                                <Text size='sm' c='dimmed' ta='center' className='colores-nota'> Estos son los colores de la boda y del séquito, pero siéntanse en total libertad de usar lo que les haga sentir más cómodos.</Text>
+                                </Group>
+                            </Group>
+                            
+                        </Card>
+                    </Flex>
             )}
 
             {/* --- SECCIÓN HISTORIA --- */}
@@ -870,7 +992,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                             <Group align="center" gap="md" wrap="nowrap">
                                                 <Image src="/images/athmovil.png" alt="Ath Móvil" className="support-option-icon" />
                                                 <Stack gap="xs" style={{ flex: 1 }}>
-                                                    <Text fw={600} size="lg" c="#243e5a">Ath Móvil</Text>
+                                                    <Text fw={600} size="lg" c="#243e5a">ATH Móvil</Text>
                                                     <Text size="sm" c="dimmed">Envía tu contribución directamente</Text>
                                                     <Stack gap="xs">
                                                         <Group gap="xs" align="center">
@@ -1091,28 +1213,30 @@ function RSVP(props: Partial<DropzoneProps>) {
                     size="lg"
                     fw={600}
                     c="#243e5a"
+                    mt='md'
                     style={{ letterSpacing: 0.5 }}
                     >
-                        Panel de administración
+                        Panel de Administración
                     </Text>}
             size="auto"
             centered
             withinPortal={true}
             zIndex={2000}
             className='modal-text'
-
+            radius='md'
         >
             <Stack gap="md">
                 <Card withBorder p="md">
                     <Text fw={600} mb="sm">Total de invitados: {guestList.length}</Text>
-                        <Group gap="md" wrap="wrap">
+                        <Group gap="sm" m='sm' wrap="wrap" justify='center'>
                             <Badge size="sm" color="green" variant="light">Confirmados: {guestList.filter(g => g.isConfirmed).length}</Badge>
                             <Badge size="sm" color="orange" variant="light">Pendientes: {guestList.filter(g => !g.isConfirmed).length}</Badge>
-                            <Badge size="sm" color="rgb(237, 51, 51)" variant="light">Declinados: {guestList.filter(g => !g.isConfirmed).length}</Badge>
+                            <Badge size="sm" color="rgb(237, 51, 51)" variant="light">Declinados: {guestList.filter(g => g.isDeclined).length}</Badge>
                         </Group>
                         <Group wrap="nowrap" className='admin-buttons'>
-                            <Button className='excel-button' size="compact-sm" >Exportar excel <IconDownload size={12} /></Button>
-                            <Button className='rsvp-button' size="compact-sm" >Añadir invitado +</Button>
+                            {/* todo */}
+                            {/* <Button className='excel-button' size="compact-sm" >Exportar excel <IconDownload size={12} /></Button> */}
+                            <Button className='rsvp-button' size="compact-sm" >Añadir invitado <IconPencilPlus size="14" style={{ marginLeft: 4 }} /></Button>
                         </Group>
                 </Card>
 
@@ -1130,11 +1254,13 @@ function RSVP(props: Partial<DropzoneProps>) {
                             <Table.Tr key={guest.id}>
                                 <Table.Td>{guest.name}</Table.Td>
                                 <Table.Td>
-                                    {guest.isConfirmed ? (
+                                    {guest.isConfirmed == true ? (
                                         <Badge color="green" variant="light"><IconCheck size={10} /></Badge>
-                                    ) : (
-                                            <Badge color="orange" variant="light"><IconClockHour4 size={10} /></Badge>
-                                    )}
+                                    ) : guest.isDeclined == true ? (
+                                        <Badge color="red" variant="light"><IconCancel size={10} /></Badge>
+                                    )
+                                        : <Badge color="orange" variant="light"><IconClockHour4 size={10} /></Badge>
+}
                                 </Table.Td>
                                 <Table.Td>
                                     {guest.family.length > 0 ? (

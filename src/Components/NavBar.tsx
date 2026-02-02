@@ -59,7 +59,6 @@ function NavBar({ section, setSection, onAdminClick }: NavBarProps) {
                 <li
                     className="navbar-admin"
                     onClick={onAdminClick}
-                    title="Panel de Administración"
                 >
                     <IconUser />
                 </li>
