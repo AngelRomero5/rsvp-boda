@@ -13,6 +13,7 @@ import './RSVP.css'
 import NavBar from "./NavBar";
 import Footer from './Footer';
 import Countdown from './Countdown';
+import { Carousel } from './Carousel';
 
 import guestListJSON from '../../src/data/guestlist.json';
 
@@ -299,7 +300,6 @@ function RSVP(props: Partial<DropzoneProps>) {
             setUploading(false);
         }
     }
-
 
     // Scroll to top functionality
     const scrollToTop = () => {
@@ -684,7 +684,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                                 variant='light'
                                                 loading={isSubmitting}
                                                 disabled={isSubmitting}
-                                                onSubmit={() => setConfirmed(true)}
+                                                onSubmit={() => {setConfirmed(true);}}
                                             >
                                                     Confirmar <IconCheck size="20" style={{ marginLeft: 4 }} />
                                             </Button>
@@ -796,69 +796,18 @@ function RSVP(props: Partial<DropzoneProps>) {
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.7 }} className="rsvp-section">
                     <Card radius="md" withBorder className='rsvp-card'>
-                        <h2 className='rsvp-title'>¿Cómo comenzó nuestra historia?</h2>
-                        <Image src='/images/gold-flower.png' alt='flower divider' w={150} h={100} />
-                        
-                        <Stack gap="lg" className="historia-content">
+                        <h2 className='rsvp-title'>Nuestra historia</h2>
+                        <Stack className="historia-content">
                             <motion.div initial={{ opacity: 0, x: -50 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true, amount: 0.3 }}
                                 transition={{ duration: 0.6, delay: 0.2 }}>
                                 <Text size="lg" ta="center" c="dimmed" className="historia-text">
-                                    Ella me miro y yo la mire
+                                    Momentos importantes en nuestra vida como novios 
                                 </Text>
                             </motion.div>
-
-                            <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg" className="historia-timeline">
-                                <motion.div initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    transition={{ duration: 0.6, delay: 0.3 }}>
-                                    <Card withBorder radius="md" p="md" className="timeline-card">
-                                        <Text fw={600} size="lg" c="#243e5a" mb="sm">Primer Encuentro</Text>
-                                        <Text size="sm" c="dimmed">
-                                            Le di un besito y la enamoré.
-                                        </Text>
-                                    </Card>
-                                </motion.div>
-
-                                <motion.div initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    transition={{ duration: 0.6, delay: 0.4 }}>
-                                    <Card withBorder radius="md" p="md" className="timeline-card">
-                                        <Text fw={600} size="lg" c="#243e5a" mb="sm">Primera Cita</Text>
-                                        <Text size="sm" c="dimmed">
-                                            7 años luego aquí me quedé
-                                        </Text>
-                                    </Card>
-                                </motion.div>
-
-                                <motion.div initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    transition={{ duration: 0.6, delay: 0.5 }}>
-                                    <Card withBorder radius="md" p="md" className="timeline-card">
-                                        <Text fw={600} size="lg" c="#243e5a" mb="sm">El Amor Creció</Text>
-                                        <Text size="sm" c="dimmed">
-                                            Y con ella me casé.
-                                        </Text>
-                                    </Card>
-                                </motion.div>
-
-                                <motion.div initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    transition={{ duration: 0.6, delay: 0.6 }}>
-                                    <Card withBorder radius="md" p="md" className="timeline-card">
-                                        <Text fw={600} size="lg" c="#243e5a" mb="sm">La Propuesta</Text>
-                                        <Text size="sm" c="dimmed">
-                                            Un 18 de febrero a ella le pedí que se quedara y formara una familia
-                                        </Text>
-                                    </Card>
-                                </motion.div>
-                            </SimpleGrid>
-                            <h2>Save the date A&M</h2>
+                            <Carousel />
+                                <Text className='save-the-date-title' mb='xs' mt='md'>---- Save The Date ----</Text>
                                 <div className="video-container">
                                     <iframe
                                         className="responsive-iframe"
@@ -873,7 +822,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, amount: 0.3 }}
                                 transition={{ duration: 0.6, delay: 0.7 }}>
-                                <Text size="lg" ta="center" c="#243e5a" fw={500} className="historia-conclusion">
+                                <Text size="md" ta="center" c="#243e5a" fw={500} className="historia-conclusion">
                                     Y ahora, queremos que seas parte de la siguiente página de nuestra historia...
                                 </Text>
                             </motion.div>

@@ -89,8 +89,7 @@ function NavBar({ section, setSection, onAdminClick }: NavBarProps) {
 
             {/* Mobile dropdown */}
             <nav
-                className={`navbar-menu navbar-menu-mobile ${mobileOpen ? 'open' : ''
-                    }`}
+                className={`navbar-menu navbar-menu-mobile ${mobileOpen ? 'open' : ''}`}
             >
                 <ul>
                     <NavItems />
