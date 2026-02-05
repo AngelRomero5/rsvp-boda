@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+// import { useRef } from 'react';
 import { Card, Image, Text, Group } from '@mantine/core'
 import Slider from 'react-slick'
 
