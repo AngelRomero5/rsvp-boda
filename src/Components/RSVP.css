@@ -34,7 +34,7 @@
 .rsvp-card {
     text-align: center;
     align-items: center;
-    padding:3rem;
+    padding:2rem;
 }
 
 
@@ -42,11 +42,8 @@
     margin-bottom: 2rem;
 }
 .rsvp-back-button {
-    color: #243e5a !important;
-    border-style: none;
     align-self: flex-start;
-    border-radius: 0;
-    outline: none !important;
+    border-radius: 8px;
     &:hover {
         background-color: #fff !important;
         color: #243e5a !important;
@@ -126,8 +123,6 @@
 }
 
 .upload-card {
-    margin-top: 20px;
-    width: 50%;
     height: auto;
     padding: 4rem 0;
 }
@@ -140,6 +135,7 @@
 .dropzone-group {
     min-height: 220px;
     border-radius: 10px;
+    align-items: center;
 }
 
 .album-btn {
@@ -298,6 +294,10 @@
     width: 100%;
 }
 
+.slick-slide>div {
+    padding: 0 2px;
+}
+
 .timeline-card {
     border: 1px solid #88a9c3;
     background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
@@ -367,16 +367,15 @@
     max-width: 100%;
 }
 
-.vestimenta-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #88a9c3;
-    background: white;
-    max-width: 50%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    padding: 0;
+.vestimenta-wrapper {
+    width: 50%;
+    max-width: 650px;
+    margin: 0 auto;
 }
 
+.vestimenta-wrapper .slick-slider {
+    width: 100%;
+}
 .colores-card {
     min-width: 50%;
     max-width: 50%;
@@ -465,8 +464,6 @@
     }
 
     .upload-card {
-        margin-top: 20px;
-        width: 90%;
         height: auto;
     }
 
@@ -514,20 +511,20 @@
     .historia-timeline {
         grid-template-columns: 1fr;
     }
-        .timeline-section {
-            max-width: 380px;
-        }
-    
-        .timeline-card {
-            width: 90%;
-            margin: 0 auto;
-        }
-    
-        .timeline-img {
-            width: 70%;
-            max-height: 200px;
-            object-fit: cover;
-        }
+    .timeline-section {
+        max-width: 380px;
+    }
+
+    .timeline-card {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .timeline-img {
+        width: 70%;
+        max-height: 200px;
+        object-fit: cover;
+    }
     .hero-photo {
         height: 300px !important;
     }
@@ -537,13 +534,13 @@
         padding-top: 1rem;
     }
 
-    .vestimenta-card {
-        max-width: 95%;
+    .vestimenta-wrapper {
+        width: 60%;
     }
 
+
     .colores-card {
-        min-width: 95%;
-        max-width: 95%;
+        max-width: 60%;
         gap: 10px;
     }
     

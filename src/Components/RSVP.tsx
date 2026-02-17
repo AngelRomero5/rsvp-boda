@@ -1,7 +1,7 @@
 import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex, Box } from '@mantine/core';
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconPencilPlus, IconCancel} from '@tabler/icons-react';
+import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconPencilPlus, IconCancel, IconCirclePlus, IconCameraUp, IconBook, IconShirt, IconArrowNarrowLeft, IconCalendarCheck} from '@tabler/icons-react';
 import { createEvents, type DateArray } from 'ics';
 import { Dropzone } from '@mantine/dropzone';
 import type {DropzoneProps, FileWithPath} from '@mantine/dropzone';
@@ -16,6 +16,7 @@ import Countdown from './Countdown';
 import { Carousel } from './Carousel';
 
 import guestListJSON from '../../src/data/guestlist.json';
+import { VestimentaCarousel } from './VestimentaCarousel';
 
 // Guest data types
 interface FamilyMember {
@@ -547,19 +548,21 @@ function RSVP(props: Partial<DropzoneProps>) {
                     transition={{ duration: 0.7 }} className="rsvp-section">
                         <Card radius="md" withBorder className='rsvp-card'>
                             <Button
-                                variant="subtle"
+                                variant="outline"
                                 size="xs"
                                 className="rsvp-back-button"
+                                color='#243e5a'
                                 onClick={() => {
                                     setSection("rsvp");
                                     handleCloseSuccess();
                                 }}
                             >
-                                Regresar
+                                <IconArrowNarrowLeft size="18px" /> 
                             </Button>
 
                             <div className="rsvp-header">
-                                <h2 className="rsvp-title">RSVP</h2>
+                                <Text className="hero-title" mb="ms">RSVP</Text>
+                                <IconCalendarCheck size="2rem" style={{color:"#243e5a", marginBottom: "15px"}}/>
                                 <Text size="xs" c="dimmed" className="rsvp-description">
                                     Confirma tu asistencia a nuestra boda. ¡Nos encantaría contar contigo!
                                 </Text>
@@ -649,7 +652,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                         /> */}
 
                                         <Textarea
-                                            label="Mensaje para los Novios (Opcional)"
+                                            label="Mensaje para los novios (Opcional)"
                                             placeholder="¡Déjanos un mensaje especial!"
                                             value={formData.optionalMessage}
                                             onChange={(e) => setFormData({...formData, optionalMessage: e.target.value})}
@@ -698,9 +701,14 @@ function RSVP(props: Partial<DropzoneProps>) {
 
             {/* SECCION UPLOAD PHOTOS */}
             {section === "upload" && (
-                    <Card withBorder radius="md" className='upload-card'>
+                    <motion.section initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.7 }} className='rsvp-section'>
+                    <Card withBorder radius="md" className='upload-card' >
                         <Flex gap="lg" justify="center" align="center" direction='column'>
-                            <Text className='hero-title'>Dale Upload A Tus Fotos</Text>
+                            <Text className='hero-title' mx="sm" my="0">Dale Upload A Tus Fotos</Text>
+                                <IconCameraUp color="#243e5a" size="2rem" />
                             {files && (<ActionIcon
                                 variant="light"
                                 color="red"
@@ -758,35 +766,41 @@ function RSVP(props: Partial<DropzoneProps>) {
                             </Group>
                         </Flex>
                     </Card>
+                    </motion.section>
             )}
 
 
             {/* --- SECCIÓN CÓDIGO DE VESTIMENTA --- */}
             {section === "vestimenta" && (
-                    <Flex align='center' justify='center' direction='column'>
-                        <Card withBorder radius="md" className="vestimenta-card">
-                            <img src="/images/vestimenta-inspo.png" className='card-img'></img>
+                    <motion.section initial={{ opacity: 0, y: 40 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.7 }} className="rsvp-section">                        
+                        <Card withBorder radius="md" className="vestimenta-wrapper" ta="center" mb="md">
+                            <Text className='hero-title' mt="lg">Vestimenta Formal</Text>
+                            <VestimentaCarousel />
                         </Card>
-                        <Card withBorder radius="md" p="md" mb='md' className='colores-card'>
-                            <Text className='rsvp-subtitle' ta='center'>
-                                Colores del séquito:
-                            </Text>
-                            <Group align='center' justify='center' ta='center'>
+                        <Flex align='center' justify='center' direction='column'>
+                            <Card withBorder radius="md" p="md" mb='md' className='colores-card'>
+                                <Text className='rsvp-subtitle' ta='center'>
+                                    Colores del séquito:
+                                </Text>
+                                <Group align='center' justify='center' ta='center'>
+                                    <Flex gap='sm' className='colores'>
+                                        <span style={{ height: '65px', width: '65px', background: '#343853', color: '#fff', borderRadius: '50%', textAlign: 'center', alignContent: 'center' }}>Slate</span>
+                                        <span style={{ height: '65px', width: '65px', background: '#466d92', color: '#fff', borderRadius: '50%', textAlign: 'center', alignContent: 'center' }}>Twilight</span>
+                                        <span style={{ height: '65px', width: '65px', background: '#bdc6d9', color: '#fff', borderRadius: '50%', textAlign: 'center', alignContent: 'center' }}>Dusty</span>
+                                    </Flex>
+                                    <Group justify='center' ta='center'>
 
-                                <Flex gap='sm' className='colores'>
-                                    <span style={{ height: '65px', width: '65px', background: '#343853', color: '#fff', borderRadius: '50%', textAlign: 'center', alignContent: 'center' }}>Slate</span>
-                                    <span style={{ height: '65px', width: '65px', background: '#466d92', color: '#fff', borderRadius: '50%', textAlign: 'center', alignContent: 'center' }}>Twilight</span>
-                                    <span style={{ height: '65px', width: '65px', background: '#bdc6d9', color: '#fff', borderRadius: '50%', textAlign: 'center', alignContent: 'center' }}>Dusty</span>
-                                </Flex>
-                                <Group justify='center' ta='center'>
-
-                                <Text size='md' c='#88a9c3' ta='center'>Código de vestimenta: Formal</Text>
-                                <Text size='sm' c='dimmed' ta='center' className='colores-nota'> Estos son los colores de la boda y del séquito, pero siéntanse en total libertad de usar lo que les haga sentir más cómodos.</Text>
+                                    <Text size='md' c='#88a9c3' ta='center'>Código de vestimenta: Formal</Text>
+                                    <Text size='sm' c='dimmed' ta='center' className='colores-nota'> Estos son los colores de la boda y del séquito, pero siéntanse en total libertad de usar lo que les haga sentir más cómodos.</Text>
+                                    </Group>
                                 </Group>
-                            </Group>
-                            
-                        </Card>
-                    </Flex>
+                                
+                            </Card>
+                        </Flex>
+                </motion.section>
             )}
 
             {/* --- SECCIÓN HISTORIA --- */}
@@ -796,12 +810,13 @@ function RSVP(props: Partial<DropzoneProps>) {
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: 0.7 }} className="rsvp-section">
                     <Card radius="md" withBorder className='rsvp-card'>
-                        <h2 className='rsvp-title'>Nuestra historia</h2>
+                        <Text className='rsvp-title' mb="0">Nuestra historia</Text>
                         <Stack className="historia-content">
                             <motion.div initial={{ opacity: 0, x: -50 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true, amount: 0.3 }}
                                 transition={{ duration: 0.6, delay: 0.2 }}>
+                                    <IconBook color="#88a9c3" size="2rem"/>
                                 <Text size="lg" ta="center" c="dimmed" className="historia-text">
                                     Momentos importantes en nuestra vida como novios 
                                 </Text>
@@ -911,13 +926,6 @@ function RSVP(props: Partial<DropzoneProps>) {
                                 <Image src="/images/_MG_4681.jpeg" alt="Ángel & Mariana" className="support-hero-image" />
                             </div>
                         </div>
-                    </motion.div>
-
-                    {/* Support Options Section */}
-                    <motion.div initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}>
                         <Card radius="md" withBorder className='support-card'>
                             <Stack gap="lg" align="center">
                                 <div className="support-header">
@@ -1120,30 +1128,31 @@ function RSVP(props: Partial<DropzoneProps>) {
                     }
                 }}
             >
-                <div style={{ position: 'relative', width: '100%', minHeight: '50vh' }}>
+                    <div style={{
+                        position: 'relative', borderRadius: '12px' }}>
                     <img
                         src={selectedImage}
                         alt="Vista completa"
                         style={{
                             width: '100%',
                             height: 'auto',
-                            maxHeight: '90vh',
-                            objectFit: 'contain',
+                            maxHeight: '80vh',
+                            objectFit:'cover',
                             display: 'block',
-                            borderRadius: '8px'
+                            borderRadius: '12px'
+
                         }}
                     />
                     <ActionIcon
                         size="lg"
                         radius="xl"
                         variant="filled"
-                        color="dark"
                         style={{
                             position: 'absolute',
                             top: '1rem',
                             right: '1rem',
-                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
-                            color: '#000',
+                            backgroundColor: "#88a9c3",
+                            color: '#fff',
                             zIndex: 1000
                         }}
                         onClick={() => setImageModalOpen(false)}
@@ -1173,20 +1182,23 @@ function RSVP(props: Partial<DropzoneProps>) {
             zIndex={2000}
             className='modal-text'
             radius='md'
+                style={{ color: "#243e5a"}}
         >
             <Stack gap="md">
-                <Card withBorder p="md">
-                    <Text fw={600} mb="sm">Total de invitados: {guestList.length}</Text>
+                    <Card withBorder p="md" style={{ backgroundColor: "#"}}>
                         <Group gap="sm" m='sm' wrap="wrap" justify='center'>
                             <Badge size="sm" color="green" variant="light">Confirmados: {guestList.filter(g => g.isConfirmed).length}</Badge>
                             <Badge size="sm" color="orange" variant="light">Pendientes: {guestList.filter(g => !g.isConfirmed).length}</Badge>
                             <Badge size="sm" color="rgb(237, 51, 51)" variant="light">Declinados: {guestList.filter(g => g.isDeclined).length}</Badge>
                         </Group>
-                        <Group wrap="nowrap" className='admin-buttons'>
+                    <Group justify='space-between' align='flex-start' mt='md'>
+                            <Text fw={600} mb="sm" c="#243e5a">Total de invitados: <span style={{ color:"#88a9c3"}}>{guestList.length}</span></Text>
+                        <Button className='rsvp-button' size="compact-sm">Añadir invitado <IconCirclePlus size="15" style={{ marginLeft: 4 }} /></Button>
+                    </Group>
+                        {/* <Group wrap="nowrap" className='admin-buttons'> */}
                             {/* todo */}
                             {/* <Button className='excel-button' size="compact-sm" >Exportar excel <IconDownload size={12} /></Button> */}
-                            <Button className='rsvp-button' size="compact-sm" >Añadir invitado <IconPencilPlus size="14" style={{ marginLeft: 4 }} /></Button>
-                        </Group>
+                        {/* </Group> */}
                 </Card>
 
                 <Table striped highlightOnHover withTableBorder>
