@@ -1,7 +1,7 @@
 import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex, Box, Accordion } from '@mantine/core';
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconPencilPlus, IconCancel, IconCirclePlus, IconCameraUp, IconBook, IconShirt, IconArrowNarrowLeft, IconCalendarCheck, IconClock, IconHash, IconZoomQuestion, IconHomeHeart, IconAvocado} from '@tabler/icons-react';
+import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconCancel, IconCirclePlus, IconCameraUp, IconBook, IconShirt, IconArrowNarrowLeft, IconCalendarCheck, IconClock, IconHash, IconZoomQuestion, IconHomeHeart, IconAvocado} from '@tabler/icons-react';
 import { createEvents, type DateArray } from 'ics';
 import { Dropzone } from '@mantine/dropzone';
 import type {DropzoneProps, FileWithPath} from '@mantine/dropzone';
