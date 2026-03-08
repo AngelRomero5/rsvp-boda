@@ -3,8 +3,8 @@ import { IconMenu2, IconUser, IconX } from '@tabler/icons-react';
 import './NavBar.css';
 
 interface NavBarProps {
-    section: "rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "2";
-    setSection: (section: "rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "2") => void;
+    section: "rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" |"qa" | "2";
+    setSection: (section: "rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "qa" | "2") => void;
     onAdminClick?: () => void;
 }
 
@@ -53,6 +53,13 @@ function NavBar({ section, setSection, onAdminClick }: NavBarProps) {
                 onClick={() => handleNavClick("ayudanos")}
             >
                 Ayúdanos
+            </li>
+
+            <li
+                className={section === "qa" ? "active" : ""}
+                onClick={() => handleNavClick("qa")}
+            >
+                FAQ
             </li>
 
             {onAdminClick && (

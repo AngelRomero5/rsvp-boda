@@ -306,15 +306,33 @@
     align-items: center;
     padding: 0;
     margin: 0;
+    height: 470px;
+    bottom: 1rem;
 }
 
 .timeline-image {
     width: 100%;
-    height: auto;
+    height: 350px;
     object-fit: cover;
     display: block;
     margin: 0 auto;
 }
+
+.uni-image {
+    object-position: center 39%;
+}
+
+.novios-image {
+    object-position: center 20%;
+}
+
+.toro-image {
+    object-position: center 20%;
+}
+.jmj-image {
+    object-position: center 43%;
+}
+
 .video-section {
     width: 100%;
     max-width: 900px;
@@ -518,15 +536,18 @@
     .timeline-card {
         width: 90%;
         margin: 0 auto;
+        height: 410px;
     }
 
-    .timeline-img {
-        width: 70%;
-        max-height: 200px;
+    .timeline-image {
+        width: 100%;
+        height: 250px;
         object-fit: cover;
     }
     .hero-photo {
-        height: 300px !important;
+        height: 400px !important;
+        width: 100% !important;
+        object-position: center 90%;
     }
     
     .countdown-inside-card {
@@ -593,10 +614,6 @@
     .countdown-svg {
         width: 80px;
         height: 80px;
-    }
-    
-    .hero-photo {
-        height: 250px !important;
     }
     
     .countdown-inside-card {
@@ -740,6 +757,30 @@
     border: 2px solid #243e5a;
 }
 
+
+/* QA */
+
+.qa-card {
+    width: 50%;
+    max-width: 50%;
+    justify-self: center;
+    padding: 16px;
+    text-align: center;
+}
+
+.qa-accordion {
+    width: 100%;
+}
+
+.qa-accordion .mantine-Accordion-item {
+    margin-bottom: 8px;
+}
+
+.qa-accordion .mantine-Accordion-control {
+    padding: 10px !important;
+}
+
+
 /* Mobile Optimizations */
 @media (max-width: 768px) {
     .hero-title {
@@ -752,6 +793,7 @@
     
     .hero-photo {
         height: 380px !important;
+
     }
     
     .hero-card {
@@ -788,6 +830,11 @@
     .support-options {
         max-width: 100%;
     }
+
+    .qa-card {
+        width: 98%;
+        max-width: 98%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -797,10 +844,6 @@
     
     .hero-subtitle {
         font-size: 13px;
-    }
-    
-    .hero-photo {
-        height: 300px !important;
     }
     
     .hero-card {

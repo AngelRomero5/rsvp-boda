@@ -1,7 +1,7 @@
-import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex, Box } from '@mantine/core';
+import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex, Box, Accordion } from '@mantine/core';
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconPencilPlus, IconCancel, IconCirclePlus, IconCameraUp, IconBook, IconShirt, IconArrowNarrowLeft, IconCalendarCheck} from '@tabler/icons-react';
+import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconPencilPlus, IconCancel, IconCirclePlus, IconCameraUp, IconBook, IconShirt, IconArrowNarrowLeft, IconCalendarCheck, IconClock, IconHash, IconZoomQuestion, IconHomeHeart, IconAvocado} from '@tabler/icons-react';
 import { createEvents, type DateArray } from 'ics';
 import { Dropzone } from '@mantine/dropzone';
 import type {DropzoneProps, FileWithPath} from '@mantine/dropzone';
@@ -43,7 +43,7 @@ const initialGuestList: Guest[] = guestListJSON as Guest[];
 function RSVP(props: Partial<DropzoneProps>) {
 
     // State to manage the current section
-    const [section, setSection] = useState<"rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "2">("rsvp");
+    const [section, setSection] = useState<"rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "qa" | "2">("rsvp");
     
     // Guest management state
     const [guestList, setGuestList] = useState<Guest[]>(initialGuestList);
@@ -405,14 +405,14 @@ function RSVP(props: Partial<DropzoneProps>) {
                         viewport={{ once: true, amount: 0.3 }}
                         transition={{ duration: 0.8 }} className="hero-section">
                         <Card radius="md" withBorder className="hero-card">
-                            <Stack gap="xl" align="center">
+                            <Stack gap="sm" align="center">
                                 <div className="hero-text-section">
                                     <h1 className='hero-title'>Ángel & Mariana</h1>
                                     <Text size="lg" c="#243e5a" fw={400} ta="center" className="hero-subtitle">
                                         11 de Julio de 2026  💍  San Juan, PR
                                     </Text>
                                 </div>
-                                <Image radius="lg" w="auto" h={500} src='/images/us1.jpeg' alt='Ángel & Mariana' className='hero-photo'/>
+                                <Image radius="lg" w="auto" h={500} src='/images/us2.jpg' alt='Ángel & Mariana' className='hero-photo'/>
                             
                             {/* Countdown inside the same card */}
                             <motion.div initial={{ opacity: 0, scale: 0.9 }}
@@ -561,7 +561,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                             </Button>
 
                             <div className="rsvp-header">
-                                <Text className="hero-title" mb="ms">RSVP</Text>
+                                <Text className="hero-title" mt="lg" mb="ms">RSVP</Text>
                                 <IconCalendarCheck size="2rem" style={{color:"#243e5a", marginBottom: "15px"}}/>
                                 <Text size="xs" c="dimmed" className="rsvp-description">
                                     Confirma tu asistencia a nuestra boda. ¡Nos encantaría contar contigo!
@@ -822,17 +822,21 @@ function RSVP(props: Partial<DropzoneProps>) {
                                 </Text>
                             </motion.div>
                             <Carousel />
-                                <Text className='save-the-date-title' mb='xs' mt='md'>---- Save The Date ----</Text>
-                                <div className="video-container">
-                                    <iframe
-                                        className="responsive-iframe"
-                                        src="https://www.youtube.com/embed/52bimU_hj9s"
-                                        title="Save the Date"
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        allowFullScreen
-                                    ></iframe>
-                                </div>
+                            <Text className='save-the-date-title' mb='xs' mt='md'>---- Save The Date ----</Text>
+                            <div className="video-container">
+                                <iframe
+                                    className="responsive-iframe"
+                                    src="https://www.youtube.com/embed/52bimU_hj9s"
+                                    title="Save the Date"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
+                                ></iframe>
+                            </div>
+                            <Card mt="lg">
+                                    <Text className='save-the-date-title' mb='xs' mt='md'>Invitación</Text>
+                                    {/* todo Aquí la invitacion */}
+                            </Card>
                             <motion.div initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, amount: 0.3 }}
@@ -1103,6 +1107,178 @@ function RSVP(props: Partial<DropzoneProps>) {
                             </Stack>
                         </Card>
                     </motion.div>
+                </motion.section>
+            )}
+
+            {/* --- SECCIÓN QA --- */}
+            {section === 'qa' && (
+                <motion.section
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.7 }}
+                    className="qa-card"
+                >
+                    <Card radius="md" withBorder >
+                    
+                        <Text className="hero-title" mt='lg'>Preguntas Frecuentes</Text>
+                        <IconZoomQuestion size="2rem" style={{ color: '#243e5a', marginBottom: '15px', alignSelf:'center' }} />
+                        <Text size="xs" c="dimmed" className="rsvp-description">
+                            Encuentra respuestas a las preguntas más comunes sobre nuestra boda
+                        </Text>
+                        <hr className="rsvp-divider" />
+
+                        <Accordion multiple radius="md" className="qa-accordion">
+                            <Accordion.Item value="ceremony">
+                                <Accordion.Control>
+                                    <Group gap="xs" display="flex" dir='row'>
+                                        <IconClock size="1.2rem" color="#243e5a" />
+                                        <Text fw={600} size="md">¿Cuáles son los horarios exactos?</Text>
+                                    </Group>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Text size="sm" c="dimmed">
+                                        <Text fw={500} c="#243e5a" component="span">Ceremonia: </Text>
+                                        Sábado, 11 de julio de 2026, 1:30 PM en Iglesia San Juan de la Cruz, SJ.
+                                    </Text>
+                                    <Text size="sm" mt="xs" c="dimmed">
+                                        <Text fw={500} c="#243e5a" component="span">Recepción: </Text>
+                                        6:00 PM en Zafra del Caribe, Gurabo.
+                                    </Text>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+
+                            <Accordion.Item value="dresscode">
+                                <Accordion.Control>
+                                    <Group gap="xs">
+                                        <IconShirt size="1.2rem" color="#243e5a" />
+                                        <Text fw={600} size="md">¿Cuál es el código de vestimenta?</Text>
+                                    </Group>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Text size="sm" c="dimmed">
+                                        Vestimenta formal. Favor de no ir de blanco, eso es solo para la novia.  
+                                    </Text>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+
+                            <Accordion.Item value="in-out">
+                                <Accordion.Control>
+                                    <Group gap="xs">
+                                        {/* todo este icono cambiarlo */}
+                                        <IconHomeHeart size="1.2rem" color="#243e5a" />
+                                        <Text fw={600} size="md">¿La boda es en interior o exterior?</Text>
+                                    </Group>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Text size="sm" c="dimmed">
+                                        La boda y recepción son en interior.
+                                    </Text>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+
+                            <Accordion.Item value="parking">
+                                <Accordion.Control>
+                                    <Group gap="xs">
+                                        <IconParking size="1.2rem" color="#243e5a" />
+                                        <Text fw={600} size="md">¿Dónde me puedo estacionar?</Text>
+                                    </Group>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Text size="sm" c="dimmed">
+                                        <Text fw={500} c="#243e5a" component="span">Ceremonia: </Text>
+                                        Debajo de la parroquia y en el centro comercial Galería Paseos cruzando la calle. 
+                                    </Text>
+                                    <Text size="sm" c="dimmed" mt="xs">
+                                        <Text fw={500} c="#243e5a" component="span">Recepción: </Text>
+                                        Habrá estacionamientos disponibles también.
+                                    </Text>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+
+                            <Accordion.Item value="food">
+                                <Accordion.Control>
+                                        <Group gap="xs" display="flex" dir='row' style={{ textWrap: "wrap" }} wrap='nowrap'>
+                                        <IconAvocado size="1.2rem" color="#243e5a" />
+                                        <Text fw={600} size="md">¿Qué hago si tengo restricciones alimenticias?</Text>
+                                    </Group>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Text size="sm" c="dimmed">
+                                        Indícalas en el formulario de RSVP (alergias, vegetarianismo, intolerancia a lácteos, etc.).
+                                        Haremos lo posible de indicarle a la cocina para preparar platos especiales.
+                                    </Text>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+
+                            <Accordion.Item value="rsvp">
+                                <Accordion.Control>
+                                    <Group gap="xs">
+                                        <IconCheck size="1.2rem" color="#243e5a" />
+                                        <Text fw={600} size="md">¿Hasta cuándo puedo confirmar?</Text>
+                                    </Group>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Text size="sm">
+                                        Confirma lo antes posible. Cierre definitivo: <Text fw={600} c="#243e5a">15 de junio 2026</Text>
+                                    </Text>
+                                    <Text size="sm" c="dimmed">
+                                        Para cambios posteriores, contáctanos directamente.
+                                    </Text>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+
+                            <Accordion.Item value="photos">
+                                <Accordion.Control>
+                                        <Group gap="xs" wrap='nowrap'>
+                                        <IconCameraUp size="1.2rem" color="#243e5a" />
+                                        <Text fw={600} size="md">¿Hay algún lugar para subir fotos de la boda?</Text>
+                                    </Group>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Text size="sm" c="dimmed">
+                                        Usa la sección "Dale Upload a tus Fotos" después del evento.
+                                        También puedes ver el álbum en <Button mt="sm"
+                                            size="xs"
+                                            component="a"
+                                            href="https://mega.nz/folder/m9QhFKhAh37UmnjnRLJSAZjH199YWgVer#_album"
+                                            target="_blank"
+                                            color="red"
+                                            leftSection={<IconExternalLink size="12px" />}
+                                        >
+                                            Mega Album
+                                        </Button>
+                                    </Text>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+
+                            <Accordion.Item value="gifts">
+                                <Accordion.Control>
+                                    <Group gap="xs" wrap='nowrap'>
+                                        <IconGift size="1.2rem" color="#243e5a" />
+                                        <Text fw={600} size="md">¿Cómo puedo ayudar?</Text>
+                                    </Group>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Text size="sm" c="dimmed">
+                                        Tu presencia es el mejor regalo. Pero si deseas ayudarnos monetariamente. Puedes hacerlo a través de: 
+                                    </Text>
+                                    <Group mt="xs" gap="sm" wrap="wrap" justify='center'>
+                                        <Button size="sm" variant="outline" leftSection={<IconHash size="1rem" />}>
+                                            Ath Móvil
+                                        </Button>
+                                        <Button 
+                                        size="sm" 
+                                        component='a'
+                                        href="https://www.paypal.com/paypalme/agabrielrr0"
+                                        leftSection={<IconExternalLink size="1rem" />}>
+                                            PayPal
+                                        </Button>
+                                    </Group>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+                        </Accordion>
+                    </Card>
                 </motion.section>
             )}
 

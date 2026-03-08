@@ -39,10 +39,11 @@ const PrevArrow = (props: any) => {
 const historiaCards = [
     {
         id: 1,
-        title: 'Agosto 2018 - Nos conocemos en la U',
+        title: 'Agosto 2018 - Nos conocimos en la Universidad',
         description:
             'Durante nuestro primer semestre estudiando en la misma facultad, entre encuentros frecuentes en los pasillos y largas conversaciones, comenzó a nacer nuestra historia.',
-        img: '/images/historia1.jpeg'
+        img: '/images/uni.jpg',
+        style: 'uni-image'
     },
     {
         id: 2,
@@ -56,35 +57,32 @@ const historiaCards = [
         title: 'Febrero 2019 - Noviazgo',
         description:
             'Pocas semanas después de regresar, Ángel le pidió a Mariana que fuera su novia… y ella dijo que sí.',
-        img: '/images/historia1.jpeg'
+        img: '/images/novios.jpeg',
+        style: 'novios-image'
     },
     {
         id: 4,
         title: 'Comienzan las aventuras',
         description:
             'Y empezamos a crear nuevas memorias, llenas de risas y momentos compartidos: salidas, comidas, zip lines y ríos, donde cada plan sencillo se volvía especial simplemente por estar juntos.',
-        img: '/images/historia1.jpeg'
-    },
-    {
-        id: 5,
-        title: '2023 - Graduación',
-        description:
-            'Luego de cinco años nos graduamos de la UPRRP, la universidad que vio crecer nuestra relación.',
-        img: '/images/historia1.jpeg'
+        img: '/images/toroverde1.jpg',
+        style: 'toro-image'
     },
     {
         id: 6,
         title: 'Febrero 2025 - Compromiso',
         description:
             'Después de seis años de noviazgo, llegó el momento más esperado: decidimos dar el próximo paso juntos.',
-        img: '/images/historia1.jpeg'
+        img: '/images/compromiso.jpeg',
+        style: "novios-image"
     },
     {
         id: 7,
         title: 'Julio 2025 - JMJ Roma',
         description:
             'Una peregrinación profundamente especial. Mientras comenzábamos los preparativos de la boda y las catequesis prematrimoniales, Dios nos regaló hermosos detalles que confirmaron nuestra vocación al matrimonio.',
-        img: '/images/historia1.jpeg'
+        img: '/images/jmjroma.jpeg',
+        style: 'jmj-image'
     }
 ]
 
@@ -124,17 +122,20 @@ export function Carousel() {
         <section id="nuestra-historia" className="timeline-section">
             <Slider {...settings}>
                 {historiaCards.map((card) => (
-                    <Card key={card.id} className="timeline-card" radius="md" style={{
-                        backgroundImage: `url(${card.img})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}>
-                        <Image src={card.img} className="timeline-image" />
-                        <Group ta="center" align="center" justify="center" gap='xs' mt='xs' mb='xs'>
+                    <Card
+                        key={card.id}
+                        className="timeline-card"
+                        radius="md"
+                    >
+                        <Image
+                            src={card.img}
+                            className={`timeline-image ${card.style ? card.style : ""}`}
+                        />
+                        <Group ta="center" align="center" justify="center" gap="xs" mt="xs" mb="xs">
                             <Text fw={600} ta="center" size="md" c="#243e5a">
                                 {card.title}
                             </Text>
-                            <Text size="sm" c="dimmed" pl='xs' pr='xs'>
+                            <Text size="sm" c="dimmed" pl="xs" pr="xs">
                                 {card.description}
                             </Text>
                         </Group>
