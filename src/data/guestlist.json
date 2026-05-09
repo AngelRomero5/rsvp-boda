@@ -5,30 +5,34 @@
     "isConfirmed": false,
     "isDeclined": false,
     "family": [],
-    "confirmationDate": "2026-02-02T18:51:08.845Z",
-    "food": "",
-    "optionalMessage": "Un mensaje"
+    "optionalMessage": ""
   },
   {
     "id": "2",
-    "name": "María (Maru) Rodríguez",
+    "name": "Familia McConnie Rodríguez",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "2-1",
-        "name": "Mariano McConnie",
+        "name": "Maria Eugenia Rodríguez",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "2-2",
-        "name": "Paula I. Madera",
+        "name": "Mariano McConnie",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "2-3",
+        "name": "Paula I. Madera",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "2-4",
         "name": "María E. McConnie",
         "isConfirmed": false,
         "isDeclined": false
@@ -37,30 +41,42 @@
   },
   {
     "id": "3",
-    "name": "Francisco (Paco) Rodríguez ",
+    "name": "Francisco Rodríguez",
+    "isConfirmed": false,
+    "isDeclined": false,
+    "family": [
+      {
+        "id": "3-1",
+        "name": "Plus 1 Francisco",
+        "isConfirmed": false,
+        "isDeclined": false
+      }
+    ],
+    "confirmationDate": "2026-05-09T19:44:11.057Z",
+    "optionalMessage": ""
+  },
+  {
+    "id": "4",
+    "name": "Juan José Rodríguez",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
-    "id": "4",
-    "name": "Juan J. Rodríguez",
-    "isConfirmed": false,
-    "isDeclined": false,
-    "family": [],
-    "confirmationDate": "2026-02-02T18:44:06.908Z",
-    "food": "",
-    "optionalMessage": ""
-  },
-  {
     "id": "5",
-    "name": "Tití Meche León",
+    "name": "Jorge y Mercedes",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "5-1",
-        "name": "Tio Jorge",
+        "name": "Jorge Santiago",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "5-2",
+        "name": "Mercedes León",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -68,13 +84,25 @@
   },
   {
     "id": "6",
-    "name": "Elisa",
+    "name": "Familia Luna Santiago",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "6-1",
-        "name": "Juan",
+        "name": "Elisa Santiago",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "6-2",
+        "name": "Juan Luna",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "6-3",
+        "name": "Juan Alberto Luna",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -82,19 +110,19 @@
   },
   {
     "id": "7",
-    "name": "Juan Alberto",
+    "name": "Juan y María Mercedes",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "7-1",
-        "name": "Marimer",
+        "name": "María Mercedes Santiago",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "7-2",
-        "name": "Juan Jr.",
+        "name": "Juan Medina",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -102,13 +130,19 @@
   },
   {
     "id": "8",
-    "name": "Juan Alberto",
+    "name": "Natalia Romero",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "8-1",
-        "name": "Marimer",
+        "name": "Natalia Romero",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "8-2",
+        "name": "Iram Rosario",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -116,48 +150,54 @@
   },
   {
     "id": "9",
-    "name": "Félix G. Romero",
+    "name": "Familia Romero Rosario",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "9-1",
-        "name": "Griselle Rosario",
+        "name": "Félix G. Romero",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "9-2",
-        "name": "Marcos D. Romero",
+        "name": "Griselle Rosario",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "9-3",
-        "name": "Juan P. Romero",
+        "name": "Marcos D. Romero",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "9-4",
-        "name": "Gabriela I. Romero",
+        "name": "Juan P. Romero",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "9-5",
-        "name": "Rebecca Romero",
+        "name": "Gabriela I. Romero",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "9-6",
-        "name": "Francisco J. Romero",
+        "name": "Rebecca Romero",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "9-7",
+        "name": "Francisco J. Romero",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "9-8",
         "name": "Miguel Á. Romero",
         "isConfirmed": false,
         "isDeclined": false
@@ -166,12 +206,18 @@
   },
   {
     "id": "10",
-    "name": "Félix A. Romero",
+    "name": "Félix y Migdalia",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "10-1",
+        "name": "Félix A. Romero",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "10-2",
         "name": "Migdalia Colón",
         "isConfirmed": false,
         "isDeclined": false
@@ -180,12 +226,18 @@
   },
   {
     "id": "11",
-    "name": "Diego Romero",
+    "name": "Diego e Isla",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "11-1",
+        "name": "Diego Romero",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "11-2",
         "name": "Isla E. Romero",
         "isConfirmed": false,
         "isDeclined": false
@@ -201,12 +253,18 @@
   },
   {
     "id": "13",
-    "name": "Horacio (Tato) Martínez",
+    "name": "Horacio y María de Lourdes",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "13-1",
+        "name": "Horacio Martínez",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "13-2",
         "name": "María de Lourdes",
         "isConfirmed": false,
         "isDeclined": false
@@ -215,13 +273,19 @@
   },
   {
     "id": "14",
-    "name": "Ivis Romero",
+    "name": "Tony e Ivis",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "14-1",
-        "name": "Tony",
+        "name": "Antonios Moustakas",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "14-2",
+        "name": "Ivis Romero",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -229,24 +293,30 @@
   },
   {
     "id": "15",
-    "name": "Luis Daniel Rosario Pacheco",
+    "name": "Famlia Rosario Martínez",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "15-1",
-        "name": "Sheila",
+        "name": "Luis D. Rosario",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "15-2",
-        "name": "Amaury Rosario",
+        "name": "Sheila Rosario",
         "isConfirmed": false,
         "isDeclined": false
       },
       {
         "id": "15-3",
+        "name": "Amaury Rosario",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "15-4",
         "name": "Noah Rosario",
         "isConfirmed": false,
         "isDeclined": false
@@ -262,7 +332,7 @@
   },
   {
     "id": "17",
-    "name": "Diana ",
+    "name": "Carmelo y Diana",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
@@ -271,12 +341,18 @@
         "name": "Carmelo Otero",
         "isConfirmed": false,
         "isDeclined": false
+      },
+      {
+        "id": "17-2",
+        "name": "Diana Guzmán",
+        "isConfirmed": false,
+        "isDeclined": false
       }
     ]
   },
   {
     "id": "18",
-    "name": "Carmen de León",
+    "name": "Carmen y Henry",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
@@ -285,18 +361,30 @@
         "name": "Henry López",
         "isConfirmed": false,
         "isDeclined": false
+      },
+      {
+        "id": "18-2",
+        "name": "Carmen de León",
+        "isConfirmed": false,
+        "isDeclined": false
       }
     ]
   },
   {
     "id": "19",
-    "name": "Ángel Morales",
+    "name": "Ángel e Ismarí",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "19-1",
-        "name": "Ismarie Román",
+        "name": "Ángel Morales",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "19-2",
+        "name": "Ismarí Román",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -304,12 +392,18 @@
   },
   {
     "id": "20",
-    "name": "Ismael Betancourt Rios",
+    "name": "Ismael y Viviana",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "20-1",
+        "name": "Ismael Ríos",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "20-2",
         "name": "Viviana Ortíz",
         "isConfirmed": false,
         "isDeclined": false
@@ -318,21 +412,21 @@
   },
   {
     "id": "21",
-    "name": "Ana E. Rios Morales",
+    "name": "Ana E. Rios",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "22",
-    "name": "Débora Rios Morales",
+    "name": "Débora Rios",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "23",
-    "name": "Pamela K. Montalvo Díaz",
+    "name": "Pamela K. Montalvo",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
@@ -353,35 +447,35 @@
   },
   {
     "id": "25",
-    "name": "Isaac Betancourt Ríos",
+    "name": "Isaac Betancourt",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "26",
-    "name": "Sara E. Betancourt Ríos",
+    "name": "Sara Esther Betancourt",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "27",
-    "name": "Sara I. Betancourt Ríos",
+    "name": "Sara Isabel Betancourt",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "28",
-    "name": "Susana Betancourt Ríos",
+    "name": "Susana Betancourt",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "29",
-    "name": "María T. Morales Román",
+    "name": "María Teresa Morales",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
@@ -395,13 +489,19 @@
   },
   {
     "id": "31",
-    "name": "Billy Joe",
+    "name": "José Gabriel y Jaminalee",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "31-1",
-        "name": "Jamina",
+        "name": "Jose Gabriel Sánchez",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "31-2",
+        "name": "Jaminalee Rosario",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -409,13 +509,19 @@
   },
   {
     "id": "32",
-    "name": "Ricardo",
+    "name": "Ricardo y Keishla",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "32-1",
-        "name": "Keishla",
+        "name": "Ricardo Fuentes",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "32-2",
+        "name": "Keishla Rivera",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -423,13 +529,19 @@
   },
   {
     "id": "33",
-    "name": "Luis Francisco",
+    "name": "Luis Francisco y Alvilda",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "33-1",
-        "name": "Alvilda",
+        "name": "Luis Francisco Hernández",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "33-2",
+        "name": "Alvilda Fuster",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -437,34 +549,53 @@
   },
   {
     "id": "34",
-    "name": "Henry Manuel",
+    "name": "Henry Manuel López",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "35",
-    "name": "David Álvarez",
+    "name": "David y Ana Sofía",
     "isConfirmed": false,
     "isDeclined": false,
-    "family": []
+    "family": [
+      {
+        "id": "35-1",
+        "name": "David Álvarez",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "35-2",
+        "name": "Ana Sofía Figueroa",
+        "isConfirmed": false,
+        "isDeclined": false
+      }
+    ]
   },
   {
     "id": "36",
-    "name": "Ana",
+    "name": "Javier Álvarez",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "37",
-    "name": "Jesse",
+    "name": "Jesee & Stephanie",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "37-1",
-        "name": "Stephanie",
+        "name": "Jesee Díaz",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "37-2",
+        "name": "Stephanie Pastrana",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -472,48 +603,54 @@
   },
   {
     "id": "38",
-    "name": "Judith",
+    "name": "Judith Cuadrado",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "39",
-    "name": "Yered",
+    "name": "Yered Vélez",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "40",
-    "name": "Christopher",
+    "name": "Christopher De Jesús",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "41",
-    "name": "Niva Milagros",
+    "name": "Niva Milagros De Jesús",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "42",
-    "name": "Alejandra",
+    "name": "Alejandra De Jesús",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "43",
-    "name": "Zulemaría",
+    "name": "Zulemaría y Luis",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "43-1",
-        "name": "Pachi",
+        "name": "Zulemaría Feliciano",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "43-2",
+        "name": "Luis Pacheco",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -521,13 +658,19 @@
   },
   {
     "id": "44",
-    "name": "Adriana",
+    "name": "Adriana y Kevin",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "44-1",
-        "name": "Kevin",
+        "name": "Adriana Gómez",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "44-2",
+        "name": "Kevin Hornedo",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -535,19 +678,25 @@
   },
   {
     "id": "45",
-    "name": "Jean",
+    "name": "Jean Carlos Aquino",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "46",
-    "name": "Daniela",
+    "name": "Daniela Santiago",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "46-1",
+        "name": "Daniela Santiago",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "46-2",
         "name": "Plus 1 Daniela",
         "isConfirmed": false,
         "isDeclined": false
@@ -556,13 +705,19 @@
   },
   {
     "id": "47",
-    "name": "Alanis",
+    "name": "Alanis y Edwin",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "47-1",
-        "name": "Edwin",
+        "name": "Alanis Meléndez",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "47-2",
+        "name": "Edwin Santiago",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -570,12 +725,18 @@
   },
   {
     "id": "48",
-    "name": "Jasiel Rivera",
+    "name": "Jasiel y Karydian",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "48-1",
+        "name": "Jasiel Rivera",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "48-2",
         "name": "Karydian Cardona",
         "isConfirmed": false,
         "isDeclined": false
@@ -584,13 +745,19 @@
   },
   {
     "id": "49",
-    "name": "Eliam Ruíz",
+    "name": "Eliam y María",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "49-1",
-        "name": "María",
+        "name": "Eliam Ruíz",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "49-2",
+        "name": "María Beltré",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -605,7 +772,7 @@
   },
   {
     "id": "51",
-    "name": "Jesdialys (Yeyi)",
+    "name": "Jesdialys Ruiz",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
@@ -619,13 +786,19 @@
   },
   {
     "id": "53",
-    "name": "Javier",
+    "name": "Javier y Juliana",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "53-1",
-        "name": "Juliana",
+        "name": "Javier Flores",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "53-2",
+        "name": "Juliana Vázquez",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -633,13 +806,19 @@
   },
   {
     "id": "54",
-    "name": "Miguel Cántres",
+    "name": "Miguel y Briana",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "54-1",
-        "name": "Briana",
+        "name": "Miguel Cantres",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "54-2",
+        "name": "Briana Martínez",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -647,13 +826,19 @@
   },
   {
     "id": "55",
-    "name": "Javier",
+    "name": "Javier e Itziabel",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
         "id": "55-1",
-        "name": "Itziabel",
+        "name": "Javier Flores",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "55-2",
+        "name": "Itziabel Rosa",
         "isConfirmed": false,
         "isDeclined": false
       }
@@ -661,21 +846,21 @@
   },
   {
     "id": "56",
-    "name": "Yoemmariel",
+    "name": "Yoemmariel Serrano",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "57",
-    "name": "Nazhelly",
+    "name": "Nazhelly Vélez",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
   },
   {
     "id": "58",
-    "name": "Miyoly",
+    "name": "Miyoly Alvarado",
     "isConfirmed": false,
     "isDeclined": false,
     "family": []
@@ -699,27 +884,82 @@
     "name": "Kenneth Pérez",
     "isConfirmed": false,
     "isDeclined": false,
+    "family": []
+  },
+  {
+    "id": "62",
+    "name": "Elsa De Jesús",
+    "isConfirmed": false,
+    "isDeclined": false,
     "family": [
       {
-        "id": "61-1",
-        "name": "Pachi",
+        "id": "62-1",
+        "name": "Carmen Figueroa",
         "isConfirmed": false,
         "isDeclined": false
       }
     ]
   },
   {
-    "id": "62",
-    "name": "Martha",
+    "id": "63",
+    "name": "Janice Alvarado",
+    "isConfirmed": false,
+    "isDeclined": false,
+    "family": []
+  },
+  {
+    "id": "64",
+    "name": "Carlos Manuel Cuadrado",
+    "isConfirmed": false,
+    "isDeclined": false,
+    "family": []
+  },
+  {
+    "id": "65",
+    "name": "Isabelle Díaz",
+    "isConfirmed": false,
+    "isDeclined": false,
+    "family": []
+  },
+  {
+    "id": "66",
+    "name": "Cristian y Tayna",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
-        "id": "62-1",
-        "name": "José",
+        "id": "66-1",
+        "name": "Cristian Betancourt",
+        "isConfirmed": false,
+        "isDeclined": false
+      },
+      {
+        "id": "66-2",
+        "name": "Tayna Rivera",
         "isConfirmed": false,
         "isDeclined": false
       }
     ]
+  },
+  {
+    "id": "67",
+    "name": "Jesús Manuel León",
+    "isConfirmed": false,
+    "isDeclined": false,
+    "family": []
+  },
+  {
+    "id": "68",
+    "name": "Victor Horacio Martínez",
+    "isConfirmed": false,
+    "isDeclined": false,
+    "family": []
+  },
+  {
+    "id": "69",
+    "name": "Xiomarelys Pabón",
+    "isConfirmed": false,
+    "isDeclined": false,
+    "family": []
   }
 ]

@@ -1,7 +1,7 @@
-import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex, Box, Accordion } from '@mantine/core';
+import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex, Box, Accordion, PasswordInput } from '@mantine/core';
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconCancel, IconCirclePlus, IconCameraUp, IconBook, IconShirt, IconArrowNarrowLeft, IconCalendarCheck, IconClock, IconHash, IconZoomQuestion, IconHomeHeart, IconAvocado} from '@tabler/icons-react';
+import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconCancel, IconCameraUp, IconBook, IconShirt, IconArrowNarrowLeft, IconCalendarCheck, IconClock, IconHash, IconZoomQuestion, IconHomeHeart, IconAvocado} from '@tabler/icons-react';
 import { createEvents, type DateArray } from 'ics';
 import { Dropzone } from '@mantine/dropzone';
 import type {DropzoneProps, FileWithPath} from '@mantine/dropzone';
@@ -15,7 +15,6 @@ import Footer from './Footer';
 import Countdown from './Countdown';
 import { Carousel } from './Carousel';
 
-import guestListJSON from '../../src/data/guestlist.json';
 import { VestimentaCarousel } from './VestimentaCarousel';
 
 // Guest data types
@@ -24,7 +23,6 @@ interface FamilyMember {
     name: string;
     isConfirmed: boolean;
     isDeclined: boolean;
-    food: string;
 }
 
 interface Guest {
@@ -32,37 +30,76 @@ interface Guest {
     name: string;
     isConfirmed: boolean;
     isDeclined: boolean;
-    food: string;
     optionalMessage: string;
     family: FamilyMember[];
 }
-
-const initialGuestList: Guest[] = guestListJSON as Guest[];
-
 
 function RSVP(props: Partial<DropzoneProps>) {
 
     // State to manage the current section
     const [section, setSection] = useState<"rsvp" | "upload" | "vestimenta" | "historia" | "galeria" | "ayudanos" | "qa" | "2">("rsvp");
     
-    // Guest management state
-    const [guestList, setGuestList] = useState<Guest[]>(initialGuestList);
+    // Admin state
+    const [adminLoginOpen, setAdminLoginOpen] = useState(false);
+    const [adminModalOpen, setAdminModalOpen] = useState(false);
+    const [adminPasscode, setAdminPasscode] = useState('');
+    const [adminError, setAdminError] = useState('');
+    const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+
+    const handleAdminAccess = () => {
+        const ADMIN_PASSCODE = "julio112026";
+
+        if (adminPasscode === ADMIN_PASSCODE) {
+            setIsAdminAuthenticated(true);
+            setAdminLoginOpen(false);
+            setAdminModalOpen(true);
+            setAdminError('');
+            setAdminPasscode('');
+        } else {
+            setAdminError('Invalid passcode');
+        }
+    };
+    // Function to handle admin modal close and reset authentication state
+    const handleAdminClose = () => {
+        setAdminModalOpen(false);
+        setIsAdminAuthenticated(false);
+        setAdminPasscode('');
+        setAdminError('');
+    };
+
+    // Guest management state 
+    const [guestList, setGuestList] = useState<Guest[]>([]);
+
+    useEffect(() => {
+        const loadGuests = async () => {
+            try {
+                const APIBASE = import.meta.env.PROD ? '' : 'http://localhost:3001';
+                const res = await fetch(`${APIBASE}/api/guests`);
+                if (!res.ok) throw new Error('Failed to load guests');
+                const data = await res.json();
+                setGuestList(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
+        loadGuests();
+    }, []);
+
     const [selectedGuest, setSelectedGuest] = useState<Guest | null>(null);
     const [selectedFamilyMembers, setSelectedFamilyMembers] = useState<string[]>([]);
-    const [adminModalOpen, setAdminModalOpen] = useState(false);
+
+
     
     // Form state
     const [formData, setFormData] = useState({
         name: '',
         family: 0,
-        food: '',
         optionalMessage: ''
     });
     
     const [formErrors, setFormErrors] = useState<Record<string, string>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [confirmed, setConfirmed] = useState(false);
-    const [declined, setDeclined] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [copiedItems, setCopiedItems] = useState<Record<string, boolean>>({});
 
@@ -80,49 +117,44 @@ function RSVP(props: Partial<DropzoneProps>) {
     };
 
     // Form submission
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
+    const submitRSVP = async (status: 'confirm' | 'decline') => {
+        if (!selectedGuest) return;
         if (!validateForm()) return;
+
         setIsSubmitting(true);
 
-        // check the declined variable, if true, confirmed, if declined then not confirmed
-        if (selectedGuest) {
-            const updatedGuest = {
-                ...selectedGuest,
-                isConfirmed: confirmed,
-                isDeclined: declined,
-                confirmationDate: new Date().toISOString(),
-                food: formData.food,
-                optionalMessage: formData.optionalMessage,
-            };
+        const updatedGuest = {
+            ...selectedGuest,
+            isConfirmed: status === 'confirm',
+            isDeclined: status === 'decline',
+            confirmationDate: new Date().toISOString(),
+            optionalMessage: formData.optionalMessage,
+        };
 
-            try {
+        try {
+            const APIBASE = import.meta.env.PROD ? '' : 'http://localhost:3001';
+            const res = await fetch(`${APIBASE}/api/guests/${selectedGuest.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedGuest),
+            });
 
-                const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:3001';
-                
-                const res = await fetch(`${API_BASE}/api/guests/${selectedGuest.id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(updatedGuest),
-                });
+            if (!res.ok) throw new Error('Failed to save guest');
 
-                if (!res.ok) throw new Error('Failed to save guest');
+            const savedGuest = await res.json();
 
-                const savedGuest = await res.json();
+            setGuestList(prev =>
+                prev.map(g => (g.id === savedGuest.id ? savedGuest : g))
+            );
 
-                // Update local state
-                const updatedGuests = guestList.map(g =>
-                    g.id === savedGuest.id ? savedGuest : g
-                );
-                setGuestList(updatedGuests);
-                setSubmitStatus('success');
-            } catch (err) {
-                console.error(err);
-                setSubmitStatus('error');
-            }
+            setSelectedGuest(savedGuest);
+            setSubmitStatus('success');
+        } catch (err) {
+            console.error(err);
+            setSubmitStatus('error');
+        } finally {
+            setIsSubmitting(false);
         }
-        setIsSubmitting(false);
     };
 
     // Clear the form and return to rsvp page
@@ -130,7 +162,6 @@ function RSVP(props: Partial<DropzoneProps>) {
         setFormData({
             name: '',
             family: 0,
-            food: '',
             optionalMessage: '',
         });
         setSelectedGuest(null);
@@ -321,7 +352,6 @@ function RSVP(props: Partial<DropzoneProps>) {
             setFormData({
                 name: guest.name,
                 family: guest.family.length,
-                food: guest.food || '',
                 optionalMessage: guest.optionalMessage || ''
             });
             // Pre-select all family members
@@ -384,13 +414,15 @@ function RSVP(props: Partial<DropzoneProps>) {
     return (
         <>
         <SimpleGrid cols={1} id="RSVP">
-            <NavBar 
-                section={section} 
-                setSection={setSection} 
-                onAdminClick={() => {
-                    setAdminModalOpen(true); 
-                }} 
-            />
+                <NavBar
+                    section={section}
+                    setSection={setSection}
+                    onAdminClick={() => {
+                        setAdminPasscode('');
+                        setAdminError('');
+                        setAdminLoginOpen(true);
+                    }}
+                />
 
             {/* --- SECCIÓN 1 (Home) --- */}
             {section === "rsvp" && (
@@ -595,7 +627,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                     </Group>
                                 </motion.div>
                             ) : (
-                                <form onSubmit={handleSubmit} autoComplete="off">
+                                <form autoComplete="off">
                                     <Stack gap="md">
                                         <Select
                                             label="Selecciona tu nombre de la lista"
@@ -675,9 +707,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                                 variant='light'
                                                 loading={isSubmitting}
                                                 disabled={isSubmitting}
-                                                onSubmit={() => {
-                                                    setDeclined(true);
-                                                }}>
+                                                onClick={() => submitRSVP('decline')}>
                                                     Declinar <IconX size="20" style={{marginLeft: 4}}/> 
                                             </Button>
                                             <Button   
@@ -687,7 +717,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                                 variant='light'
                                                 loading={isSubmitting}
                                                 disabled={isSubmitting}
-                                                onSubmit={() => {setConfirmed(true);}}
+                                                onClick={() => submitRSVP('confirm')}
                                             >
                                                     Confirmar <IconCheck size="20" style={{ marginLeft: 4 }} />
                                             </Button>
@@ -1205,8 +1235,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                 </Accordion.Control>
                                 <Accordion.Panel>
                                     <Text size="sm" c="dimmed">
-                                        Indícalas en el formulario de RSVP (alergias, vegetarianismo, intolerancia a lácteos, etc.).
-                                        Haremos lo posible de indicarle a la cocina para preparar platos especiales.
+                                        Comunicate con Ángel o Mariana lo antes posible para coordinar una opción que se ajuste a tus necesidades.
                                     </Text>
                                 </Accordion.Panel>
                             </Accordion.Item>
@@ -1338,11 +1367,65 @@ function RSVP(props: Partial<DropzoneProps>) {
                 </div>
             </Modal>
         </SimpleGrid>
+            <Modal
+                opened={adminLoginOpen}
+                onClose={() => {
+                    setAdminLoginOpen(false);
+                    setAdminPasscode('');
+                    setAdminError('');
+                }}
+                title={
+                    <Text size="lg" fw={600} c="#243e5a">
+                        Admin Access
+                    </Text>
+                }
+                centered
+                radius="md"
+            >
+                <Stack gap="md">
+                    <Text size="sm" c="dimmed">
+                        Enter the passcode to view the admin panel.
+                    </Text>
+
+                    <PasswordInput
+                        label="Passcode"
+                        placeholder="Enter passcode"
+                        value={adminPasscode}
+                        onChange={(e) => setAdminPasscode(e.currentTarget.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') handleAdminAccess();
+                        }}
+                    />
+
+                    {adminError && (
+                        <Alert color="red" variant="light" title="Access denied">
+                            {adminError}
+                        </Alert>
+                    )}
+
+                    <Group justify="flex-end">
+                        <Button
+                            variant="default"
+                            onClick={() => {
+                                setAdminLoginOpen(false);
+                                setAdminPasscode('');
+                                setAdminError('');
+                            }}
+                        >
+                            Cancel
+                        </Button>
+
+                        <Button className="rsvp-button" onClick={handleAdminAccess}>
+                            View Admin Panel
+                        </Button>
+                    </Group>
+                </Stack>
+            </Modal>
 
         {/* Admin Modal */}
         <Modal
-            opened={adminModalOpen}
-            onClose={() => setAdminModalOpen(false)}
+            opened={adminModalOpen && isAdminAuthenticated}
+            onClose={handleAdminClose}
             title={<Text
                     size="lg"
                     fw={600}
@@ -1369,7 +1452,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                         </Group>
                     <Group justify='space-between' align='flex-start' mt='md'>
                             <Text fw={600} mb="sm" c="#243e5a">Total de invitados: <span style={{ color:"#88a9c3"}}>{guestList.length}</span></Text>
-                        <Button className='rsvp-button' size="compact-sm">Añadir invitado <IconCirclePlus size="15" style={{ marginLeft: 4 }} /></Button>
+                        {/* <Button className='rsvp-button' size="compact-sm">Añadir invitado <IconCirclePlus size="15" style={{ marginLeft: 4 }} /></Button> */}
                     </Group>
                         {/* <Group wrap="nowrap" className='admin-buttons'> */}
                             {/* todo */}

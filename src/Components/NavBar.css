@@ -68,7 +68,10 @@
   cursor: pointer;
   position: relative;
 }
-
+.navbar-admin-button {
+  color: #243e5a;
+  background: transparent;
+}
 .navbar-menu li.active {
   color: #243e5a;
   font-weight: 600;

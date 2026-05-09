@@ -24,12 +24,13 @@ function NavBar({ section, setSection, onAdminClick }: NavBarProps) {
             >
                 RSVP
             </li>
-            <li
+            {/* Se comenta mientras se hacen los cambios */}
+            {/* <li
                 className={section === "upload" ? "active" : ""}
                 onClick={() => handleNavClick("upload")}
             >
                 Upload
-            </li>
+            </li> */}
             <li
                 className={section === "vestimenta" ? "active" : ""}
                 onClick={() => handleNavClick("vestimenta")}
@@ -63,11 +64,16 @@ function NavBar({ section, setSection, onAdminClick }: NavBarProps) {
             </li>
 
             {onAdminClick && (
-                <li
-                    className="navbar-admin"
-                    onClick={onAdminClick}
-                >
-                    <IconUser />
+                <li className="admin-button-li">
+                    <button
+                        type="button"
+                        className="navbar-admin-button"
+                        onClick={onAdminClick}
+                        aria-label="Open admin access"
+                        title="Admin"
+                    >
+                        <IconUser />
+                    </button>
                 </li>
             )}
         </>
