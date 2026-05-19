@@ -888,16 +888,22 @@
   },
   {
     "id": "62",
-    "name": "Elsa De Jesús",
+    "name": "Elsa y Carmen",
     "isConfirmed": false,
     "isDeclined": false,
     "family": [
       {
-        "id": "62-1",
+       "id" : "62-1",
+       "name" : "Elsa Castro",
+       "isConfirmed" : false,
+       "isDeclined" : false
+      },
+      {
+        "id": "62-2",
         "name": "Carmen Figueroa",
         "isConfirmed": false,
         "isDeclined": false
-      }
+      } 
     ]
   },
   {
