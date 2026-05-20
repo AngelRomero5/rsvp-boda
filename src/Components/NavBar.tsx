@@ -63,8 +63,9 @@ function NavBar({ section, setSection, onAdminClick }: NavBarProps) {
                 FAQ
             </li>
 
-            {onAdminClick && (
-                <li className="admin-button-li">
+            {onAdminClick &&(
+                <li className="admin-button-li"
+                    onClick={() => setMobileOpen(false)}>
                     <button
                         type="button"
                         className="navbar-admin-button"

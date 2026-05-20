@@ -1,7 +1,7 @@
 import { Card, Text, Button, Group, SimpleGrid, Image, Stack, Textarea, Alert, ActionIcon, Tooltip, Divider, Select, Checkbox, Modal, Table, Badge, type OptionsFilter, type ComboboxItem, Flex, Box, Accordion, PasswordInput } from '@mantine/core';
 import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconCancel, IconCameraUp, IconBook, IconShirt, IconArrowNarrowLeft, IconCalendarCheck, IconClock, IconHash, IconZoomQuestion, IconHomeHeart, IconAvocado} from '@tabler/icons-react';
+import { IconCheck, IconAlertCircle, IconCopy, IconExternalLink, IconHeart, IconGift, IconPhone, IconDownload, IconX, IconClockHour4, IconEye, IconUpload, IconArrowRight, IconPhoto, IconCalendar, IconBuildingChurch, IconParking, IconConfetti, IconCancel, IconCameraUp, IconBook, IconShirt, IconArrowNarrowLeft, IconCalendarCheck, IconClock, IconHash, IconZoomQuestion, IconHomeHeart, IconAvocado, IconMessage} from '@tabler/icons-react';
 import { createEvents, type DateArray } from 'ics';
 import { Dropzone } from '@mantine/dropzone';
 import type {DropzoneProps, FileWithPath} from '@mantine/dropzone';
@@ -56,7 +56,7 @@ function RSVP(props: Partial<DropzoneProps>) {
             setAdminError('');
             setAdminPasscode('');
         } else {
-            setAdminError('Invalid passcode');
+            setAdminError('Contraseña inválida');
         }
     };
     // Function to handle admin modal close and reset authentication state
@@ -198,15 +198,15 @@ function RSVP(props: Partial<DropzoneProps>) {
 
     // Function to add wedding event to the calendar
     const saveCalendar = () => {
-        const ceremonyDate = new Date('2026-07-11T13:30:00');  // 1:30 PM local
-        const receptionDate = new Date('2026-07-11T18:00:00');  // 6:00 PM local
+        const ceremonyDate = new Date('2026-07-11T13:00:00');  // 1:00 PM local
+        const receptionDate = new Date('2026-07-11T17:30:00');  // 5:30 PM local
 
         createEvents([
             {
                 title: 'Boda Ángel & Mariana',
                 start: [ceremonyDate.getFullYear(), ceremonyDate.getMonth() + 1, ceremonyDate.getDate(), ceremonyDate.getHours(), ceremonyDate.getMinutes()] as DateArray,
                 end: [receptionDate.getFullYear(), receptionDate.getMonth() + 1, receptionDate.getDate(), receptionDate.getHours(), receptionDate.getMinutes()] as DateArray,
-                description: 'Este evento fue creado para la ceremonia a las 1:30 PM, Recepción a las 6:00 PM en Zafra del Caribe en Gurabo. Vestimenta formal. Estacionamiento debajo de la parroquia y en el centro comercial.',
+                description: 'Este evento fue creado para la ceremonia a las 1:00 PM, Recepción a las 5:30 PM en Zafra del Caribe en Gurabo. Vestimenta formal. Estacionamiento debajo de la parroquia y en el centro comercial.',
                 location: 'https://maps.app.goo.gl/iqj1iCJ3BLC2dbQo9',
                 alarms: [
                     {
@@ -482,7 +482,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                                     <span>Fecha y Hora</span>
                                                 </Group>
                                                 </Text>
-                                        <Text size="md">Sábado, 11 de Julio de 2026 - 1:30 PM</Text>
+                                        <Text size="md">Sábado, 11 de Julio de 2026 - 1:00 PM</Text>
                                             <Button 
                                                 size="sm" 
                                                 className='rsvp-button' 
@@ -1169,11 +1169,11 @@ function RSVP(props: Partial<DropzoneProps>) {
                                 <Accordion.Panel>
                                     <Text size="sm" c="dimmed">
                                         <Text fw={500} c="#243e5a" component="span">Ceremonia: </Text>
-                                        Sábado, 11 de julio de 2026, 1:30 PM en Iglesia San Juan de la Cruz, SJ.
+                                        Sábado, 11 de julio de 2026, 1:00 PM en Iglesia San Juan de la Cruz, SJ.
                                     </Text>
                                     <Text size="sm" mt="xs" c="dimmed">
                                         <Text fw={500} c="#243e5a" component="span">Recepción: </Text>
-                                        6:00 PM en Zafra del Caribe, Gurabo.
+                                        5:30 PM en Zafra del Caribe, Gurabo.
                                     </Text>
                                 </Accordion.Panel>
                             </Accordion.Item>
@@ -1311,6 +1311,8 @@ function RSVP(props: Partial<DropzoneProps>) {
                 </motion.section>
             )}
 
+            
+        </SimpleGrid>
             {/* Image Viewer Modal */}
             <Modal
                 opened={imageModalOpen}
@@ -1333,8 +1335,9 @@ function RSVP(props: Partial<DropzoneProps>) {
                     }
                 }}
             >
-                    <div style={{
-                        position: 'relative', borderRadius: '12px' }}>
+                <div style={{
+                    position: 'relative', borderRadius: '12px'
+                }}>
                     <img
                         src={selectedImage}
                         alt="Vista completa"
@@ -1342,7 +1345,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                             width: '100%',
                             height: 'auto',
                             maxHeight: '80vh',
-                            objectFit:'cover',
+                            objectFit: 'cover',
                             display: 'block',
                             borderRadius: '12px'
 
@@ -1366,7 +1369,6 @@ function RSVP(props: Partial<DropzoneProps>) {
                     </ActionIcon>
                 </div>
             </Modal>
-        </SimpleGrid>
             <Modal
                 opened={adminLoginOpen}
                 onClose={() => {
@@ -1376,7 +1378,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                 }}
                 title={
                     <Text size="lg" fw={600} c="#243e5a">
-                        Admin Access
+                        Panel Administrador
                     </Text>
                 }
                 centered
@@ -1384,12 +1386,12 @@ function RSVP(props: Partial<DropzoneProps>) {
             >
                 <Stack gap="md">
                     <Text size="sm" c="dimmed">
-                        Enter the passcode to view the admin panel.
+                        Entre la contraseña para acceder al panel de administración
                     </Text>
 
                     <PasswordInput
-                        label="Passcode"
-                        placeholder="Enter passcode"
+                        label="Contraseña"
+                        placeholder="Entre la contraseña"
                         value={adminPasscode}
                         onChange={(e) => setAdminPasscode(e.currentTarget.value)}
                         onKeyDown={(e) => {
@@ -1398,7 +1400,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                     />
 
                     {adminError && (
-                        <Alert color="red" variant="light" title="Access denied">
+                        <Alert color="red" variant="light" title="Acceso denegado">
                             {adminError}
                         </Alert>
                     )}
@@ -1412,11 +1414,11 @@ function RSVP(props: Partial<DropzoneProps>) {
                                 setAdminError('');
                             }}
                         >
-                            Cancel
+                            Cancelar
                         </Button>
 
                         <Button className="rsvp-button" onClick={handleAdminAccess}>
-                            View Admin Panel
+                            Acceder panel
                         </Button>
                     </Group>
                 </Stack>
@@ -1466,7 +1468,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                             <Table.Th>Nombre</Table.Th>
                             <Table.Th>Estado</Table.Th>
                             <Table.Th>Familia</Table.Th>
-                            <Table.Th>Detalles</Table.Th>
+                            <Table.Th>Mensaje</Table.Th>
                         </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -1490,7 +1492,7 @@ function RSVP(props: Partial<DropzoneProps>) {
                                     )}
                                 </Table.Td>
                                 <Table.Td className='admin-table-col'>
-                                    <IconEye onClick={openDetails} className='admin-table-icon'/>
+                                    <IconMessage onClick={openDetails} className='admin-table-icon'/>
                                 </Table.Td>
                             </Table.Tr>
                         ))}

@@ -1,12 +1,12 @@
 /* Top bar container (keep your fixed, shadow, etc.) */
 #NavBar {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0 1rem;
   position: fixed;
   top: 0;
   left: 0;
   background-color: #fff;
-  z-index: 900;
+  z-index: 199;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -39,7 +39,7 @@
 /* Reuse your list styles but scope to .navbar-menu */
 .navbar-menu ul {
   list-style: none;
-  padding: 0;
+  padding: 0.2rem 0;
   margin: 0;
   display: flex;
   gap: 2rem;
@@ -59,7 +59,7 @@
   font-size: 1.1rem;
   transition: color 0.2s, transform 0.2s;
   white-space: nowrap;
-  padding: 0.5rem 0.75rem;
+  padding: 0.3rem 0.75rem;
   border-radius: 6px;
   min-height: 44px;
   display: flex;

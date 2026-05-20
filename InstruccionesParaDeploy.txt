@@ -1,4 +1,4 @@
-<title>Instrucciones para deploy en el vps:</title>
+Instrucciones para deploy en el vps:
 
 ssh root@VPS--IP---ID
 
@@ -10,9 +10,9 @@ pm2 restart rsvp-app --update-env
 pm2 status
 pm2 logs rsvp-app
 
-<h3>(if changes are made to ngnix: sudo systemctl reload ngnix)</h3>
+(if changes are made to ngnix: sudo systemctl reload ngnix)
 
-<h3>if i have errors with package.json modules: </h3>
+if i have errors with package.json modules:
 
 cd /var/www/rsvp-app
 rm -rf node_modules package-lock.json
