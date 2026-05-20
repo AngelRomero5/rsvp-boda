@@ -53,6 +53,10 @@
   display: none;
 }
 
+.modal-text .mantine-Modal-inner {
+  top: 60px;
+}
+
 .navbar-menu li {
   color: #243e5a;
   font-weight: 500;

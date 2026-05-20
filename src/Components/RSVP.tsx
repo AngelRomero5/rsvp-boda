@@ -1443,7 +1443,7 @@ function RSVP(props: Partial<DropzoneProps>) {
             zIndex={2000}
             className='modal-text'
             radius='md'
-                style={{ color: "#243e5a"}}
+            style={{ color: "#243e5a"}}
         >
             <Stack gap="md">
                     <Card withBorder p="md" style={{ backgroundColor: "#"}}>
